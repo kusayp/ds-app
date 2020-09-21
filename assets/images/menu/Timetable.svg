@@ -1,0 +1,9 @@
+<svg id="icons8-calendar" xmlns="http://www.w3.org/2000/svg" width="66.879" height="69.554" viewBox="0 0 66.879 69.554">
+  <path id="Path_183" data-name="Path 183" d="M5,56.8V14H71.879V56.8a7.108,7.108,0,0,1-7.04,7.134H12.04A7.108,7.108,0,0,1,5,56.8Z" transform="translate(-5 5.618)" fill="#cfd8dc"/>
+  <path id="Path_184" data-name="Path 184" d="M71.879,13.134v10.7H5v-10.7A7.108,7.108,0,0,1,12.04,6h52.8A7.108,7.108,0,0,1,71.879,13.134Z" transform="translate(-5 -0.65)" fill="#f44336"/>
+  <path id="Path_185" data-name="Path 185" d="M48.959,7a5.351,5.351,0,1,0,5.28,5.35A5.315,5.315,0,0,0,48.959,7ZM17.28,7a5.351,5.351,0,1,0,5.28,5.35A5.315,5.315,0,0,0,17.28,7Z" transform="translate(0.32 0.134)" fill="#b71c1c"/>
+  <path id="Path_186" data-name="Path 186" d="M48.2,3a3.554,3.554,0,0,0-3.52,3.567v8.917a3.52,3.52,0,1,0,7.04,0V6.567A3.554,3.554,0,0,0,48.2,3ZM16.52,3A3.554,3.554,0,0,0,13,6.567v8.917a3.52,3.52,0,1,0,7.04,0V6.567A3.554,3.554,0,0,0,16.52,3Z" transform="translate(1.08 -3)" fill="#b0bec5"/>
+  <g id="Group_44" data-name="Group 44" transform="translate(14.08 30.318)">
+    <path id="Path_187" data-name="Path 187" d="M13,20h7.04v7.134H13Zm10.56,0H30.6v7.134H23.56Zm10.56,0h7.04v7.134H34.12Zm10.56,0h7.04v7.134H44.68ZM13,30.7h7.04v7.134H13Zm10.56,0H30.6v7.134H23.56Zm10.56,0h7.04v7.134H34.12Zm10.56,0h7.04v7.134H44.68ZM13,41.4h7.04v7.134H13Zm10.56,0H30.6v7.134H23.56Zm10.56,0h7.04v7.134H34.12Zm10.56,0h7.04v7.134H44.68Z" transform="translate(-13 -20)" fill="#90a4ae"/>
+  </g>
+</svg>
