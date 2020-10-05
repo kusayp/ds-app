@@ -1,5 +1,5 @@
 import 'package:dsapp/models/models.dart';
-import 'package:dsapp/theme/style.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 
 import '../../screens.dart';

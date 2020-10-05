@@ -1,7 +1,7 @@
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/models/menu-arguments.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
-import 'package:dsapp/theme/style.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

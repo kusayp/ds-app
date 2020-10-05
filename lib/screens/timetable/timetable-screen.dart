@@ -3,7 +3,7 @@ import 'package:dsapp/models/timetable/days.dart';
 import 'package:dsapp/models/timetable/timetable-test.dart';
 import 'package:dsapp/screens/timetable/components/days-button.dart';
 import 'package:dsapp/screens/timetable/components/timetable-list.dart';
-import 'package:dsapp/theme/style.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

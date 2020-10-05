@@ -35,6 +35,7 @@ dependencies:
   provider: ^4.3.2+2
   sprintf: ^4.0.0
   intl: ^0.16.1
+  google_fonts: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -85,5 +86,10 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Bold.ttf
+        - asset: fonts/Roboto-Regular.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

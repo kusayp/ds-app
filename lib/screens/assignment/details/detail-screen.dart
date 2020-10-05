@@ -3,7 +3,9 @@ import 'package:dsapp/screens/attendance/components/tab_indicator.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/utils/common.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
+
 
 class AssignmentDetailScreen extends StatelessWidget {
   final AssignmentModel assignment;
@@ -38,35 +40,47 @@ class AssignmentDetailScreen extends StatelessWidget {
             length: 2,
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Subject:"),
-                    Text(assignment.subject.name),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Teacher:"),
-                    Text(assignment.teacher.firstName +
-                        ' ' +
-                        assignment.teacher.lastName),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Assignment date:"),
-                    Text(Common.formatDate(assignment.dueDate)),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Due date:"),
-                    Text(Common.formatDate(assignment.dueDate)),
-                  ],
+                Container(
+                  padding: EdgeInsets.only(top: 20.0),
+                  height: MediaQuery.of(context).size.height / 6,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Subject:", style: textSmallStyle),
+                          Text(assignment.subject.name, style: textSmallBlackStyle),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Teacher:", style: textSmallStyle),
+                          Text(assignment.teacher.firstName +
+                              ' ' +
+                              assignment.teacher.lastName, style: textSmallBlackStyle),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Assignment date:", style: textSmallStyle),
+                          Text(Common.formatDate(assignment.dueDate), style: textSmallBlackStyle),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Due date:", style: textSmallStyle),
+                          Text(Common.formatDate(assignment.dueDate), style: textSmallBlackStyle),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                    ],
+                  ),
                 ),
                 Divider(
                   thickness: 1.0,
@@ -78,41 +92,71 @@ class AssignmentDetailScreen extends StatelessWidget {
                   tabs: [
                     Tab(
                       child: Text(
-                        "Today",
+                        "Description",
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
                     Tab(
                       child: Text(
-                        "This Week",
+                        "Attachments",
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ],
                 ),
-                Container(
-                  height: 100,
-                  child: TabBarView(
-                    children: [
-                      Text(assignment.description),
-                      Text(assignment.description),
-                    ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height / 2.5,
+                    child: TabBarView(
+                      children: [
+                        Text(assignment.description, style: textSmallBlackStyle,),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 30.0,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black26),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(assignment.attachment??"No attachment"),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
+                ),
+                isTeacher
+                    ? LoginButton(
+                  buttonText: "View Submisssion",
+                  onButtonPressed: viewAnswers,
+                )
+                    : LoginButton(
+                  buttonText: "Submit Answer",
+                  onButtonPressed: viewSubmitAnswersPage,
                 ),
               ],
             ),
           ),
         ),
       ),
-      bottomSheet: isTeacher
-          ? LoginButton(
-              buttonText: "View Submisssion",
-              onButtonPressed: viewAnswers,
-            )
-          : LoginButton(
-              buttonText: "Submit Answer",
-              onButtonPressed: viewSubmitAnswersPage,
-            ),
+//      bottomSheet: isTeacher
+//          ? LoginButton(
+//              buttonText: "View Submisssion",
+//              onButtonPressed: viewAnswers,
+//            )
+//          : LoginButton(
+//              buttonText: "Submit Answer",
+//              onButtonPressed: viewSubmitAnswersPage,
+//            ),
     );
   }
 }

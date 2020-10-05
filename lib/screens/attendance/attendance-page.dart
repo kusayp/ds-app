@@ -1,6 +1,6 @@
 import 'package:dsapp/screens/attendance/attendace-screen.dart';
 import 'package:dsapp/screens/attendance/components/tab_indicator.dart';
-import 'package:dsapp/theme/style.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 
 class AttendancePage extends StatelessWidget {

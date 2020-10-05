@@ -1,5 +1,5 @@
 import 'package:dsapp/screens/profile/profile-screen.dart';
-import 'package:dsapp/theme/style.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {

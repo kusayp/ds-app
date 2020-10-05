@@ -9,7 +9,7 @@ import 'package:dsapp/screens/menu/menu-page.dart';
 import 'package:dsapp/screens/onboarding/onboarding-screen.dart';
 import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/shared-preference.dart';
-import 'package:dsapp/theme/style.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,5 +1,5 @@
 import 'package:dsapp/screens/class_register/components/class-register-card.dart';
-import 'package:dsapp/theme/style.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 
 class ClassRegisterScreen extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:dsapp/models/menu/menu.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/menu/menu-screen.dart';
 import 'package:dsapp/services/services.dart';
-import 'package:dsapp/theme/style.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

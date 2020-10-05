@@ -4,7 +4,7 @@ import 'package:dsapp/models/menu/menu.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/onboarding/components/buttons.dart';
 import 'package:dsapp/utils/shared-preference.dart';
-import 'package:dsapp/theme/style.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
