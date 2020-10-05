@@ -1,3 +1,4 @@
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/utils/common.dart';
@@ -40,7 +41,7 @@ class AnswerCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Due", style: TextStyle(fontSize: 12, color: Colors.red),),
+                  Text(S.of(context).due, style: TextStyle(fontSize: 12, color: Colors.red),),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
                     child: Text("Common.formatDate(assignment.dueDate)", style: TextStyle(fontSize: 12.0),),
