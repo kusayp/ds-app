@@ -12,8 +12,8 @@ class AnswerModel {
   static AnswerModel fromJson(Map<String, dynamic> json){
     return AnswerModel(
       id: json["id"],
-      description: json["descriptiondescription"],
-      attachment: json["attachment"],
+      description: json["description"],
+      attachment: json["attachment"] ?? "",
       assignment: AssignmentModel.fromJson(json["assignment"]),
       student: UserModel.fromJson(json["student"])
     );

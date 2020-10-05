@@ -1,3 +1,4 @@
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/attendance/components/tab_indicator.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
@@ -30,7 +31,6 @@ class AssignmentDetailScreen extends StatelessWidget {
         arguments: assignment.attachment,
       );
     }
-
     final isTeacher = role == "ENSEINGNANT";
     return Scaffold(
       body: SafeArea(
@@ -48,7 +48,7 @@ class AssignmentDetailScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Subject:", style: textSmallStyle),
+                          Text(S.of(context).subject, style: textSmallStyle),
                           Text(assignment.subject.name, style: textSmallBlackStyle),
                         ],
                       ),

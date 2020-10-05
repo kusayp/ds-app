@@ -16,13 +16,13 @@ class AssignmentModel extends Equatable{
   static AssignmentModel fromJson(Map<String, dynamic> json){
     return AssignmentModel(
         id: json['id'],
-        subject: SubjectModel.fromJson(json['subject']),
-        schoolClass: SchoolClassModel.fromJson(json['schoolClass']),
+        subject: json.containsKey("subject") ?  SubjectModel.fromJson(json['subject']) : null,
+        schoolClass: json.containsKey("schoolClass") ? SchoolClassModel.fromJson(json['schoolClass']) : null,
         dueDate: json['dueDate'],
-        teacher: UserModel.fromJson(json['teacher']),
+        teacher: json.containsKey("teacher") ? UserModel.fromJson(json['teacher']) : null,
         title: json['title'],
-        description: json['description'] ?? null,
-        attachment: json['attachment'] ?? null
+        description: json['description'],
+        attachment: json['attachment']
     );
   }
 

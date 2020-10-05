@@ -18,15 +18,16 @@ class AnswerScreen extends StatelessWidget {
         child: BlocBuilder<AnswerBloc, AnswerState>(
           builder: (context, state) {
             if (state is AnswerLoadedState) {
-              return Expanded(
-                  child: ListView.builder(
-                      itemCount: state.answerPageData.result.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return AnswerCard(
-                          answer: state.answerPageData.result[index],
-                        );
-                      }));
+              return ListView.builder(
+                  itemCount: state.answerPageData.result.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return AnswerCard(
+                      answer: state.answerPageData.result[index],
+                      role: state.role,
+                    );
+                  },
+              );
             }
             if (state is AnswerEmptyState) {
               print("Empty bloc");

@@ -14,11 +14,11 @@ class AnswerPageData extends Equatable {
   static AnswerPageData fromJson(response){
     Map<String, dynamic> json = jsonDecode(response);
     var list = json['result'] as List;
-    List<AnswerModel> asnwers = json['result'] != null ? list.map((e) => AnswerModel.fromJson(e)).toList() : [];
+    List<AnswerModel> answers = json['result'] != null ? list.map((e) => AnswerModel.fromJson(e)).toList() : [];
     return AnswerPageData(
         totalPages :json['totalPages'],
         totalElement: json['totalElement'],
-        result: asnwers
+        result: answers
     );
   }
 

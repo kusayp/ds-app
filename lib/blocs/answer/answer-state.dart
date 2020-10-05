@@ -12,8 +12,9 @@ class AnswerEmptyState extends AnswerState {}
 
 class AnswerLoadedState extends AnswerState {
   final AnswerPageData answerPageData;
+  final String role;
 
-  AnswerLoadedState({this.answerPageData});
+  AnswerLoadedState({this.answerPageData, this.role});
 
   @override
   // TODO: implement props

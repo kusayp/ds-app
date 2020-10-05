@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/fees/fees-screen.dart';
 import 'package:dsapp/services/services.dart';
@@ -15,7 +16,7 @@ class FeesPage extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
-          "Fees",
+          S.of(context).fees,
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
