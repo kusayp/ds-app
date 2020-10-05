@@ -1,52 +1,88 @@
 import 'package:dsapp/models/school/school-model.dart';
 import 'package:dsapp/models/users/grade.dart';
 import 'package:dsapp/models/users/seniority.dart';
+import 'package:equatable/equatable.dart';
 
-class UserModel{
-  int id;
-  String firstName;
-  String middleName;
-  String lastName;
-  String fullName;
-  String phone;
-  String email;
-  String password;
-  bool defaultPassword;
-  int dateOfBirth;
-  String whatsAppPhone;
-  String pseudo;
-  int gender;
-  String token;
-  int role;
-  List<int> roles;
-  String registrationNumber;
-  bool active;
-  SchoolModel school;
-  Grade grade;
-  Seniority seniority;
-  String genderText;
-  String activeText;
+class UserModel extends Equatable{
+  final int id;
+  final String firstName;
+  final String middleName;
+  final String lastName;
+  final String fullName;
+  final String phone;
+  final String email;
+  final String password;
+  final bool defaultPassword;
+  final int dateOfBirth;
+  final String whatsAppPhone;
+  final String pseudo;
+  final int gender;
+  final String token;
+  final int role;
+  final List<int> roles;
+  final String registrationNumber;
+  final bool active;
+  final SchoolModel school;
+//  final Grade grade;
+//  final Seniority seniority;
+  final String genderText;
+  final String activeText;
 //  List<Subject> subjects;
 //  List<Activity> extraActivities;
-  String dob;
+  final String dob;
 //  String[] headers;
-  String picture;
+  final String picture;
 
-  UserModel.fromJson(Map json)
-      :
-        id = json['id'],
-        firstName = json['firstName'],
-        lastName = json['lastName'],
-        middleName = json['middleName'],
-        phone = json['phone'],
-        email = json['email'],
-        dateOfBirth = json['dateOfBirth'],
-        pseudo = json['pseudo'],
-        gender = json['gender'],
-        registrationNumber = json['registrationNumber'],
-        school = json['school'],
-        picture = json['picture'],
-        grade = json['grade'],
-        seniority = json['seniority'];
+  const UserModel({
+    this.id,
+    this.password,
+    this.token,
+    this.phone,
+    this.email,
+//    this.seniority,
+//    this.grade,
+    this.picture,
+    this.school,
+    this.registrationNumber,
+    this.gender,
+    this.pseudo,
+    this.dateOfBirth,
+    this.middleName,
+    this.lastName,
+    this.firstName,
+    this.active,
+    this.activeText,
+    this.defaultPassword,
+    this.dob,
+    this.fullName,
+    this.genderText,
+    this.role,
+    this.roles,
+    this.whatsAppPhone
+  });
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [id, firstName, lastName, middleName, fullName, phone, email, password, defaultPassword, dateOfBirth, whatsAppPhone, pseudo, gender,
+  token, role, roles, registrationNumber, active, school, genderText, activeText, dob, picture];
+
+  static UserModel fromJson(Map<String, dynamic> json) {
+    return UserModel(
+        id : json['id'],
+        firstName : json['firstName'],
+        lastName : json['lastName'],
+        middleName : json['middleName'],
+        phone : json['phone'],
+        email : json['email'],
+        dateOfBirth : json['dateOfBirth'],
+        pseudo : json['pseudo'],
+        gender : json['gender'],
+        registrationNumber : json['registrationNumber'],
+        school : json['school'],
+        picture : json['picture'],
+//        grade : Grade.fromJson(json['grade']),
+//        seniority : Seniority.fromJson(json['seniority'])
+    );
+  }
 
 }

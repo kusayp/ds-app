@@ -1,11 +1,16 @@
-import 'package:dsapp/models/onboarding/onboarding-model.dart';
+import 'dart:convert';
+
+import 'package:dsapp/models/menu/menu.dart';
+import 'package:dsapp/models/models.dart';
+import 'package:dsapp/screens/onboarding/components/buttons.dart';
+import 'package:dsapp/utils/shared-preference.dart';
 import 'package:dsapp/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class OnBoardingScreen extends StatefulWidget {
-  final List<OnBoardingModel> pages;
+  final OnBoardingModelList pages;
   final Color bgColor;
   final Color themeColor;
   final ValueChanged<String> skipClicked;
@@ -28,9 +33,11 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
+  LocalStorage sharedPreferences = LocalStorage();
+
   List<Widget> _buildPageIndicator() {
     List<Widget> list = [];
-    for (int i = 0; i < widget.pages.length; i++) {
+    for (int i = 0; i < widget.pages.onBoardingList.length; i++) {
       list.add(i == _currentPage ? _indicator(true) : _indicator(false));
     }
     return list;
@@ -39,8 +46,8 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
   List<Widget> buildOnBoardingPages() {
     final children = <Widget>[];
 
-    for (int i = 0; i < widget.pages.length; i++) {
-      children.add(_showPageData(widget.pages[i]));
+    for (int i = 0; i < widget.pages.onBoardingList.length; i++) {
+      children.add(_showPageData(widget.pages.onBoardingList[i]));
     }
     return children;
   }
@@ -66,6 +73,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: widget.bgColor,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -74,7 +82,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
           child: Container(
             height: MediaQuery.of(context).size.height,
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
+              padding: EdgeInsets.symmetric(vertical: 5.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
@@ -87,15 +95,15 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                       child: Text(
                         'Skip',
                         style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
+                          color: Colors.black12,
                           fontSize: 20,
                         ),
                       ),
                     ),
                   ),
                   Container(
-                    height: 400.0,
+                    padding: EdgeInsets.only(left: 40, right: 40),
+                    height: 450.0,
                     color: Colors.transparent,
                     child: PageView(
                         physics: ClampingScrollPhysics(),
@@ -112,38 +120,9 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                     children: _buildPageIndicator(),
                   ),
                   SizedBox(height: 10.0,),
-                  _currentPage != widget.pages.length - 1
-                      ? Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 50.0, right: 50.0, top: 60, bottom: 60),
-                            child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0)
-                              ),
-                              color: appTheme().primaryColor,
-                              onPressed: () {
-                                _pageController.nextPage(
-                                  duration: Duration(milliseconds: 500),
-                                  curve: Curves.ease,
-                                );
-                              },
-                              child: Text('Next', style: TextStyle(fontSize: 20, color: Colors.white)),
-                            ),
-                          ),
-                        )
-                      : Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 50.0, right: 50.0, top: 60, bottom: 60),
-                            child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0)
-                              ),
-                              color: appTheme().primaryColor,
-                              onPressed: _getStartedTapped,
-                              child: Text('Get Started', style: TextStyle(fontSize: 20, color: Colors.white)),
-                            ),
-                          ),
-                        ),
+                  _currentPage != widget.pages.onBoardingList.length - 1
+                      ? OnBoardingButton(onButtonPressed: pageController, text: "Next",)
+                      : OnBoardingButton(onButtonPressed: _getStartedTapped, text: "Get Started",),
                 ],
               ),
             ),
@@ -162,17 +141,14 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Center(
-              child: SvgPicture.asset(
-                page.imagePath,
-                width: 100.0,
-                height: 100.0,
-              ),
+          Center(
+            child: SvgPicture.asset(
+              page.imagePath,
+              width: 150.0,
+              height: 150.0,
             ),
           ),
-          SizedBox(height: 50.0),
+          SizedBox(height: 40.0),
           Center(
             child: Text(
               page.title,
@@ -184,15 +160,16 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(height: 50.0),
+          SizedBox(height: 40.0),
           Align(
             alignment: Alignment.center,
             child: Text(
               page.description,
               style: TextStyle(
-                fontWeight: FontWeight.w400,
+//                fontWeight: FontWeight.w400,
                 color: page.descriptionColor,
-                fontSize: 16,
+                fontSize: 15,
+                letterSpacing: 1.2,
               ),
               textAlign: TextAlign.center,
             ),
@@ -228,8 +205,15 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
         child: loginButtonWithGesture);
   }
 
-  void _getStartedTapped() {
-    widget.getStartedClicked("Get Started Tapped");
-    Navigator.pushNamed(context, '/users');
+  void _getStartedTapped() async {
+      Navigator.pushNamed(context, '/login');
+      sharedPreferences.setOnBoardingViewed(onBoardingViewed: true);
+  }
+
+  void pageController(){
+    _pageController.nextPage(
+        duration: Duration(milliseconds: 500),
+    curve: Curves.ease
+    );
   }
 }

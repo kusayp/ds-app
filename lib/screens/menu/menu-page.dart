@@ -1,68 +1,39 @@
+import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/models/menu/menu.dart';
-import 'package:dsapp/screens/menu/menu-bloc.dart';
+import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/menu/menu-screen.dart';
+import 'package:dsapp/services/services.dart';
+import 'package:dsapp/theme/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MenuPage extends StatefulWidget {
-  @override
-  _MenuPageState createState() => _MenuPageState();
-}
+class MenuPage extends StatelessWidget {
+  static const routeName = '/menu';
+  final List<Module> modules;
 
-class _MenuPageState extends State<MenuPage> {
-  final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
-  MenuBloc menuBloc;
-
-  @override
-  void initState() {
-    super.initState();
-
-    menuBloc = MenuBloc();
-  }
-
-  @override
-  void dispose() {
-    menuBloc.dispose();
-
-    super.dispose();
-  }
+  MenuPage({this.modules});
 
   @override
   Widget build(BuildContext context) {
+    final MenuService service = MenuService();
+//    final MenuArguments arguments = ModalRoute.of(context).settings.arguments;
+    final LoginResponse arguments = ModalRoute.of(context).settings.arguments;
+//    print(arguments.modules);
     return Scaffold(
-      key: _globalKey,
-      body: MenuScreen(
-        menus: menus,
-        items: items,
+      backgroundColor: appTheme().backgroundColor,
+      body: BlocProvider(
+        create: (context) => MenuBloc(menuService: service),
+        child: MenuScreen(
+          user: arguments.user,
+          schools: arguments.schools,
+        ),
       ),
     );
   }
 
-  final menus = [
-    MenuModel(
-      title: "TimeTable",
-      icon: "assets/icons/Calendar.svg"
-    ),
-    MenuModel(
-        title: "TimeTable",
-        icon: "assets/icons/Calendar.svg"
-    ),
-    MenuModel(
-        title: "TimeTable",
-        icon: "assets/icons/Calendar.svg"
-    ),
-    MenuModel(
-        title: "TimeTable",
-        icon: "assets/icons/Calendar.svg"
-    ),
-    MenuModel(
-        title: "TimeTable",
-        icon: "assets/icons/Calendar.svg"
-    )
-  ];
-
   final items = [
-    DropdownMenuItem(child: Text("First item"), value: 1,),
-    DropdownMenuItem(child: Text("First item"), value: 2,),
-    DropdownMenuItem(child: Text("First item"), value: 3,),
+    DropdownMenuItem(child: Text("School A"), value: 1,),
+    DropdownMenuItem(child: Text("University B"), value: 2,),
+    DropdownMenuItem(child: Text("Primary A"), value: 3,),
   ];
 }

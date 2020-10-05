@@ -1,8 +1,13 @@
 class Grade{
-  int id;
-  String name;
+  final int id;
+  final String name;
 
-  Grade.fromJson(Map json)
-      : id = json['id'],
-        name = json['name'];
+  Grade({this.id, this.name});
+
+  static Grade fromJson(Map<String, dynamic> json){
+    return Grade(
+        id: json['id'],
+        name: json['name']
+    );
+  }
 }
