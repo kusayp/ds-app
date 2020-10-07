@@ -9,17 +9,6 @@ class AssignmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List<Widget> buildAssignmentCards(AssignmentPageData response) {
-      final children = <Widget>[];
-
-      for (int i = 0; i < response.result.length; i++) {
-        children.add(AssignmentCard(
-          assignment: response.result[i],
-        ));
-      }
-      return children;
-    }
-
     return BlocListener<AssignmentBloc, AssignmentState>(
       listener: (context, state){},
       child: SafeArea(

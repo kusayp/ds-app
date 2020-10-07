@@ -6,3 +6,4 @@ export 'assignment/assignment.dart';
 export 'fees/fees.dart';
 export 'menu/menu.dart';
 export 'answer/answers.dart';
+export 'exam_sscore/exam-score.dart';

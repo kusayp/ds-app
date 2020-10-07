@@ -46,7 +46,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(widget.user.firstName + ' ' + widget.user.lastName),
+                              Text(widget.user.firstName + ' ' + widget.user.lastName, style: TextStyle(fontSize: 20.0),),
                               Icon(Icons.notifications_active)
                             ],
                           ),

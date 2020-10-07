@@ -17,12 +17,11 @@ class ExamsBloc extends Bloc<ExamsEvent, ExamsState> {
   Stream<ExamsState> mapEventToState(ExamsEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
     // TODO: implement mapEventToState
-    if(event is FetchingAssignmentEvent){
+    if(event is FetchingExamsEvent){
       yield ExamsLoadingState();
       try{
-        String user = await sharedPreferences.getUserDetails();
-        LoginResponse loginResponse = LoginResponse.fromJson(user);
-        var schoolId = loginResponse.schools.single.id;
+        var role = await sharedPreferences.getSharedPreference("role");
+        var schoolId = await sharedPreferences.getSharedPreference("schoolId");
         final ExamsPageData response = await repository.getExams(schoolId);
         yield ExamsLoadedState(examsPageData: response);
       }

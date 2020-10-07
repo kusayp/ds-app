@@ -1,0 +1,9 @@
+export 'fees-page.dart';
+export 'fees-screen.dart';
+export 'fee_installment/fee-installment-page.dart';
+export 'fee_installment/fee-installment-screen.dart';
+export 'fee_payment/fee-payment-page.dart';
+export 'fee_payment/fee-payment-screen.dart';
+export 'components/fees-card.dart';
+export 'components/installment-card.dart';
+export 'components/installment-tab-view.dart';

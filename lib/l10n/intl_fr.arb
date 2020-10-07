@@ -3,5 +3,7 @@
   "due": "Due",
   "flutterDemo": "Digital School",
   "subject": "Matière:",
-  "fees": "Fees"
+  "fees": "Fees",
+  "submitAnswer": "Submit Answer",
+  "profile": "Profile"
 }

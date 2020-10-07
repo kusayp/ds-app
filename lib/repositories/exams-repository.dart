@@ -9,4 +9,8 @@ class ExamsRepository {
   Future<ExamsPageData> getExams(schoolId) async {
     return await examsService.getExams(schoolId);
   }
+
+  Future<ExamScorePageData> getExamScores(schoolId, examinationId, studentId) async {
+    return await examsService.getExamScores(schoolId, examinationId, studentId);
+  }
 }

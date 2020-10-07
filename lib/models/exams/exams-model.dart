@@ -13,10 +13,10 @@ class ExamsModel extends Equatable{
   static ExamsModel fromJson(Map<String, dynamic> json){
     return ExamsModel(
       id: json['id'],
-      type: json['type'],
+      type: ExamType.fromJson(json['type']),
       startDate: json['startDate'],
       endDate: json['endDate'],
-      term: json['term']
+      term: Term.fromJson(json['term'])
     );
   }
 

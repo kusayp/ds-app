@@ -9,9 +9,9 @@ class FeesPageData extends Equatable{
   FeesPageData({this.results});
 
   static FeesPageData fromJson(response){
-    Map<String, dynamic> json = jsonDecode(response);
-    var list = json['result'] as List;
-    List<FeesModel> fees = json['result'] != null ? list.map((e) => FeesModel.fromJson(e)).toList() : [];
+    List<dynamic> json = jsonDecode(response);
+//    var list = json['result'] as List;
+    List<FeesModel> fees = json != null ? json.map((e) => FeesModel.fromJson(e)).toList() : [];
     return FeesPageData(
         results: fees
     );

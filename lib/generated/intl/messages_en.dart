@@ -24,7 +24,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "due" : MessageLookupByLibrary.simpleMessage("Due"),
     "fees" : MessageLookupByLibrary.simpleMessage("Fees"),
     "flutterDemo" : MessageLookupByLibrary.simpleMessage("Digital School"),
+    "profile" : MessageLookupByLibrary.simpleMessage("Profile"),
     "subject" : MessageLookupByLibrary.simpleMessage("Subject:"),
+    "submitAnswer" : MessageLookupByLibrary.simpleMessage("Submit Answer"),
     "submittedAssignments" : MessageLookupByLibrary.simpleMessage("Submit assignment")
   };
 }
