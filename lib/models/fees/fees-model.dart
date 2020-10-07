@@ -14,7 +14,7 @@ class FeesModel extends Equatable{
         id: json['id'],
         type: json['type'],
         amount: json['amount'],
-        schoolClass: SchoolClassModel.fromJson(json['schoolClass']) ?? []
+        schoolClass: json["schoolClass"] != null ? SchoolClassModel.fromJson(json['schoolClass']) : null
     );
   }
 

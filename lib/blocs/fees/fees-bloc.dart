@@ -22,7 +22,7 @@ class FeesBloc extends Bloc<FeesEvent, FeesState> {
       try{
         String user = await sharedPreferences.getUserDetails();
         LoginResponse loginResponse = LoginResponse.fromJson(user);
-        var schoolId = loginResponse.schools.single.id;
+        var schoolId = await sharedPreferences.getSharedPreference("schoolId");
         final FeesPageData response = await repository.getFees(schoolId);
         yield FeesLoadedState(feesPageData: response);
       }

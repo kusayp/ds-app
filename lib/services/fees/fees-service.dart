@@ -4,7 +4,7 @@ import 'package:dsapp/utils/shared-preference.dart';
 import 'package:http/http.dart' as http;
 
 class FeesService {
-  Future<FeesPageData> getFees(int schoolId) async {
+  Future<FeesPageData> getFees(schoolId) async {
     final baseUrl = CommonConstants.baseUrl;
     final url = 'fees';
 

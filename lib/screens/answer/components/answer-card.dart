@@ -15,13 +15,12 @@ class AnswerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isTeacher = role == "ENSEINGNANT";
 
+    void pushToAssignmentScorePage(){
+      Navigator.pushNamed(context, AnswerScorePage.routeName, arguments: answer);
+    }
+
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          AssignmentDetailPage.routeName,
-        );
-      },
+      onTap: pushToAssignmentScorePage,
       child: Card(
         margin: EdgeInsets.symmetric(vertical: 10.0),
         elevation: 4,

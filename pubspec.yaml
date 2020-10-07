@@ -62,6 +62,8 @@ flutter:
 
   assets:
     - assets/images/menu/
+    - assets/images/payment/
+    - assets/images/fees/
     - assets/icons/
     - assets/menus/
 

@@ -1,17 +1,19 @@
+import 'package:dsapp/generated/l10n.dart';
+import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 
-class SubmitAnswerPage extends StatelessWidget {
-  static const routeName = '/submit_assignment';
+class AnswerScorePage extends StatelessWidget {
+  static const routeName = '/answer-score';
   @override
   Widget build(BuildContext context) {
-    final String arguments = ModalRoute.of(context).settings.arguments;
+    final AnswerModel arguments = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
-          "Submit Assignment",
+          arguments.student.firstName+" "+arguments.student.lastName,
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -20,7 +22,7 @@ class SubmitAnswerPage extends StatelessWidget {
       ),
       extendBodyBehindAppBar: true,
       backgroundColor: appTheme().backgroundColor,
-      body: SubmitAnswerScreen(),
+      body: AnswerScoreScreen(answer: arguments,),
     );
   }
 }

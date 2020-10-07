@@ -46,7 +46,7 @@ class S {
   /// `Due`
   String get due {
     return Intl.message(
-      'Due Date',
+      'Due',
       name: 'due',
       desc: '',
       args: [],
@@ -78,6 +78,26 @@ class S {
     return Intl.message(
       'Fees',
       name: 'fees',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit Answer`
+  String get submitAnswer {
+    return Intl.message(
+      'Submit Answer',
+      name: 'submitAnswer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile`
+  String get profile {
+    return Intl.message(
+      'Profile',
+      name: 'profile',
       desc: '',
       args: [],
     );

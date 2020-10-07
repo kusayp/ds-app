@@ -24,8 +24,8 @@ class FeesScreen extends StatelessWidget {
             }
             if(state is FeesEmptyState){
               print("Empty bloc");
-              BlocProvider.of<ExamsBloc>(context)
-                  .add(FetchingExamsEvent());
+              BlocProvider.of<FeesBloc>(context)
+                  .add(FetchingFeesEvent());
             }
             return Center(
               child: CircularProgressIndicator(),

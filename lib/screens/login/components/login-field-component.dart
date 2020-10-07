@@ -7,7 +7,7 @@ class CustomLoginField extends StatelessWidget {
   final TextFormField formField;
   final double width;
 
-  const CustomLoginField({this.labelText, this.decoration, this.formField, this.width});
+  CustomLoginField({this.labelText, this.decoration, this.formField, this.width});
   @override
   Widget build(BuildContext context) {
 //    double width = MediaQuery.of(context).size.width;
@@ -26,6 +26,64 @@ class CustomLoginField extends StatelessWidget {
           child: Container(color: Colors.white, child: Text(labelText, textAlign: TextAlign.center,), width: 70.0,),
         )
       ],
+    );
+  }
+}
+
+class CustomField extends StatelessWidget {
+  final String labelText;
+  final BoxDecoration decoration;
+  final TextFormField formField;
+  final double width;
+
+  CustomField({this.labelText, this.decoration, this.formField, this.width});
+  @override
+  Widget build(BuildContext context) {
+//    double width = MediaQuery.of(context).size.width;
+    return Container(
+      height: 70,
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+            bottom: 0,
+            child: Container(width: width, height: 50, decoration: decoration, child: formField,),
+          ),
+          Positioned(
+            left: 30,
+            bottom: 40,
+            child: Container(color: Colors.white, child: Text(labelText, textAlign: TextAlign.center,), width: 100.0,),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class CustomShortField extends StatelessWidget {
+  final String labelText;
+  final BoxDecoration decoration;
+  final TextFormField formField;
+  final double width;
+
+  CustomShortField({this.labelText, this.decoration, this.formField, this.width});
+  @override
+  Widget build(BuildContext context) {
+//    double width = MediaQuery.of(context).size.width;
+    return Container(
+      height: 70,
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+            bottom: 0,
+            child: Container(width: width, height: 50, decoration: decoration, child: formField,),
+          ),
+          Positioned(
+            left: 30,
+            bottom: 40,
+            child: Container(color: Colors.white, child: Text(labelText, textAlign: TextAlign.center,), width: 90.0,),
+          )
+        ],
+      ),
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:dsapp/screens/assignment/assignment-page.dart';
 import 'package:dsapp/screens/attendance/attendance-page.dart';
 import 'package:dsapp/screens/chat/chat-page.dart';
 import 'package:dsapp/screens/class_register/class-register-page.dart';
-import 'package:dsapp/screens/exams/exams-page.dart';
 import 'package:dsapp/screens/fees/fees-page.dart';
 import 'package:dsapp/screens/login/login-page.dart';
 import 'package:dsapp/screens/logout.dart';
@@ -33,5 +32,9 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder> {
   ProfilePage.routeName: (BuildContext context) => ProfilePage(),
   AssignmentDetailPage.routeName: (BuildContext context) => AssignmentDetailPage(),
   SubmitAnswerPage.routeName: (BuildContext context) => SubmitAnswerPage(),
-  AnswerPage.routeName: (BuildContext context) => AnswerPage()
+  AnswerPage.routeName: (BuildContext context) => AnswerPage(),
+  AnswerScorePage.routeName: (BuildContext context) => AnswerScorePage(),
+  ExamsScorePage.routeName: (BuildContext context) => ExamsScorePage(),
+  FeeInstallmentPage.routeName: (BuildContext context) => FeeInstallmentPage(),
+  FeePaymentPage.routeName: (BuildContext context) => FeePaymentPage(),
 };

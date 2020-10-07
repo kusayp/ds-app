@@ -1,3 +1,4 @@
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/screens/profile/profile-screen.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
-          "Profile",
+          S.of(context).profile,
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
