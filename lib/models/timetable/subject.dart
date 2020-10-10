@@ -14,4 +14,11 @@ class SubjectModel {
       credit: json['credit'],
     );
   }
+
+  static Map<String, dynamic> toJson(SubjectModel subjectModel) => {
+    'id': subjectModel.id,
+    'name': subjectModel.name,
+    'description': subjectModel.description,
+    'credit': subjectModel.credit,
+  };
 }

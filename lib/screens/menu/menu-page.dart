@@ -16,9 +16,7 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MenuService service = MenuService();
-//    final MenuArguments arguments = ModalRoute.of(context).settings.arguments;
     final LoginResponse arguments = ModalRoute.of(context).settings.arguments;
-//    print(arguments.modules);
     return Scaffold(
       backgroundColor: appTheme().backgroundColor,
       body: BlocProvider(

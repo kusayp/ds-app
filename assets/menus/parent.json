@@ -2,87 +2,10 @@
   "role": "PARENT",
   "modules": [
     {
-      "id": 1,
-      "menu": "Timetable",
-      "icon": "assets/images/menu/Timetable.svg",
-      "description": "fi",
-      "events": [
-        {
-          "name": "ADD"
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "menu": "Assignment",
-      "icon": "assets/images/menu/Assignment.svg",
-      "description": "fi",
-      "events": [
-        {
-          "name": "ADD"
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "menu": "Exam",
-      "icon": "assets/images/menu/Exam.svg",
-      "description": "fi",
-      "events": [
-        {
-          "name": "ADD"
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "menu": "Fees",
-      "icon": "assets/images/menu/Fees.svg",
-      "description": "fi",
-      "events": [
-        {
-          "name": "ADD"
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "menu": "Attendance",
-      "icon": "assets/images/menu/Attendance.svg",
-      "description": "fi",
-      "events": [
-        {
-          "name": "ADD"
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "menu": "Chat",
-      "icon": "assets/images/menu/Chat.svg",
-      "description": "fi",
-      "events": [
-        {
-          "name": "ADD"
-        }
-      ]
-    },
-    {
-      "id": 7,
-      "menu": "Class Register",
-      "icon": "assets/images/menu/Class Register.svg",
-      "description": "fi",
-      "events": [
-        {
-          "name": "ADD"
-        }
-      ]
-    },
-    {
       "id": 8,
       "menu": "Profile",
       "icon": "assets/images/menu/Profile.svg",
-      "description": "fi",
+      "description": "Profile",
       "events": [
         {
           "name": "ADD"
@@ -93,7 +16,7 @@
       "id": 9,
       "menu": "Logout",
       "icon": "assets/images/menu/Logout.svg",
-      "description": "fi",
+      "description": "Logout",
       "events": [
         {
           "name": "ADD"

@@ -13,7 +13,6 @@ class FeePaymentScreen extends StatelessWidget {
           builder: (_) => PaymentAlertDialog(),
           barrierDismissible: false
       );
-//      Navigator.pushNamed(context, FeeInstallmentPage.routeName,);
     }
 
     return SafeArea(

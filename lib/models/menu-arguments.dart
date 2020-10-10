@@ -1,10 +1,10 @@
 import 'package:dsapp/models/models.dart';
 
-class MenuArguments {
+class MenuArguments1 {
   final List<SchoolModel> schools;
   final UserModel user;
 
-  MenuArguments({this.user, this.schools});
+  MenuArguments1({this.user, this.schools});
 }
 
 class AssignmentArguments{
@@ -13,4 +13,12 @@ class AssignmentArguments{
 
   AssignmentArguments({this.assignment, this.role});
 
+}
+
+class MenuArguments {
+  final String userId;
+  final Module module;
+  final UserModel user;
+
+  MenuArguments({this.userId, this.module,this.user});
 }

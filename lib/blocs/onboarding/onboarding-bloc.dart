@@ -32,7 +32,8 @@ class OnBoardingBloc extends Bloc<OnBoardingEvent, OnBoardingState> {
       try {
         if (user != null){
           LoginResponse loginResponse = LoginResponse.fromJson(user);
-          var role = loginResponse.schools.single.userRole.name;
+          print(loginResponse);
+          var role = loginResponse.schools[0].role.name;
           RoleModules roleModules = await MenuService().loadUserRoleModules(role);
           List<Module> modules = roleModules.modules;
           yield OnBoardingUserLoggedIn(modules: modules);
@@ -56,7 +57,7 @@ class OnBoardingBloc extends Bloc<OnBoardingEvent, OnBoardingState> {
       LocalStorage prefs = LocalStorage();
       String user = await prefs.getUserDetails();
       LoginResponse loginResponse = LoginResponse.fromJson(user);
-      var role = loginResponse.schools.single.userRole.name;
+      var role = loginResponse.schools.single.role.name;
       RoleModules roleModules = await MenuService().loadUserRoleModules(role);
       List<Module> modules = roleModules.modules;
     yield OnBoardingUserLoggedIn(modules: modules);

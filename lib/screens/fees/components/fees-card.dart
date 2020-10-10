@@ -1,8 +1,7 @@
 import 'package:dsapp/models/models.dart';
-import 'package:dsapp/screens/login/components/login-field-component.dart';
 import 'package:dsapp/screens/screens.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class FeesCard extends StatelessWidget {
   final FeesModel fees;
@@ -11,11 +10,11 @@ class FeesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var colours = {
-      "pending": "#FF0000",
-      "paid": "#69childC9C5",
-      "not yet": "#F7AE03"
-    };
+//    var colours = {
+//      "pending": "#FF0000",
+//      "paid": "#69childC9C5",
+//      "not yet": "#F7AE03"
+//    };
 
     return GestureDetector(
       onTap: () {
@@ -58,9 +57,6 @@ class FeesCard extends StatelessWidget {
                 color: Colors.white,
                 thickness: 1.2,
               ),
-//              SizedBox(
-//                height: 5.0,
-//              ),
               Row(
                 children: [
                   ClipOval(
@@ -94,7 +90,7 @@ class FeesCard extends StatelessWidget {
   }
 }
 
-class PaymentAlertDialog extends StatelessWidget {
+class PaymentAlertDialog1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -118,3 +114,53 @@ class PaymentAlertDialog extends StatelessWidget {
     );
   }
 }
+
+class PaymentAlertDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius:
+          BorderRadius.circular(5.0)), //this right here
+      child: Container(
+        height: 200,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: ClipOval(
+                  child: Material(
+                    color: Colors.green, // button color
+                    child: InkWell(
+                      splashColor: Colors.red, // inkwell color
+                      child: SizedBox(width: 56, height: 56, child: Icon(Icons.check, color: Colors.white, size: 50,)),
+                      onTap: () {},
+                    ),
+                  ),
+                ),
+              ),
+              Text("Payment Successfully Received"),
+              SizedBox(
+                width: 320.0,
+                child: RaisedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Center(
+                    child: Text(
+                      "OK",
+                      style: TextStyle(color: Colors.white,),
+                    ),
+                  ),
+                  color: appTheme().primaryColor,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+

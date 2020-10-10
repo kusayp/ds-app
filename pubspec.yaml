@@ -91,10 +91,12 @@ flutter:
   #         weight: 700
   #
   fonts:
-    - family: Roboto
+    - family: OpenSans
       fonts:
-        - asset: fonts/Roboto-Bold.ttf
-        - asset: fonts/Roboto-Regular.ttf
+        - asset: fonts/OpenSans-Bold.ttf
+        - asset: fonts/OpenSans-Light.ttf
+        - asset: fonts/OpenSans-Regular.ttf
+        - asset: fonts/OpenSans-SemiBold.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 flutter_intl:

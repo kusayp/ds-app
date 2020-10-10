@@ -9,7 +9,7 @@ class LoginService {
   LocalStorage sharedPreferences = LocalStorage();
 
   Future<LoginResponse> login(username, password) async {
-    final url = CommonConstants.baseUrl + 'authentication/login/';
+    final url = CommonConstants.baseUrl + 'mobile/authentication/login/';
 
     final Map<String, dynamic> data = {
       "username": username,
@@ -22,7 +22,6 @@ class LoginService {
         body: jsonEncode(data)
     );
 
-//    print(response.statusCode);
     if(response.statusCode != 200) {
       print("error getting quotes");
       print(response.body);

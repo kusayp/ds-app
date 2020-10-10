@@ -22,7 +22,7 @@ class ExamScoreBloc extends Bloc<ExamScoreEvent, ExamScoreState> {
       try{
         String user = await sharedPreferences.getUserDetails();
         LoginResponse loginResponse = LoginResponse.fromJson(user);
-        var role = await sharedPreferences.getSharedPreference("role");
+//        var role = await sharedPreferences.getSharedPreference("role");
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
         final ExamScorePageData response = await repository.getExamScores(schoolId, event.examinationId, loginResponse.user.id);
         if (response.results.isEmpty){

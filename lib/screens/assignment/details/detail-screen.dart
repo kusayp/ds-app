@@ -40,46 +40,49 @@ class AssignmentDetailScreen extends StatelessWidget {
             length: 2,
             child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.only(top: 20.0),
-                  height: MediaQuery.of(context).size.height / 6,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(S.of(context).subject, style: textSmallStyle),
-                          Text(assignment.subject.name, style: textSmallBlackStyle),
-                        ],
-                      ),
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Teacher:", style: textSmallStyle),
-                          Text(assignment.teacher.firstName +
-                              ' ' +
-                              assignment.teacher.lastName, style: textSmallBlackStyle),
-                        ],
-                      ),
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Assignment date:", style: textSmallStyle),
-                          Text(Common.formatDate(assignment.dueDate), style: textSmallBlackStyle),
-                        ],
-                      ),
-                      SizedBox(height: 10,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Due date:", style: textSmallStyle),
-                          Text(Common.formatDate(assignment.dueDate), style: textSmallBlackStyle),
-                        ],
-                      ),
-                      SizedBox(height: 10,),
-                    ],
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Container(
+                    padding: EdgeInsets.only(top: 20.0),
+                    height: MediaQuery.of(context).size.height / 6,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(S.of(context).subject, style: textSmallStyle),
+                            Text(assignment.subject.name, style: textSmallBlackStyle),
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Teacher:", style: textSmallStyle),
+                            Text(assignment.teacher.firstName +
+                                ' ' +
+                                assignment.teacher.lastName, style: textSmallBlackStyle),
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Assignment date:", style: textSmallStyle),
+                            Text(Common.formatDate(assignment.dueDate), style: textSmallBlackStyle),
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Due date:", style: textSmallStyle),
+                            Text(Common.formatDate(assignment.dueDate), style: textSmallBlackStyle),
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                      ],
+                    ),
                   ),
                 ),
                 Divider(

@@ -16,3 +16,4 @@ export 'fees/fees.dart';
 export 'menu/menu.dart';
 export 'menu-arguments.dart';
 export 'answer/answer.dart';
+export 'class_register/class-register.dart';

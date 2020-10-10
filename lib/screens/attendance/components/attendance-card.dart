@@ -1,3 +1,4 @@
+import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/attendance/components/present-container.dart';
 import 'package:flutter/material.dart';
 
@@ -40,6 +41,9 @@ class AttendanceWeekCard extends StatelessWidget {
 }
 
 class AttendanceDayCard extends StatelessWidget{
+  final ClassRegisterModel classRegisterModel;
+
+  const AttendanceDayCard({Key key, this.classRegisterModel}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -57,14 +61,14 @@ class AttendanceDayCard extends StatelessWidget{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text("English", style: TextStyle(fontSize: 16, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
+            Text(classRegisterModel.schedule.subject.name, style: TextStyle(fontSize: 16, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
             SizedBox(
               height: 5.0,
             ),
-            Text("Mathematics", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black26),),
+            Text(classRegisterModel.schedule.startTime, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black26),),
             Align(
               alignment: Alignment.centerRight,
-              child: PresentContainer(isPresent: true,),
+              child: PresentContainer(isPresent: classRegisterModel.present,),
             )
           ],
         ),

@@ -3,7 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 ThemeData appTheme() {
   return ThemeData(
-    fontFamily: 'Roboto',
+    fontFamily: 'OpenSans',
     primaryColor: Hexcolor("#19283E"),
     accentColor: Hexcolor("#84A2D6"),
     textSelectionColor: Hexcolor("#000000"),

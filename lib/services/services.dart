@@ -6,3 +6,4 @@ export 'assigment/assignment-service.dart';
 export 'exams/exams-service.dart';
 export 'fees/fees-service.dart';
 export 'answers/answer-service.dart';
+export 'attendance/attendance-service.dart';

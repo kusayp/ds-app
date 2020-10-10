@@ -6,9 +6,14 @@ class TimeTableRepository {
 
   TimeTableRepository({this.tableService});
 
-  Future<TimeTablePageData> getSchedulesFilterByDay(schoolId, day) async {
+  Future<TimeTablePageData> getSchedulesFilterByDay(schoolId, day, teacherId) async {
     print("inside login repo $day");
-    return await tableService.getTimeTableFilterDay(schoolId, day);
+    return await tableService.getTimeTableFilterDay(schoolId, day, teacherId);
+  }
+
+  Future<TimeTablePageData> getSchedulesFilterByClass(schoolId, day, classId) async {
+    print("inside login repo $day");
+    return await tableService.getTimeTableFilterClass(schoolId, day, classId);
   }
 
 }
