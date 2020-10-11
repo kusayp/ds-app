@@ -58,7 +58,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               initialValue = value;
                             });
                             BlocProvider.of<MenuBloc>(context)
-                                .add(MenuDropDownSelected(school: widget.schools[value-1]));
+                                .add(MenuDropDownSelected(school: widget.schools[value-1], role: widget.schools[value-1].role.name, user: widget.user));
                           }
                           ),
                         ),
@@ -69,7 +69,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           itemCount: state.modules.length,
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1,),
                           itemBuilder: (context, index) {
-                            return MenuCard(menu: state.modules[index]);
+                            return MenuCard(menu: state.modules[index], roleModules: state.roleModules,);
                           },
                         ),
                       ],
@@ -78,7 +78,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   if (state is MenuInitial){
                     print("Empty bloc");
                     BlocProvider.of<MenuBloc>(context)
-                        .add(MenuDropDownSelected(school: widget.schools[initialValue-1]));
+                        .add(MenuDropDownSelected(school: widget.schools[initialValue-1], role: widget.schools[initialValue-1].role.name, user: widget.user));
                   }
                   return Center(
                     child: CircularProgressIndicator(),

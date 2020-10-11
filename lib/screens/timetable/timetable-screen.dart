@@ -1,16 +1,16 @@
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/models/timetable/days.dart';
-import 'package:dsapp/models/timetable/timetable-test.dart';
 import 'package:dsapp/screens/timetable/components/days-button.dart';
 import 'package:dsapp/screens/timetable/components/timetable-list.dart';
-import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class TimeTableScreen extends StatelessWidget {
-  static const routeName = '/timetable';
+  final String classId;
+  final String teacherId;
+
+  const TimeTableScreen({Key key, this.classId, this.teacherId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +19,8 @@ class TimeTableScreen extends StatelessWidget {
 
       for (int i = 0; i < days.length; i++) {
         children.add(DaysButton(
+          classId: classId,
+          teacherId: teacherId,
           day: days[i],
           state: state,
         ));
@@ -67,18 +69,15 @@ class TimeTableScreen extends StatelessWidget {
                     return Column(
                       children: [
                         Container(
+                          width: MediaQuery.of(context).size.width-40,
                           padding: EdgeInsets.only(
                             top: 20.0,
                           ),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: buildTimeTableDays(state),
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: buildTimeTableDays(state),
                           ),
                         ),
-                        Divider(),
                         Padding(
                           padding: EdgeInsets.only(
                             top: 10.0,
@@ -93,7 +92,7 @@ class TimeTableScreen extends StatelessWidget {
                   if (state is TimeTableEmpty) {
                     print("Empty bloc");
                     BlocProvider.of<TimeTableBloc>(context)
-                        .add(GetTimeTableFromDayEvent(day: currentDay.day));
+                        .add(GetTimeTableFromDayEvent(day: currentDay.day, classId: classId, teacherId: teacherId));
                   }
                   return Center(
                     child: CircularProgressIndicator(),

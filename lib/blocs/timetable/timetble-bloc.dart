@@ -9,8 +9,6 @@ class TimeTableBloc extends Bloc<TimeTableEvent, TimeTableState> {
 
   TimeTableBloc({this.repository}) : super(TimeTableEmpty());
 
-  @override
-  TimeTableState get initialState => TimeTableEmpty();
 
   @override
   Stream<TimeTableState> mapEventToState(TimeTableEvent event) async* {
@@ -19,12 +17,19 @@ class TimeTableBloc extends Bloc<TimeTableEvent, TimeTableState> {
     if (event is GetTimeTableFromDayEvent) {
       yield TimeTableLoading();
       try{
-//        String user = await sharedPreferences.getUserDetails();
-//        LoginResponse loginResponse = LoginResponse.fromJson(user);
-//        var schoolId = loginResponse.schools.single.id;
+        TimeTablePageData response = TimeTablePageData();
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
-        print(schoolId);
-        final TimeTablePageData response = await repository.getSchedulesFilterByDay(schoolId , event.day);
+        var role = await sharedPreferences.getSharedPreference("role");
+        if(role == "ENSEINGNANT"){
+          response = await repository.getSchedulesFilterByDay(schoolId , event.day , event.teacherId);
+        }
+//        else if(role == "APPRENANT"){
+//          String schoolClassId = await sharedPreferences.getSharedPreference('schoolClassId');
+//          response = await repository.getSchedulesFilterByClass(schoolId , event.day, schoolClassId);
+//        }
+        else{
+          response = await repository.getSchedulesFilterByClass(schoolId , event.day, event.classId);
+        }
         yield TimeTableLoaded(response: response, selectedDay: event.day);
       }
       catch(_){

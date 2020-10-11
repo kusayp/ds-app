@@ -20,12 +20,9 @@ class AssignmentBloc extends Bloc<AssignmentEvent, AssignmentState> {
     if(event is FetchingAssignmentEvent){
       yield AssignmentLoadingState();
       try{
-//        String user = await sharedPreferences.getUserDetails();
         var role = await sharedPreferences.getSharedPreference("role");
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
-        print(schoolId);
-//        LoginResponse loginResponse = LoginResponse.fromJson(user);
-//        var schoolId = loginResponse.schools.single.id;
+//        var school = await sharedPreferences.getSharedPreference("school");
         final AssignmentPageData response = await repository.getAssignments(schoolId);
         yield AssignmentLoadedState(assignmentPageData: response, role: role);
       }

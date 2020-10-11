@@ -10,7 +10,6 @@ import 'package:dsapp/screens/onboarding/onboarding-page.dart';
 import 'package:dsapp/screens/profile/profile-page.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/screens/timetable/timetable-page.dart';
-import 'package:dsapp/screens/timetable/timetable-screen.dart';
 import 'package:dsapp/screens/users/users-screen.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +21,7 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder> {
   "/login": (BuildContext context) => LoginPage(),
   "/logout": (BuildContext context) => LogOut(),
   MenuPage.routeName: (BuildContext context) => MenuPage(),
-  TimeTableScreen.routeName: (BuildContext context) => TimeTablePage(),
+  TimeTablePage.routeName: (BuildContext context) => TimeTablePage(),
   AssignmentPage.routeName: (BuildContext context) => AssignmentPage(),
   ExamsPage.routeName: (BuildContext context) => ExamsPage(),
   FeesPage.routeName: (BuildContext context) => FeesPage(),
@@ -37,4 +36,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder> {
   ExamsScorePage.routeName: (BuildContext context) => ExamsScorePage(),
   FeeInstallmentPage.routeName: (BuildContext context) => FeeInstallmentPage(),
   FeePaymentPage.routeName: (BuildContext context) => FeePaymentPage(),
+  ParentStudentMenuPage.routeName: (BuildContext context) => ParentStudentMenuPage(),
 };

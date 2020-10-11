@@ -1,6 +1,5 @@
+import 'package:dsapp/models/models.dart';
 import 'package:dsapp/models/school/school-model.dart';
-import 'package:dsapp/models/users/grade.dart';
-import 'package:dsapp/models/users/seniority.dart';
 import 'package:equatable/equatable.dart';
 
 class UserModel extends Equatable{
@@ -23,14 +22,9 @@ class UserModel extends Equatable{
   final String registrationNumber;
   final bool active;
   final SchoolModel school;
-//  final Grade grade;
-//  final Seniority seniority;
   final String genderText;
-  final String activeText;
-//  List<Subject> subjects;
-//  List<Activity> extraActivities;
+  final SchoolClassModel studentClass;
   final String dob;
-//  String[] headers;
   final String picture;
 
   const UserModel({
@@ -39,8 +33,6 @@ class UserModel extends Equatable{
     this.token,
     this.phone,
     this.email,
-//    this.seniority,
-//    this.grade,
     this.picture,
     this.school,
     this.registrationNumber,
@@ -51,7 +43,7 @@ class UserModel extends Equatable{
     this.lastName,
     this.firstName,
     this.active,
-    this.activeText,
+    this.studentClass,
     this.defaultPassword,
     this.dob,
     this.fullName,
@@ -64,7 +56,7 @@ class UserModel extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [id, firstName, lastName, middleName, fullName, phone, email, password, defaultPassword, dateOfBirth, whatsAppPhone, pseudo, gender,
-  token, role, roles, registrationNumber, active, school, genderText, activeText, dob, picture];
+  token, role, roles, registrationNumber, active, school, genderText, studentClass, dob, picture];
 
   static UserModel fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -78,11 +70,24 @@ class UserModel extends Equatable{
         pseudo : json['pseudo'],
         gender : json['gender'],
         registrationNumber : json['registrationNumber'],
-        school : json['school'],
+      studentClass: json["studentClass"] != null ? SchoolClassModel.fromJson(json['studentClass']) : null,
         picture : json['picture'],
-//        grade : Grade.fromJson(json['grade']),
-//        seniority : Seniority.fromJson(json['seniority'])
     );
   }
+
+  static Map<String, dynamic> toJson(UserModel userModel) => {
+    'id' : userModel.id,
+    'firstName' : userModel.firstName,
+    'lastName' : userModel.lastName,
+    'middleName' : userModel.middleName,
+    'phone' : userModel.phone,
+    'email' : userModel.email,
+    'dateOfBirth' : userModel.dateOfBirth,
+    'pseudo' : userModel.pseudo,
+    'gender' : userModel.gender,
+    'registrationNumber' : userModel.registrationNumber,
+    'studentClass': SchoolClassModel.toJson(userModel.studentClass),
+    'picture' : userModel.picture,
+  };
 
 }

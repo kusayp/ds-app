@@ -1,11 +1,8 @@
 import 'package:dsapp/blocs/blocs.dart';
-import 'package:dsapp/models/menu-arguments.dart';
 import 'package:dsapp/models/menu/menu.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/models/onboarding/onboarding-model.dart';
 import 'package:dsapp/repositories/repositories.dart';
-import 'package:dsapp/screens/login/login-page.dart';
-import 'package:dsapp/screens/menu/menu-page.dart';
 import 'package:dsapp/screens/onboarding/onboarding-screen.dart';
 import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/shared-preference.dart';
@@ -34,7 +31,7 @@ class OnBoardingPageScreen extends StatelessWidget {
     String user = await prefs.getUserDetails();
     if (user != null){
       LoginResponse loginResponse = LoginResponse.fromJson(user);
-      var role = loginResponse.schools.single.userRole.name;
+      var role = loginResponse.schools.single.role.name;
       RoleModules roleModules = await MenuService().loadUserRoleModules(role);
       List<Module> modules = roleModules.modules;
       Navigator.pushReplacementNamed(context, '/menu', arguments: modules);

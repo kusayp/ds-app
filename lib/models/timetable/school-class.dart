@@ -10,4 +10,9 @@ class SchoolClassModel {
       name: json['name']
     );
   }
+
+  static Map<String, dynamic> toJson(SchoolClassModel schoolClassModel) => {
+    'id': schoolClassModel.id,
+    'name': schoolClassModel.name,
+  };
 }

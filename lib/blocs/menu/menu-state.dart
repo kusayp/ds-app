@@ -15,13 +15,15 @@ class MenuInitial extends MenuState {}
 class MenuLoading extends MenuState {}
 
 class MenuSuccess extends MenuState {
+  final RoleModules roleModules;
   final List<Module> modules;
-  final UserModel user;
+  final SchoolModel school;
+  final String role;
 
-  MenuSuccess({@required this.modules, this.user}) : assert(modules!= null);
+  MenuSuccess({@required this.modules, this.school, this.role, this.roleModules}) : assert(roleModules!= null);
 
   @override
-  List<Object> get props => [modules];
+  List<Object> get props => [modules, role, school, roleModules];
 }
 
 class MenuFailure extends MenuState {

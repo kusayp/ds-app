@@ -16,10 +16,12 @@ class GetDaySelected extends TimeTableEvent {
 
 class GetTimeTableFromDayEvent extends TimeTableEvent {
   final String day;
+  final String classId;
+  final String teacherId;
 
-  GetTimeTableFromDayEvent({this.day});
+  GetTimeTableFromDayEvent({this.day, this.classId, this.teacherId});
 
   @override
   // TODO: implement props
-  List<Object> get props => [day];
+  List<Object> get props => [day, classId, teacherId];
 }
