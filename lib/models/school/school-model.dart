@@ -59,7 +59,7 @@ class SchoolModel extends Equatable{
     'subjects': schoolModel.subjects.isNotEmpty ? schoolModel.subjects.map((e) => SubjectModel.toJson(e)).toList() : null,
 //    'children': schoolModel.children.isNotEmpty ? schoolModel.children.map<Map<String, dynamic>>((e) => UserModel.toJson(e)).toList() : null,
     'children': schoolModel.children.isNotEmpty ? schoolModel.children.map((e) => UserModel.toJson(e)).toList() : null,
-    'studentClass': SchoolClassModel.toJson(schoolModel.studentClass),
+    'studentClass': schoolModel?.studentClass != null ? SchoolClassModel.toJson(schoolModel?.studentClass) : null,
     'teacherClasses': schoolModel.teacherClasses.isNotEmpty ? schoolModel.teacherClasses.map((e) => SchoolClassModel.toJson(e)).toList() : null,
     'logo': schoolModel.name,
     'role': schoolModel.name,
