@@ -101,7 +101,7 @@ class LoginButton extends StatelessWidget{
     // TODO: implement build
     return Padding(
       padding: const EdgeInsets.only(
-          right: 20.0, left: 20.0, top: 40.0	),
+          right: 20.0, left: 20.0, top: 10	),
       child: SizedBox(
         width: double.infinity,
         height: 50.0,

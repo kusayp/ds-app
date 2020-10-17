@@ -103,7 +103,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                   Container(
                     padding: EdgeInsets.only(left: 40, right: 40),
-                    height: 450.0,
+                    height:  MediaQuery.of(context).size.height * 0.75,
                     color: Colors.transparent,
                     child: PageView(
                         physics: ClampingScrollPhysics(),
@@ -119,7 +119,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: _buildPageIndicator(),
                   ),
-                  SizedBox(height: 10.0,),
+                  SizedBox(height:  MediaQuery.of(context).size.height * 0.01,),
                   _currentPage != widget.pages.onBoardingList.length - 1
                       ? LoginButton(onButtonPressed: pageController, buttonText: "Next",)
                       : LoginButton(onButtonPressed: _getStartedTapped, buttonText: "Get Started",),

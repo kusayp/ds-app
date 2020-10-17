@@ -27,6 +27,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "profile" : MessageLookupByLibrary.simpleMessage("Profile"),
     "subject" : MessageLookupByLibrary.simpleMessage("Matière:"),
     "submitAnswer" : MessageLookupByLibrary.simpleMessage("Submit Answer"),
-    "submittedAssignments" : MessageLookupByLibrary.simpleMessage("Soumettre une exercice")
+    "submittedAssignments" : MessageLookupByLibrary.simpleMessage("Soumettre un exercice")
   };
 }

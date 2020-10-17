@@ -127,7 +127,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         'Easily find your grocery items and you will get delivery in wide range Easily find your grocery items and you will get delivery in wide range',
         titleColor: Colors.black,
         descriptionColor: const Color(0xFF929794),
-        imagePath: 'assets/images/menu/Calendar.svg'
+        imagePath: 'assets/images/menu/Timetable.svg'
     ),
     OnBoardingModel(
         title: 'Pick Up or Delivery',
@@ -135,14 +135,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         'We make ordering fast, simple and free-no matter if you order online or cash',
         titleColor: Colors.black,
         descriptionColor: const Color(0xFF929794),
-        imagePath: 'assets/images/menu/Calendar.svg'
+        imagePath: 'assets/images/menu/Timetable.svg'
     ),
     OnBoardingModel(
         title: 'Pay quick and easy',
         description: 'Pay for order using credit or debit card',
         titleColor: Colors.black,
         descriptionColor: const Color(0xFF929794),
-        imagePath: 'assets/images/menu/Calendar.svg'
+        imagePath: 'assets/images/menu/Timetable.svg'
     ),
   ];
 }
