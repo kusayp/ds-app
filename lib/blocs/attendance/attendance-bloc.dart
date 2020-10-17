@@ -21,7 +21,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       yield AttendanceLoadingState();
       try{
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
-        final ClassRegisterPageData response = await repository.getAttendance(schoolId, event.actorId);
+        final ClassRegisterPageData response = await repository.getAttendance(schoolId, event.classId, event.actorId);
         yield AttendanceLoadedState(classRegisterPageData: response);
       }
       catch(_){

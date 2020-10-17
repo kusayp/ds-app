@@ -14,6 +14,12 @@ class FeesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final FeesRepository repository = FeesRepository(feesService: FeesService());
     final MenuArguments arguments = ModalRoute.of(context).settings.arguments;
+    String studentClass (){
+      if (arguments.roleModules.user.studentClass != null){
+        return arguments.roleModules.user.studentClass?.id.toString();
+      }
+      return arguments.roleModules.school.studentClass.id.toString();
+    }
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
@@ -29,7 +35,7 @@ class FeesPage extends StatelessWidget {
       backgroundColor: appTheme().backgroundColor,
       body: BlocProvider(
         create: (context) => FeesBloc(repository: repository),
-        child: FeesScreen(roleModules: arguments.roleModules,),
+        child: FeesScreen(roleModules: arguments.roleModules, classId: studentClass(),),
       ),
     );
   }

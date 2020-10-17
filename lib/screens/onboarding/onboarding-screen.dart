@@ -1,6 +1,7 @@
 //import 'package:dsapp/models/menu/menu.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/onboarding/components/buttons.dart';
+import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/utils/shared-preference.dart';
 //import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +89,8 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                     alignment: Alignment.centerRight,
                     child: FlatButton(
                       onPressed: () {
-                        widget.skipClicked("Skip Tapped");
+                        Navigator.pushNamed(context, '/login');
+                        sharedPreferences.setOnBoardingViewed(onBoardingViewed: true);
                       },
                       child: Text(
                         'Skip',
@@ -119,17 +121,14 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                   SizedBox(height: 10.0,),
                   _currentPage != widget.pages.onBoardingList.length - 1
-                      ? OnBoardingButton(onButtonPressed: pageController, text: "Next",)
-                      : OnBoardingButton(onButtonPressed: _getStartedTapped, text: "Get Started",),
+                      ? LoginButton(onButtonPressed: pageController, buttonText: "Next",)
+                      : LoginButton(onButtonPressed: _getStartedTapped, buttonText: "Get Started",),
                 ],
               ),
             ),
           ),
         ),
       ),
-//      bottomSheet: _currentPage == widget.pages.length - 1
-//          ? _showGetStartedButton()
-//          : Text(''),
     );
   }
 

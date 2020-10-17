@@ -12,8 +12,16 @@ class TimeTablePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final TimeTableRepository repository = TimeTableRepository(tableService: TimeTableService());
     final MenuArguments arguments = ModalRoute.of(context).settings.arguments;
+    String studentClass (){
+      if (arguments.roleModules.user.studentClass != null){
+        return arguments.roleModules.user.studentClass?.id.toString();
+      }
+       return arguments.roleModules.school.studentClass.id.toString();
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
@@ -31,7 +39,7 @@ class TimeTablePage extends StatelessWidget {
         create: (context) => TimeTableBloc(repository: repository),
         child: TimeTableScreen(
 //          classId: arguments.module.studentUser.studentClass.id.toString(),
-          classId: arguments.roleModules.user?.studentClass?.id.toString() ?? null,
+          classId: studentClass(),
           teacherId: arguments.roleModules.user.id.toString(),
         ),
       ),

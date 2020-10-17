@@ -7,8 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FeesScreen extends StatelessWidget {
   final RoleModules roleModules;
+  final String classId;
 
-  const FeesScreen({Key key, this.roleModules}) : super(key: key);
+  const FeesScreen({Key key, this.roleModules, this.classId}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,7 +22,7 @@ class FeesScreen extends StatelessWidget {
                 itemCount: state.feesPageData.results.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
-                  return FeesCard(fees: state.feesPageData.results[index], classId: roleModules.school.studentClass.id.toString(), userId: roleModules.user.id.toString()
+                  return FeesCard(fees: state.feesPageData.results[index], classId: classId, userId: roleModules.user.id.toString()
                   );
                 },
               );
@@ -29,7 +30,7 @@ class FeesScreen extends StatelessWidget {
             if(state is FeesEmptyState){
               print("Empty bloc");
               BlocProvider.of<FeesBloc>(context)
-                  .add(FetchingFeesEvent(classId: roleModules.school.studentClass.id.toString(), userId: roleModules.user.id.toString()));
+                  .add(FetchingFeesEvent(classId: classId, userId: roleModules.user.id.toString()));
             }
             return Center(
               child: CircularProgressIndicator(),
