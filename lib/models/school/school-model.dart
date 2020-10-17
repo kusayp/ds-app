@@ -38,7 +38,7 @@ class SchoolModel extends Equatable{
     List<SubjectModel> subjects = json['subjects'] != null ? list.map((e) => SubjectModel.fromJson(e)).toList() : [];
     var childrenList = json['children'] as List;
     List<UserModel> children = json['children'] != null ? childrenList.map((e) => UserModel.fromJson(e)).toList() : [];
-    var teacherClassesList = json['children'] as List;
+    var teacherClassesList = json['teacherClasses'] as List;
     List<SchoolClassModel> teacherClasses = json['teacherClasses'] != null ? teacherClassesList.map((e) => SchoolClassModel.fromJson(e)).toList() : [];
     return SchoolModel(
         id: json['id'],

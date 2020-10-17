@@ -1,4 +1,3 @@
-import 'package:dsapp/main.dart';
 import 'package:dsapp/models/users/user-model.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:equatable/equatable.dart';

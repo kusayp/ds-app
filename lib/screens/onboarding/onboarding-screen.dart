@@ -1,10 +1,8 @@
-import 'dart:convert';
-
-import 'package:dsapp/models/menu/menu.dart';
+//import 'package:dsapp/models/menu/menu.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/onboarding/components/buttons.dart';
 import 'package:dsapp/utils/shared-preference.dart';
-import 'package:dsapp/utils/style.dart';
+//import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -177,32 +175,6 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
         ],
       ),
     );
-  }
-
-  Widget _showGetStartedButton() {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
-      onTap: _getStartedTapped,
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: widget.themeColor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            'Get Started',
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding:
-            EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0, bottom: 30.0),
-        child: loginButtonWithGesture);
   }
 
   void _getStartedTapped() async {

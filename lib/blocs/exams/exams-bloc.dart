@@ -20,7 +20,6 @@ class ExamsBloc extends Bloc<ExamsEvent, ExamsState> {
     if(event is FetchingExamsEvent){
       yield ExamsLoadingState();
       try{
-        var role = await sharedPreferences.getSharedPreference("role");
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
         final ExamsPageData response = await repository.getExams(schoolId);
         yield ExamsLoadedState(examsPageData: response);

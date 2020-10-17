@@ -9,7 +9,9 @@ abstract class FeesEvent extends Equatable {
 }
 
 class FetchingFeesEvent extends FeesEvent {
-  FetchingFeesEvent();
+  final String classId;
+  final String userId;
+  FetchingFeesEvent({this.classId, this.userId});
   @override
   // TODO: implement props
   List<Object> get props => [];

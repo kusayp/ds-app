@@ -2,7 +2,6 @@ import 'package:dsapp/utils/routes.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/intl.dart';
 import 'generated/l10n.dart';
 
 void main() => runApp(MyApp());

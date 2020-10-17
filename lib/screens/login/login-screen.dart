@@ -1,3 +1,5 @@
+import 'package:country_pickers/country.dart';
+import 'package:country_pickers/country_pickers.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
 import 'package:dsapp/screens/screens.dart';
@@ -28,7 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
     double width = MediaQuery.of(context).size.width;
 
     _onLoginButtonPressed() {
-//      setState: _validate = _emailController.text.isEmpty;
       setState(() {
         _emailController.text.isEmpty ? _validate = true : _validate = false;
       });
@@ -38,17 +39,25 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
 
-//    void _showError(String error) {
-//      Scaffold.of(context).showSnackBar(SnackBar(
-//        content: Text(error),
-//        backgroundColor: Theme.of(context).errorColor,
-//      ));
-//    }
+    Widget _buildDropdownItem(Country country) => Padding(
+      padding: const EdgeInsets.only(left: 5.0),
+      child: Container(
+        width: width - 100.0,
+        child: Row(
+          children: <Widget>[
+            CountryPickerUtils.getDefaultFlagImage(country),
+//          SizedBox(
+//            width: 8.0,
+//          ),
+            Text("+${country.phoneCode}"),
+          ],
+        ),
+      ),
+    );
 
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginFailure) {
-//          _showError(state.error);
           showDialog(
               context: context,
               builder: (_) => UserNotFoundDialog(),
@@ -78,6 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       child: Center(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(
                               'LOGIN',

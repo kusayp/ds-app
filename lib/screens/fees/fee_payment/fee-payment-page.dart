@@ -1,4 +1,3 @@
-import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';

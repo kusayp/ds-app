@@ -5,7 +5,7 @@ ThemeData appTheme() {
   return ThemeData(
     fontFamily: 'OpenSans',
     primaryColor: Hexcolor("#19283E"),
-    accentColor: Hexcolor("#84A2D6"),
+    accentColor: Hexcolor("#19283E"),
     textSelectionColor: Hexcolor("#000000"),
     hintColor: Colors.white,
     dividerColor: Colors.white,

@@ -15,3 +15,12 @@ class MenuDropDownSelected extends MenuEvent {
   @override
   List<Object> get props => [school, role, user];
 }
+
+class NotificationIconClicked extends MenuEvent {
+  NotificationIconClicked();
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [];
+
+}

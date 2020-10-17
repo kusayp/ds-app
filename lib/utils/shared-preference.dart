@@ -1,15 +1,15 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
-  final String auth_token = "auth_token";
+  final String authToken = "auth_token";
   final String modules = "modules";
   final String user = "user";
-  final String on_boarding = "on_boarding";
+  final String onBoarding = "on_boarding";
 
   //set data into shared preferences like this
-  Future<void> setAuthToken(String auth_token) async {
+  Future<void> setAuthToken(String authToken) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(this.auth_token, auth_token);
+    prefs.setString(this.authToken, authToken);
   }
 
   Future<void> setSharedPreference(String key, String value) async {
@@ -25,12 +25,12 @@ class LocalStorage {
 
   Future<void> setOnBoardingViewed({bool onBoardingViewed=false}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool(this.on_boarding, onBoardingViewed);
+    prefs.setBool(this.onBoarding, onBoardingViewed);
   }
 
   Future<bool> isOnBoardingViewed() async {
       final SharedPreferences pref = await SharedPreferences.getInstance();
-      return pref.getBool(this.on_boarding) ?? false;
+      return pref.getBool(this.onBoarding) ?? false;
   }
 
 

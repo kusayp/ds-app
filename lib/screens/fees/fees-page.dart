@@ -1,5 +1,6 @@
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/generated/l10n.dart';
+import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/fees/fees-screen.dart';
 import 'package:dsapp/services/services.dart';
@@ -12,6 +13,7 @@ class FeesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FeesRepository repository = FeesRepository(feesService: FeesService());
+    final MenuArguments arguments = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
@@ -27,7 +29,7 @@ class FeesPage extends StatelessWidget {
       backgroundColor: appTheme().backgroundColor,
       body: BlocProvider(
         create: (context) => FeesBloc(repository: repository),
-        child: FeesScreen(),
+        child: FeesScreen(roleModules: arguments.roleModules,),
       ),
     );
   }

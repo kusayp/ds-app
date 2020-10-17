@@ -1,3 +1,4 @@
+import 'package:dsapp/models/fees/installments-arguments.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/utils/style.dart';
@@ -5,8 +6,10 @@ import 'package:flutter/material.dart';
 
 class FeesCard extends StatelessWidget {
   final FeesModel fees;
+  final String classId;
+  final String userId;
 
-  FeesCard({this.fees});
+  FeesCard({this.fees, this.classId, this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +24,7 @@ class FeesCard extends StatelessWidget {
         Navigator.pushNamed(
           context,
           FeeInstallmentPage.routeName,
+          arguments: InstallmentArgument(classId: classId, userId: userId, feesId: fees.id.toString(), name: fees.type.name)
         );
       },
       child: Card(
@@ -36,7 +40,7 @@ class FeesCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                fees.type,
+                fees.type.name,
                 style: TextStyle(
                   fontSize: 16,
                   letterSpacing: 1.0,

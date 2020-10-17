@@ -6,7 +6,15 @@ class FeesRepository {
 
   FeesRepository({this.feesService});
 
-  Future<FeesPageData> getFees(schoolId) async {
-    return await feesService.getFees(schoolId);
+  Future<FeesPageData> getFees(schoolId, classId, userId) async {
+    return await feesService.getFees(schoolId, classId, userId);
+  }
+
+  Future<InstallmentList> getInstallments(schoolId, feesId) async {
+    return await feesService.getInstallments(schoolId, feesId);
+  }
+
+  Future<PaymentList> getPaymentList(schoolId, classId, userId, feesId) async {
+    return await feesService.getPayments(schoolId, classId, userId, feesId);
   }
 }

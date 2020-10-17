@@ -9,7 +9,7 @@ class UsersScreen extends StatefulWidget {
 class _UsersScreenState extends State<UsersScreen> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+//    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: appTheme().backgroundColor,
       body: Column(

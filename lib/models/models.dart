@@ -1,7 +1,5 @@
-export 'users/login-response.dart';
 export 'onboarding/onboarding-model-list.dart';
 export 'onboarding/onboarding-model.dart';
-export 'users/user-model.dart';
 export 'school/schools.dart';
 export 'timetable/timetable.dart';
 export 'timetable/class-room.dart';
@@ -17,3 +15,4 @@ export 'menu/menu.dart';
 export 'menu-arguments.dart';
 export 'answer/answer.dart';
 export 'class_register/class-register.dart';
+export 'users/users.dart';

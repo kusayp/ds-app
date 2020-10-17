@@ -22,9 +22,15 @@ class AssignmentBloc extends Bloc<AssignmentEvent, AssignmentState> {
       try{
         var role = await sharedPreferences.getSharedPreference("role");
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
-//        var school = await sharedPreferences.getSharedPreference("school");
-        final AssignmentPageData response = await repository.getAssignments(schoolId);
-        yield AssignmentLoadedState(assignmentPageData: response, role: role);
+        if (role == "ENSEINGNANT"){
+          final AssignmentPageData response = await repository.getAssignmentsByTeacher(schoolId, event.teacherId);
+          yield AssignmentLoadedState(assignmentPageData: response, role: role);
+        }
+        else{
+          var schoolClassId = await sharedPreferences.getSharedPreference("schoolClassId");
+          final AssignmentPageData response = await repository.getAssignmentsClass(schoolId, schoolClassId);
+          yield AssignmentLoadedState(assignmentPageData: response, role: role);
+        }
       }
       catch(_){
         yield AssignmentErrorState();
