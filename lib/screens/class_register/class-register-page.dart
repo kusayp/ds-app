@@ -20,23 +20,11 @@ class ClassRegisterPager extends StatelessWidget {
     );
     Widget continueButton = FlatButton(
       child: Text("Continue"),
-      onPressed:  () => BlocProvider.of<ClassRegisterBloc>(context).add(SaveClassRegisterEvent()),
+      onPressed:  () {
+        BlocProvider.of<ClassRegisterBloc>(context).add(SaveClassRegisterEvent());
+        Navigator.of(context).pop();
+      },
     );
-
-    void confirmDialog(){
-      showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            title: Text("Save Class Register"),
-            content: Text("Do you want to continue?"),
-            actions: [
-              cancelButton,
-              continueButton,
-            ],
-          ),
-          barrierDismissible: false
-      );
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +37,20 @@ class ClassRegisterPager extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         actions: [
-          IconButton(icon: Icon(Icons.save_alt, color: Colors.black,), onPressed: () => confirmDialog)
+          IconButton(icon: Icon(Icons.save_alt, color: Colors.black,), onPressed: (){
+            showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: Text("Save Class Register"),
+                  content: Text("Do you want to continue?"),
+                  actions: [
+                    cancelButton,
+                    continueButton,
+                  ],
+                ),
+                barrierDismissible: false
+            );
+          })
         ],
       ),
       extendBodyBehindAppBar: true,

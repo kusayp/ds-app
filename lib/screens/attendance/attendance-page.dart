@@ -14,6 +14,12 @@ class AttendancePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final MenuArguments arguments = ModalRoute.of(context).settings.arguments;
     final AttendanceRepository repository = AttendanceRepository(attendanceService: AttendanceService());
+    String studentClass (){
+      if (arguments.roleModules.user.studentClass != null){
+        return arguments.roleModules.user.studentClass?.id.toString();
+      }
+      return arguments.roleModules.school.studentClass.id.toString();
+    }
     return DefaultTabController(
       length: 2,
       child: BlocProvider<AttendanceBloc>(
@@ -42,7 +48,7 @@ class AttendancePage extends StatelessWidget {
           ),
           extendBodyBehindAppBar: true,
           backgroundColor: appTheme().backgroundColor,
-          body: AttendanceScreen(userId: arguments.userId,),
+          body: AttendanceScreen(userId: arguments.roleModules.user.id.toString(), classId: studentClass(),),
         ),
       ),
     );

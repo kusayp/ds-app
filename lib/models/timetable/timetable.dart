@@ -22,9 +22,9 @@ class TimeTableModel extends Equatable{
     return TimeTableModel(
       id: json['id'],
       subject: SubjectModel.fromJson(json['subject']),
-      schoolClass: SchoolClassModel.fromJson(json['schoolClass']),
+      schoolClass: json.containsKey('schoolClass') ? SchoolClassModel.fromJson(json['schoolClass']) : null,
       classRoom: ClassRoomModel.fromJson(json['classRoom']),
-      teacher: UserModel.fromJson(json['teacher']),
+      teacher: json.containsKey('teacher') ? UserModel.fromJson(json['teacher']) : null,
       day: json['day'],
       startTime: json['startTime'],
       endTime: json['endTime']

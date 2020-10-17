@@ -2,12 +2,13 @@ import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/utils/shared-preference.dart';
 import 'package:http/http.dart' as http;
+import 'package:sprintf/sprintf.dart';
 
 class AttendanceService {
   final baseUrl = CommonConstants.baseUrl;
-  final url = 'class-registers';
+  final url = 'registers';
 
-  Future<ClassRegisterPageData> getAttendance(schoolId, actorId) async {
+  Future<ClassRegisterPageData> getAttendance(schoolId, classId, actorId) async {
 
     LocalStorage prefs = LocalStorage();
     String userString = await prefs.getUserDetails();
@@ -20,13 +21,7 @@ class AttendanceService {
       'Authorization': 'Bearer ' + user.token,
     };
 
-//    var queryParameters = {
-//      'filter': 'day|$day',
-//    };
-
-//    var uri = Uri.http(baseUrl, 'schools' + schoolId.toString() + url, queryParameters);
-
-    var endpoint = baseUrl+"schools/"+schoolId+"/"+url+"/?filter=actor|"+actorId;
+    var endpoint = sprintf("%s%s/%s/%s/%s/%s/%s/%s", [baseUrl, "mobile/schools", schoolId, "classes", classId, "users", actorId, url]);
 
     final response = await http.get(endpoint, headers: headers,);
     print(response.body);

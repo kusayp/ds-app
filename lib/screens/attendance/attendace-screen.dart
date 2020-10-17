@@ -5,8 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AttendanceScreen extends StatelessWidget {
   final String userId;
+  final String classId;
 
-  const AttendanceScreen({Key key, this.userId}) : super(key: key);
+  const AttendanceScreen({Key key, this.userId, this.classId}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AttendanceBloc, AttendanceState>(
@@ -26,7 +27,7 @@ class AttendanceScreen extends StatelessWidget {
         }
         if(state is AttendanceEmptyState){
           BlocProvider.of<AttendanceBloc>(context)
-              .add(TodayAttendanceEvent(actorId: userId));
+              .add(TodayAttendanceEvent(actorId: userId, classId: classId));
         }
         return Center(
           child: CircularProgressIndicator()

@@ -7,8 +7,8 @@ class AttendanceRepository {
 
   AttendanceRepository({this.attendanceService});
 
-  Future<ClassRegisterPageData> getAttendance(schoolId, actorId) async {
-    return await attendanceService.getAttendance(schoolId, actorId);
+  Future<ClassRegisterPageData> getAttendance(schoolId, classId, actorId) async {
+    return await attendanceService.getAttendance(schoolId, classId, actorId);
   }
 
 //  Future<AnswerPageData> getAnswers(schoolId, assignmentId) async {

@@ -10,7 +10,8 @@ abstract class AttendanceEvent extends Equatable {
 
 class TodayAttendanceEvent extends AttendanceEvent {
   final String actorId;
-  TodayAttendanceEvent({this.actorId});
+  final String classId;
+  TodayAttendanceEvent({this.actorId, this.classId});
   @override
   // TODO: implement props
   List<Object> get props => [actorId];

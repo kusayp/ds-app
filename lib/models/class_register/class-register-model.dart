@@ -13,7 +13,7 @@ class ClassRegisterModel extends Equatable{
   static ClassRegisterModel fromJson(Map<String, dynamic> json){
     return ClassRegisterModel(
       id: json['id'],
-      actor: UserModel.fromJson(json['actor']),
+//      actor: UserModel.fromJson(json['actor']),
       schedule: TimeTableModel.fromJson(json['schedule']),
       present: json['present'],
       createdAt: json['createdAt']
