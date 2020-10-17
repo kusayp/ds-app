@@ -8,9 +8,9 @@ class AssignmentService {
   final baseUrl = CommonConstants.baseUrl;
   final url = 'assignments';
 
-  Future<AssignmentPageData> getAssignment(schoolId) async {
+  LocalStorage prefs = LocalStorage();
 
-    LocalStorage prefs = LocalStorage();
+  Future<AssignmentPageData> getAssignmentByClass(schoolId, classId) async {
     String userString = await prefs.getUserDetails();
     LoginResponse user = LoginResponse.fromJson(userString);
 
@@ -21,13 +21,29 @@ class AssignmentService {
       'Authorization': 'Bearer ' + user.token,
     };
 
-//    var queryParameters = {
-//      'filter': 'day|$day',
-//    };
+    var endpoint = sprintf("%s%s/%s/%s?filter=class|%s", [baseUrl, "schools", schoolId, url, classId]);
 
-//    var uri = Uri.http(baseUrl, 'schools' + schoolId.toString() + url, queryParameters);
-//    var endpoint = sprintf("%%/%/%", [baseUrl, "schools", schoolId, url]);
-    var endpoint = baseUrl+"schools/"+schoolId+"/"+url;
+    final response = await http.get(endpoint, headers: headers,);
+    print(response.body);
+    if(response.statusCode != 200) {
+      print(response.body);
+      throw new Exception("error getting quotes");
+    }
+    return AssignmentPageData.fromJson(response.body);
+  }
+
+  Future<AssignmentPageData> getAssignmentByTeacher(schoolId, teacherId) async {
+    String userString = await prefs.getUserDetails();
+    LoginResponse user = LoginResponse.fromJson(userString);
+
+
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ' + user.token,
+    };
+
+    var endpoint = sprintf("%s%s/%s/%s?filter=teacher|%s", [baseUrl, "schools", schoolId, url, teacherId]);
 
     final response = await http.get(endpoint, headers: headers,);
     print(response.body);

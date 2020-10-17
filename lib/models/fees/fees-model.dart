@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 class FeesModel extends Equatable{
   final int id;
-  final String type;
+  final FeeType type;
   final double amount;
   final SchoolClassModel schoolClass;
 
@@ -12,9 +12,25 @@ class FeesModel extends Equatable{
   static FeesModel fromJson(Map<String, dynamic> json){
     return FeesModel(
         id: json['id'],
-        type: json['type'],
+        type: FeeType.fromJson(json['type']),
         amount: json['amount'],
         schoolClass: json["schoolClass"] != null ? SchoolClassModel.fromJson(json['schoolClass']) : null
+    );
+  }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [];
+}
+
+class FeeType extends Equatable {
+  final String name;
+
+  FeeType({this.name});
+
+  static FeeType fromJson(Map<String, dynamic> json){
+    return FeeType(
+      name: json['name'],
     );
   }
 

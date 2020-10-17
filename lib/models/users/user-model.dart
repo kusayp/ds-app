@@ -2,6 +2,7 @@ import 'package:dsapp/models/models.dart';
 import 'package:dsapp/models/school/school-model.dart';
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class UserModel extends Equatable{
   final int id;
   final String firstName;
@@ -26,8 +27,10 @@ class UserModel extends Equatable{
   final SchoolClassModel studentClass;
   final String dob;
   final String picture;
+  final bool classPrefect;
+  bool isPresent = false;
 
-  const UserModel({
+   UserModel({
     this.id,
     this.password,
     this.token,
@@ -50,13 +53,14 @@ class UserModel extends Equatable{
     this.genderText,
     this.role,
     this.roles,
-    this.whatsAppPhone
+    this.whatsAppPhone,
+    this.classPrefect
   });
 
   @override
   // TODO: implement props
   List<Object> get props => [id, firstName, lastName, middleName, fullName, phone, email, password, defaultPassword, dateOfBirth, whatsAppPhone, pseudo, gender,
-  token, role, roles, registrationNumber, active, school, genderText, studentClass, dob, picture];
+  token, role, roles, registrationNumber, active, school, genderText, studentClass, dob, picture,classPrefect, isPresent];
 
   static UserModel fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -72,6 +76,7 @@ class UserModel extends Equatable{
         registrationNumber : json['registrationNumber'],
       studentClass: json["studentClass"] != null ? SchoolClassModel.fromJson(json['studentClass']) : null,
         picture : json['picture'],
+      classPrefect: json['classPrefect'],
     );
   }
 
@@ -88,6 +93,7 @@ class UserModel extends Equatable{
     'registrationNumber' : userModel.registrationNumber,
     'studentClass': SchoolClassModel.toJson(userModel.studentClass),
     'picture' : userModel.picture,
+    'classPrefect': userModel.classPrefect,
   };
 
 }

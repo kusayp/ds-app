@@ -14,9 +14,6 @@ class OnBoardingBloc extends Bloc<OnBoardingEvent, OnBoardingState> {
   OnBoardingBloc({@required this.onBoardingRepository}) : assert(onBoardingRepository !=  null), super(OnBoardingEmpty());
 
   @override
-  OnBoardingState get initialState => OnBoardingEmpty();
-
-  @override
   void onTransition(Transition<OnBoardingEvent, OnBoardingState> transition) {
     print(transition);    super.onTransition(transition);
   }

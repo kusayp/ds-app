@@ -23,10 +23,6 @@ class TimeTableBloc extends Bloc<TimeTableEvent, TimeTableState> {
         if(role == "ENSEINGNANT"){
           response = await repository.getSchedulesFilterByDay(schoolId , event.day , event.teacherId);
         }
-//        else if(role == "APPRENANT"){
-//          String schoolClassId = await sharedPreferences.getSharedPreference('schoolClassId');
-//          response = await repository.getSchedulesFilterByClass(schoolId , event.day, schoolClassId);
-//        }
         else{
           response = await repository.getSchedulesFilterByClass(schoolId , event.day, event.classId);
         }

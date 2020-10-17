@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class CustomLoginField extends StatelessWidget {
   final String labelText;
   final BoxDecoration decoration;
-  final TextFormField formField;
+  final Widget formField;
   final double width;
 
   CustomLoginField({this.labelText, this.decoration, this.formField, this.width});

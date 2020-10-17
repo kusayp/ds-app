@@ -1,4 +1,5 @@
 import 'package:dsapp/generated/l10n.dart';
+import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/profile/profile-screen.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ class ProfilePage extends StatelessWidget {
   static const routeName = '/profile';
   @override
   Widget build(BuildContext context) {
+    final MenuArguments arguments = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
@@ -20,7 +22,7 @@ class ProfilePage extends StatelessWidget {
       ),
       extendBodyBehindAppBar: true,
       backgroundColor: appTheme().backgroundColor,
-      body: ProfileScreen(),
+      body: ProfileScreen(userDetails: arguments.roleModules,),
     );
   }
 }

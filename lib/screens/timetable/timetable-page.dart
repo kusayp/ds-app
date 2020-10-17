@@ -31,8 +31,8 @@ class TimeTablePage extends StatelessWidget {
         create: (context) => TimeTableBloc(repository: repository),
         child: TimeTableScreen(
 //          classId: arguments.module.studentUser.studentClass.id.toString(),
-          classId: arguments.user?.studentClass?.id.toString() ?? null,
-          teacherId: arguments.user.id.toString(),
+          classId: arguments.roleModules.user?.studentClass?.id.toString() ?? null,
+          teacherId: arguments.roleModules.user.id.toString(),
         ),
       ),
     );

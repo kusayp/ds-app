@@ -17,14 +17,13 @@ class InstallmentsBloc extends Bloc<InstallmentsEvent, InstallmentsState> {
   Stream<InstallmentsState> mapEventToState(InstallmentsEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
     // TODO: implement mapEventToState
-    if(event is FetchingFeesEvent){
+    if(event is FetchingInstallmentsEvent){
       yield InstallmentsLoadingState();
       try{
-        String user = await sharedPreferences.getUserDetails();
-        LoginResponse loginResponse = LoginResponse.fromJson(user);
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
-        final FeesPageData response = await repository.getFees(schoolId);
-        yield InstallmentsLoadedState(feesPageData: response);
+        final InstallmentList response = await repository.getInstallments(schoolId, event.feesId);
+        final PaymentList paymentListResponse = await repository.getPaymentList(schoolId, event.classId, event.userId, event.feesId);
+        yield InstallmentsLoadedState(installmentList: response.list[0], paymentList: paymentListResponse);
       }
       catch(_){
         yield InstallmentsErrorState();

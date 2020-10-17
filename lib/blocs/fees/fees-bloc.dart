@@ -20,10 +20,8 @@ class FeesBloc extends Bloc<FeesEvent, FeesState> {
     if(event is FetchingFeesEvent){
       yield FeesLoadingState();
       try{
-        String user = await sharedPreferences.getUserDetails();
-        LoginResponse loginResponse = LoginResponse.fromJson(user);
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
-        final FeesPageData response = await repository.getFees(schoolId);
+        final FeesPageData response = await repository.getFees(schoolId, event.classId, event.classId);
         yield FeesLoadedState(feesPageData: response);
       }
       catch(_){

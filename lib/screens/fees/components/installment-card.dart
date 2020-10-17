@@ -1,7 +1,13 @@
+import 'package:dsapp/models/fees/installment.dart';
+import 'package:dsapp/models/fees/installments-model.dart';
+import 'package:dsapp/utils/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class InstallmentCard extends StatelessWidget{
+  final Installment installment;
+
+  const InstallmentCard({Key key, this.installment}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -22,8 +28,8 @@ class InstallmentCard extends StatelessWidget{
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Fourth Installment", style: TextStyle(fontSize: 16, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
-                Text("English", style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
+                Text(installment.type, style: TextStyle(fontSize: 16, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
+                Text("Due Date :"+ Common.formatDate(installment.dueDate), style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
               ],
             ),
             SizedBox(
@@ -33,7 +39,8 @@ class InstallmentCard extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("overdue", style: TextStyle(fontSize: 1, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
-                Text("25% of Fee", style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
+//                Text(sprintf("%s% of Fee", [installment.percentage]), style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
+                Text(installment.percentage.toString() + "% of Fee", style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
               ],
             ),
           ],
@@ -45,6 +52,9 @@ class InstallmentCard extends StatelessWidget{
 }
 
 class HistoryRow extends StatelessWidget {
+  final PaymentsModel paymentsModel;
+
+  const HistoryRow({Key key, this.paymentsModel}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,8 +62,8 @@ class HistoryRow extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("15 Feb 2020"),
-            Text("2000"),
+            Text(Common.formatDate(paymentsModel.date)),
+            Text(paymentsModel.amount.toString()),
           ],
         ),
         Padding(

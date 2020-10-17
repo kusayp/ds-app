@@ -5,8 +5,9 @@ class RoleModules{
   final String role;
   final UserModel user;
   final List<Module> modules;
+  final SchoolModel school;
 
-  RoleModules({this.role, this.modules, this.user});
+  RoleModules({this.role, this.modules, this.user, this.school});
 
   static RoleModules fromJson(Map<String, dynamic> json){
     var list = json['modules'] as List;

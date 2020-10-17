@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/assignment/assignment-screen.dart';
 import 'package:dsapp/screens/screens.dart';
@@ -11,13 +12,16 @@ class AssignmentPage extends StatelessWidget {
   static const routeName = '/assignment';
   @override
   Widget build(BuildContext context) {
+    final MenuArguments arguments = ModalRoute.of(context).settings.arguments;
+
+    bool isTeacher = arguments.roleModules.role == "ENSEINGNANT";
     void handleClick(String value) {
       switch (value){
         case 'Add Assignment':
           Navigator.pushNamed(
             context,
-            SubmitAnswerPage.routeName,
-//            arguments: assignment.attachment,
+            AddAssignmentPage.routeName,
+            arguments: arguments,
           );
       }
     }
@@ -33,10 +37,10 @@ class AssignmentPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         actions: [
-          PopupMenuButton<String>(
+          isTeacher ? PopupMenuButton<String>(
             icon: Icon(Icons.more_vert, size: 20.0, color: Colors.black,),
             onSelected: handleClick,
-              itemBuilder: (BuildContext contect) {
+              itemBuilder: (BuildContext context) {
             return {"Overview", "Add Assignment"}.map((String choice) {
               return PopupMenuItem<String>(
                 child: Text(choice),
@@ -45,7 +49,7 @@ class AssignmentPage extends StatelessWidget {
             }
             ).toList();
           }
-          )
+          ) : Text("")
 //          Icon(Icons.more_vert, size: 20.0, )
         ],
       ),
@@ -53,7 +57,7 @@ class AssignmentPage extends StatelessWidget {
       backgroundColor: appTheme().backgroundColor,
       body: BlocProvider(
         create: (context) => AssignmentBloc(repository: repository),
-        child: AssignmentScreen(),
+        child: AssignmentScreen(user: arguments.roleModules.user,),
       ),
     );
   }

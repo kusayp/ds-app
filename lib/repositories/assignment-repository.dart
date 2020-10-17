@@ -7,11 +7,19 @@ class AssignmentRepository {
 
   AssignmentRepository({this.assignmentService, this.answerService});
 
-  Future<AssignmentPageData> getAssignments(schoolId) async {
-    return await assignmentService.getAssignment(schoolId);
+  Future<AssignmentPageData> getAssignmentsClass(schoolId, classId) async {
+    return await assignmentService.getAssignmentByClass(schoolId, classId);
+  }
+
+  Future<AssignmentPageData> getAssignmentsByTeacher(schoolId, teacherId) async {
+    return await assignmentService.getAssignmentByTeacher(schoolId, teacherId);
   }
 
   Future<AnswerPageData> getAnswers(schoolId, assignmentId) async {
     return await answerService.getAnswers(schoolId, assignmentId);
   }
+
+//  Future<AnswerPageData> getAnswers(schoolId, assignmentId) async {
+//    return await answerService.getAnswers(schoolId, assignmentId);
+//  }
 }

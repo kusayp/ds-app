@@ -30,7 +30,15 @@ class _MenuScreenState extends State<MenuScreen> {
       return children;
     }
     return BlocListener<MenuBloc, MenuState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is NotificationSuccess){
+          showDialog(
+              context: context,
+              builder: (_) => NotificationDialog(),
+              barrierDismissible: false
+          );
+        }
+      },
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
@@ -47,7 +55,16 @@ class _MenuScreenState extends State<MenuScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(widget.user.firstName + ' ' + widget.user.lastName, style: TextStyle(fontSize: 20.0),),
-                              Icon(Icons.notifications_active)
+                              IconButton(icon: Icon(Icons.notifications_active), onPressed: (){
+//                                BlocProvider.of<MenuBloc>(context)
+//                                    .add(NotificationIconClicked());
+                                showDialog(
+                                    context: context,
+                                    builder: (_) => NotificationDialog(),
+                                    barrierDismissible: false
+                                );
+                              },
+                              ),
                             ],
                           ),
                         ),

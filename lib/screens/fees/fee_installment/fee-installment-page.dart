@@ -1,6 +1,11 @@
+import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/models/fees/installments-arguments.dart';
+import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/attendance/components/tab_indicator.dart';
+import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../screens.dart';
 
@@ -8,13 +13,18 @@ class FeeInstallmentPage extends StatelessWidget {
   static const routeName = '/installments';
   @override
   Widget build(BuildContext context) {
+    final FeesRepository repository = FeesRepository(feesService: FeesService());
+    final InstallmentArgument arguments = ModalRoute.of(context).settings.arguments;
+
     return DefaultTabController(
       length: 2,
+        child: BlocProvider(
+          create: (context) => InstallmentsBloc(repository: repository),
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(color: Colors.black),
           title: Text(
-            "Attendance",
+            arguments.name,
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
@@ -34,8 +44,11 @@ class FeeInstallmentPage extends StatelessWidget {
         ),
         extendBodyBehindAppBar: true,
         backgroundColor: appTheme().backgroundColor,
-        body: FeeInstallmentScreen(),
+        body: FeeInstallmentScreen(
+          arguments: arguments,
+        ),
       ),
+    )
     );
   }
 }

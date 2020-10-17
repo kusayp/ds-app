@@ -18,7 +18,7 @@ class AssignmentArguments{
 class MenuArguments {
   final String userId;
   final Module module;
-  final UserModel user;
+  final RoleModules roleModules;
 
-  MenuArguments({this.userId, this.module,this.user});
+  MenuArguments({this.userId, this.module,this.roleModules});
 }

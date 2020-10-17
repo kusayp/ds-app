@@ -28,10 +28,4 @@ class MenuPage extends StatelessWidget {
       ),
     );
   }
-
-  final items = [
-    DropdownMenuItem(child: Text("School A"), value: 1,),
-    DropdownMenuItem(child: Text("University B"), value: 2,),
-    DropdownMenuItem(child: Text("Primary A"), value: 3,),
-  ];
 }

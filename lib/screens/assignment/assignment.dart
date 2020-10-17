@@ -3,4 +3,7 @@ export 'assignment-screen.dart';
 export 'details/detail-page.dart';
 export 'details/detail-screen.dart';
 export 'components/assignment-card.dart';
+export 'add_assignment/add-assignment-page.dart';
+export 'add_assignment/add-assignment-screen.dart';
+export 'details/components/buttons.dart';
 //export 'submit_answer/components/';

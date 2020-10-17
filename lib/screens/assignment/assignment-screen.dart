@@ -6,6 +6,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AssignmentScreen extends StatelessWidget {
+  final UserModel user;
+
+  const AssignmentScreen({Key key, this.user}) : super(key: key);
   @override
   Widget build(BuildContext context) {
 
@@ -48,7 +51,7 @@ class AssignmentScreen extends StatelessWidget {
                     if(state is AssignmentEmptyState){
                       print("Empty bloc");
                       BlocProvider.of<AssignmentBloc>(context)
-                          .add(FetchingAssignmentEvent());
+                          .add(FetchingAssignmentEvent(teacherId: user.id.toString()));
                     }
                     return Center(
                       child: CircularProgressIndicator(),

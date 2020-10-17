@@ -34,3 +34,15 @@ class MenuFailure extends MenuState {
   @override
   List<Object> get props => [error];
 }
+
+class NotificationSuccess extends MenuState {
+  final RoleModules roleModules;
+  final List<Module> modules;
+  final SchoolModel school;
+  final String role;
+
+  NotificationSuccess({this.modules, this.school, this.role, this.roleModules});
+
+  @override
+  List<Object> get props => [modules, role, school, roleModules];
+}

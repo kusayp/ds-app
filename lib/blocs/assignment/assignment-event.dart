@@ -9,8 +9,11 @@ abstract class AssignmentEvent extends Equatable {
 }
 
 class FetchingAssignmentEvent extends AssignmentEvent {
-  FetchingAssignmentEvent();
+  final String classId;
+  final String teacherId;
+
+  FetchingAssignmentEvent({this.teacherId, this.classId});
   @override
   // TODO: implement props
-  List<Object> get props => [];
+  List<Object> get props => [classId, teacherId];
 }

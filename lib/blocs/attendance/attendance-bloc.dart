@@ -20,10 +20,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     if(event is TodayAttendanceEvent){
       yield AttendanceLoadingState();
       try{
-        String user = await sharedPreferences.getUserDetails();
-//        LoginResponse loginResponse = LoginResponse.fromJson(user);
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
-        print("actorId "+event.actorId);
         final ClassRegisterPageData response = await repository.getAttendance(schoolId, event.actorId);
         yield AttendanceLoadedState(classRegisterPageData: response);
       }
