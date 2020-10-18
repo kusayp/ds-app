@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "167907229143",
+    "firebase_url": "https://dsapp-android.firebaseio.com",
+    "project_id": "dsapp-android",
+    "storage_bucket": "dsapp-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167907229143:android:a34cac95f2e018c0dd5f92",
+        "android_client_info": {
+          "package_name": "com.godslove.dsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "167907229143-g1ci7nqads6u003iaa45u15e386ujj8a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.godslove.dsapp",
+            "certificate_hash": "b4fe4b8ffd7860b7b62d2169c015f231762c8420"
+          }
+        },
+        {
+          "client_id": "167907229143-bgnr1t21m23a0js1h5ncrp5qt43l3blo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3bzwoHvHZSbcPY7IM45qbYoLNGoBZXoI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "167907229143-bgnr1t21m23a0js1h5ncrp5qt43l3blo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
