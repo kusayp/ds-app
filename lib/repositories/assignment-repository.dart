@@ -19,7 +19,7 @@ class AssignmentRepository {
     return await answerService.getAnswers(schoolId, assignmentId);
   }
 
-//  Future<AnswerPageData> getAnswers(schoolId, assignmentId) async {
-//    return await answerService.getAnswers(schoolId, assignmentId);
-//  }
+  Future<void> saveAssignment(schoolId, assignmentModel) async {
+    return await assignmentService.saveAssignment(schoolId, assignmentModel);
+  }
 }

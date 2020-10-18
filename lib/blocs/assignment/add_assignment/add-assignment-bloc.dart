@@ -17,24 +17,27 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
   Stream<AddAssignmentState> mapEventToState(AddAssignmentEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
     // TODO: implement mapEventToState
-//    if(event is FetchingAssignmentEvent){
-//     try{
-//        var role = await sharedPreferences.getSharedPreference("role");
-//        var schoolId = await sharedPreferences.getSharedPreference("schoolId");
-//        if (role == "ENSEINGNANT"){
-//          final AssignmentPageData response = await repository.getAssignmentsByTeacher(schoolId, event.teacherId);
-//          yield ClassTeacherSubjectLoadedState(subjects: response);
-//        }
-//        else{
-//          var schoolClassId = await sharedPreferences.getSharedPreference("schoolClassId");
-//          final AssignmentPageData response = await repository.getAssignmentsClass(schoolId, schoolClassId);
-//          yield AssignmentLoadedState(assignmentPageData: response, role: role);
-//        }
-//      }
-//      catch(_){
-//        yield AssignmentErrorState();
-//      }
-//    }
+    if(event is ClassAssignmentSaveEvent){
+      yield AddAssignmentLoadingState();
+     try{
+        var schoolId = await sharedPreferences.getSharedPreference("schoolId");
+        int dueDate = event.dueDate.millisecondsSinceEpoch;
+        AddAssignmentModel assignmentModel = AddAssignmentModel(
+          title: event.title,
+          subject: event.subjectId,
+          schoolClass: event.classId,
+          dueDate: dueDate,
+          teacher: event.teacherId,
+          description: event.description,
+        );
+        Map<String, dynamic> data = AddAssignmentModel.toJson(assignmentModel);
+        await repository.saveAssignment(schoolId, data);
+        yield AssignmentSavedState();
+      }
+      catch(_){
+        yield AddAssignmentErrorState();
+      }
+    }
   }
 
 }

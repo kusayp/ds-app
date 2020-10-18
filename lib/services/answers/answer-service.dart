@@ -22,12 +22,6 @@ class AnswerService {
       'Authorization': 'Bearer ' + user.token,
     };
 
-//    var queryParameters = {
-//      'filter': 'day|$day',
-//    };
-
-//    var uri = Uri.http(baseUrl, 'schools' + schoolId.toString() + url, queryParameters);
-
 //    var endpoint = sprintf("%%/%/%/%/%", [baseUrl, "schools", schoolId, AssignmentService().url, assignmentId, url]);
     var endpoint = baseUrl+"schools/"+schoolId+"/"+AssignmentService().url+"/"+assignmentId.toString()+"/"+url;
 

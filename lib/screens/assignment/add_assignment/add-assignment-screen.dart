@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
 import 'package:dsapp/screens/screens.dart';
@@ -7,12 +8,14 @@ import 'package:dsapp/utils/common.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddAssignmentScreen extends StatefulWidget {
   final SchoolModel school;
+  final UserModel user;
+  final MenuArguments arguments;
 
-  const AddAssignmentScreen({Key key, this.school}) : super(key: key);
+  const AddAssignmentScreen({Key key, this.school, this.user, this.arguments}) : super(key: key);
   @override
   _AddAssignmentScreenState createState() => _AddAssignmentScreenState();
 }
@@ -21,13 +24,23 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  bool _validate = false;
   DateTime selectedDate;
   String _filename;
+  int classId;
+  int subjectId;
 
   int _value = 1;
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    classId = widget.school.teacherClasses[_value-1].id;
+    subjectId = widget.school.subjects[_value-1].id;
+  }
+  @override
   Widget build(BuildContext context) {
-//    _dateController.text = Common.formatDate(selectedDate.millisecondsSinceEpoch);
     List<DropdownMenuItem> buildDropDownItems({List<SchoolClassModel> classes,}) {
       final children = <DropdownMenuItem>[];
 
@@ -55,11 +68,10 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
       return children;
     }
     void showPaymentDialog(){
-      showDialog(
-          context: context,
-          builder: (_) => PaymentAlertDialog(),
-          barrierDismissible: false
-      );
+
+        BlocProvider.of<AddAssignmentBloc>(context).add(ClassAssignmentSaveEvent(
+            title: _titleController.text, dueDate: selectedDate, description: _descriptionController.text, classId: classId, subjectId: subjectId, teacherId: widget.user.id));
+
     }
 
     void openFileExplorer() async {
@@ -97,159 +109,179 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
     }
 
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 30, bottom: 20, right: 20, left: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-//              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: CustomShortField(
-                      width: (MediaQuery.of(context).size.width - 90) / 2,
-                      labelText: "Title",
-                      decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(
-                            color: appTheme().primaryColor, width: 1.0),
-                      ),
-                      formField: TextFormField(
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 10.0),
-                            border: InputBorder.none),
-                controller: _titleController,
-                        keyboardType: TextInputType.text,
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10.0,),
-                  Flexible(
-                    child: CustomShortField(
-                      width: (MediaQuery.of(context).size.width - 90) / 2.0,
-                      labelText: "Due Date",
-                      decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(
-                            color: appTheme().primaryColor, width: 1.0),
-                      ),
-                      formField: TextFormField(
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 10.0),
-                            border: InputBorder.none),
-                controller: _dateController,
-                        focusNode: AlwaysDisabledFocusNode(),
-                        keyboardType: TextInputType.text,
-                        onTap: () => _selectDate(context),
-                      ),
-                    ),
-                  ),
-//                  IconButton(icon: Icon(Icons.calendar_today, color: Colors.black, size: 10.0,), onPressed: () => _selectDate(context))
-                ],
-              ),
-              SizedBox(height: 20.0,),
-              Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'School Class',
-                        style: TextStyle(),
-                      ),
-                      Container(
-                        color: appTheme().backgroundColor,
-                        padding: EdgeInsets.all(20.0),
-                        child: DropdownButton(
-//                            isExpanded: true,
-                            value: _value,
-                            items: buildDropDownItems(classes : widget.school.teacherClasses),
-                            onChanged: (value) {
-                              setState(() {
-                                _value = value;
-                              });
-                            }),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Class Subject',
-                        style: TextStyle(),
-                      ),
-                      Container(
-                        color: appTheme().backgroundColor,
-                        padding: EdgeInsets.all(20.0),
-                        child: DropdownButton(
-                            value: _value,
-                            items: buildDropDownSubjectItems(subjects : widget.school.subjects),
-                            onChanged: (value) {
-                              setState(() {
-                                _value = value;
-                              });
-                            }),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              CustomField(
-                width: MediaQuery.of(context).size.width - 60,
-                labelText: "Description",
-                decoration: BoxDecoration(
-                  borderRadius:
-                  BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(
-                      color: appTheme().primaryColor, width: 1.0),
-                ),
-                formField: TextFormField(
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 10.0),
-                      border: InputBorder.none),
-                controller: _descriptionController,
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-              SizedBox(height: 10.0,),
-              Align(
-                alignment: Alignment.center,
-                child: AttachButton(buttonText: "Attach File", onButtonPressed: openFileExplorer,),
-              ),
-              SizedBox(height: 10.0,),
-              Container(
-                height: 70.0,
+      child: BlocListener<AddAssignmentBloc, AddAssignmentState>(
+        listener: (context, state) {
+          if (state is AssignmentSavedState) {
+            Navigator.pushNamedAndRemoveUntil(
+              context, AssignmentPage.routeName, ModalRoute.withName("/menu"),
+              arguments: widget.arguments,
+            );
+          }
+        },
+        child: BlocBuilder<AddAssignmentBloc, AddAssignmentState>(
+        builder: (context, state) {
+          if(state is AddAssignmentEmptyState){
+            return Padding(
+              padding: const EdgeInsets.only(top: 30, bottom: 20, right: 20, left: 20),
+              child: SingleChildScrollView(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    _filename != null ? Container(
-                      height: 30.0,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black26),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(_filename),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: CustomShortField(
+                            width: (MediaQuery.of(context).size.width - 90) / 2,
+                            labelText: "Title",
+                            decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(5)),
+                              border: Border.all(
+                                  color: appTheme().primaryColor, width: 1.0),
+                            ),
+                            formField: TextFormField(
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(left: 10.0),
+                                  border: InputBorder.none),
+                              controller: _titleController,
+                              keyboardType: TextInputType.text,
+                            ),
+                          ),
                         ),
+                        SizedBox(width: 10.0,),
+                        Flexible(
+                          child: CustomShortField(
+                            width: (MediaQuery.of(context).size.width - 90) / 2.0,
+                            labelText: "Due Date",
+                            decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(5)),
+                              border: Border.all(
+                                  color: appTheme().primaryColor, width: 1.0),
+                            ),
+                            formField: TextFormField(
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(left: 10.0),
+                                  border: InputBorder.none),
+                              controller: _dateController,
+                              focusNode: AlwaysDisabledFocusNode(),
+                              keyboardType: TextInputType.datetime,
+                              onTap: () => _selectDate(context),
+                            ),
+                          ),
+                        ),
+//                  IconButton(icon: Icon(Icons.calendar_today, color: Colors.black, size: 10.0,), onPressed: () => _selectDate(context))
+                      ],
+                    ),
+                    SizedBox(height: 20.0,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'School Class',
+                              style: TextStyle(),
+                            ),
+                            Container(
+                              color: appTheme().backgroundColor,
+                              padding: EdgeInsets.all(20.0),
+                              child: DropdownButton(
+//                            isExpanded: true,
+                                  value: _value,
+                                  items: buildDropDownItems(classes : widget.school.teacherClasses),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _value = value;
+                                      classId = widget.school.teacherClasses[_value-1].id;
+                                    });
+                                  }),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Class Subject',
+                              style: TextStyle(),
+                            ),
+                            Container(
+                              color: appTheme().backgroundColor,
+                              padding: EdgeInsets.all(20.0),
+                              child: DropdownButton(
+                                  value: _value,
+                                  items: buildDropDownSubjectItems(subjects : widget.school.subjects),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _value = value;
+                                      subjectId = widget.school.subjects[_value-1].id;
+                                    });
+                                  }),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    CustomField(
+                      width: MediaQuery.of(context).size.width - 60,
+                      labelText: "Description",
+                      decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(5)),
+                        border: Border.all(
+                            color: appTheme().primaryColor, width: 1.0),
                       ),
-                    )
-                        : SizedBox(),
+                      formField: TextFormField(
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 10.0),
+                            border: InputBorder.none),
+                        controller: _descriptionController,
+                        keyboardType: TextInputType.multiline,
+                      ),
+                    ),
+                    SizedBox(height: 10.0,),
+                    Align(
+                      alignment: Alignment.center,
+                      child: AttachButton(buttonText: "Attach File", onButtonPressed: openFileExplorer,),
+                    ),
+                    SizedBox(height: 10.0,),
+                    Container(
+                      height: 70.0,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          _filename != null ? Container(
+                            height: 30.0,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black26),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(_filename),
+                              ),
+                            ),
+                          )
+                              : SizedBox(),
+                        ],
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: LoginButton(buttonText: "Create Assignment", onButtonPressed: showPaymentDialog,),
+                    ),
                   ],
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: LoginButton(buttonText: "Create Assignment", onButtonPressed: showPaymentDialog,),
-              ),
-            ],
-          ),
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
         ),
       ),
     );

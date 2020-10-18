@@ -2,7 +2,7 @@ import 'package:dsapp/models/models.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class AddAssignmentState extends Equatable {
-  AddAssignmentState();
+  const AddAssignmentState();
   @override
   // TODO: implement props
   List<Object> get props => [];
@@ -19,6 +19,8 @@ class ClassTeacherSubjectLoadedState extends AddAssignmentState {
   // TODO: implement props
   List<Object> get props => [subjects];
 }
+
+class AssignmentSavedState extends AddAssignmentState {}
 
 class AddAssignmentLoadingState extends AddAssignmentState {}
 

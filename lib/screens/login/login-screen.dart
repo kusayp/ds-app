@@ -17,12 +17,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _validate = false;
+  String code;
 
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    code = "+299";
   }
 
   @override
@@ -33,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         _emailController.text.isEmpty ? _validate = true : _validate = false;
       });
+//      print(code + _emailController.text.replaceFirst(RegExp(r'^0+'), ""));
       if(!_validate){
         BlocProvider.of<LoginBloc>(context).add(LoginButtonPressed(
             username: _emailController.text, password: _passwordController.text));
@@ -42,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Widget _buildDropdownItem(Country country) => Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: Container(
-        width: width - 100.0,
+//        width: 60.0,
         child: Row(
           children: <Widget>[
             CountryPickerUtils.getDefaultFlagImage(country),
@@ -95,9 +98,50 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: TextStyle(color: Colors.black, fontSize: 14),
                             ),
                             SizedBox(height: 20.0,),
+//                            Row(
+//                              children: [
+//                                CountryPickerDropdown(
+//                                  initialValue: 'BJ',
+//                                  itemBuilder: _buildDropdownItem,
+//                                  priorityList:[
+//                                    CountryPickerUtils.getCountryByIsoCode('GH'),
+//                                    CountryPickerUtils.getCountryByIsoCode('TG'),
+//                                  ],
+//                                  sortComparator: (Country a, Country b) => a.isoCode.compareTo(b.isoCode),
+//                                  onValuePicked: (Country country) {
+//                                    print("${country.phoneCode}");
+//                                    setState(() {
+//                                      code = "+${country.phoneCode}";
+//                                    });
+//                                  },
+//                                ),
+//                                Expanded(
+//                                  child: CustomLoginField(
+//                                    width: width-180.0,
+//                                    labelText: "Phone",
+//                                    decoration: BoxDecoration(
+//                                      borderRadius:
+//                                      BorderRadius.all(Radius.circular(5)),
+//                                      border: Border.all(
+//                                          color: appTheme().primaryColor, width: 1.0),
+//                                    ),
+//                                    formField: TextFormField(
+//                                      decoration: InputDecoration(
+//                                        contentPadding: EdgeInsets.only(left: 10.0),
+//                                        border: InputBorder.none,
+//                                        errorText: _validate ? 'Value Can\'t Be Empty' : null,
+//                                      ),
+//                                      controller: _emailController,
+//                                      keyboardType: TextInputType.phone,
+//                                      autofocus: false,
+//                                    ),
+//                                  ),
+//                                ),
+//                              ],
+//                            ),
                             CustomLoginField(
                               width: width-60.0,
-                              labelText: "Phone",
+                              labelText: "Email",
                               decoration: BoxDecoration(
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(5)),
@@ -134,6 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 controller: _passwordController,
                               ),
                             ),
+                            SizedBox(height: MediaQuery.of(context).size.height * 0.10,),
                             LoginButton(
                               onButtonPressed: _onLoginButtonPressed,
                             ),

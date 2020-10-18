@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/utils/shared-preference.dart';
@@ -52,5 +54,22 @@ class AssignmentService {
       throw new Exception("error getting quotes");
     }
     return AssignmentPageData.fromJson(response.body);
+  }
+
+  Future<void> saveAssignment(schoolId, assignmentModel) async {
+    String userString = await prefs.getUserDetails();
+    LoginResponse user = LoginResponse.fromJson(userString);
+
+
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ' + user.token,
+    };
+
+    var endpoint = sprintf("%s%s/%s/%s", [baseUrl, "schools", schoolId, url]);
+
+    final response = await http.post(endpoint, headers: headers, body: jsonEncode(assignmentModel));
+    print(response.statusCode);
   }
 }

@@ -14,6 +14,8 @@ class AssignmentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final MenuArguments arguments = ModalRoute.of(context).settings.arguments;
 
+    var choices = ["Overview", "Add Assignment"];
+
     bool isTeacher = arguments.roleModules.role == "ENSEINGNANT";
     void handleClick(String value) {
       switch (value){
@@ -41,7 +43,7 @@ class AssignmentPage extends StatelessWidget {
             icon: Icon(Icons.more_vert, size: 20.0, color: Colors.black,),
             onSelected: handleClick,
               itemBuilder: (BuildContext context) {
-            return {"Overview", "Add Assignment"}.map((String choice) {
+            return choices.map((String choice) {
               return PopupMenuItem<String>(
                 child: Text(choice),
                 value: choice,
