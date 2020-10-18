@@ -1,12 +1,13 @@
 import 'package:dsapp/blocs/assignment/assignment.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/assignment/components/assignment-card.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AssignmentScreen extends StatelessWidget {
-  final UserModel user;
+  final MenuArguments user;
 
   const AssignmentScreen({Key key, this.user}) : super(key: key);
   @override
@@ -25,9 +26,9 @@ class AssignmentScreen extends StatelessWidget {
                     Divider(
                       color: Colors.black,
                       thickness: 1.0,
-                      indent: 80.0,
+                      indent: MediaQuery.of(context).size.width*0.17,
                     ),
-                    Text("Current Week"),
+                    Text("Current Week", style: ThemeText.assignmentPeriodText,),
                   ],
                 ),
 
@@ -42,6 +43,7 @@ class AssignmentScreen extends StatelessWidget {
                             return AssignmentCard(
                               assignment: state.assignmentPageData.result[index],
                               role: state.role,
+                              menuArguments: user,
                             );
                           }
                         )
@@ -51,7 +53,7 @@ class AssignmentScreen extends StatelessWidget {
                     if(state is AssignmentEmptyState){
                       print("Empty bloc");
                       BlocProvider.of<AssignmentBloc>(context)
-                          .add(FetchingAssignmentEvent(teacherId: user.id.toString()));
+                          .add(FetchingAssignmentEvent(teacherId: user.roleModules.user.id.toString()));
                     }
                     return Center(
                       child: CircularProgressIndicator(),

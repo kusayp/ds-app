@@ -10,3 +10,4 @@ export 'exams/exam_sscore/exam-score.dart';
 export 'attendance/attendance.dart';
 export 'profile/profile.dart';
 export 'class_register/class-register.dart';
+export 'chat/chat.dart';

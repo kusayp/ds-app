@@ -87,7 +87,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             key: _globalKey,
             body: OnBoardingScreen(
               bgColor: Colors.white,
-              themeColor: const Color(0xFF19283E),
+              themeColor: appTheme().primaryColor,
               pages: state.onBoardingModelList,
               skipClicked: (value) {
                 print(value);

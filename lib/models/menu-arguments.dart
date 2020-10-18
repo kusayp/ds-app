@@ -15,6 +15,14 @@ class AssignmentArguments{
 
 }
 
+class AssignmentAnswerArguments{
+  final AssignmentModel assignment;
+  final MenuArguments menuArguments;
+
+  AssignmentAnswerArguments({this.assignment, this.menuArguments});
+
+}
+
 class MenuArguments {
   final String userId;
   final Module module;

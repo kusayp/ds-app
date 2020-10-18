@@ -1,9 +1,13 @@
+import 'package:dart_random_choice/dart_random_choice.dart';
 import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/utils/common.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class AnswerCard extends StatelessWidget {
   final AnswerModel answer;
@@ -15,18 +19,30 @@ class AnswerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isTeacher = role == "ENSEINGNANT";
 
-    void pushToAssignmentScorePage(){
-      Navigator.pushNamed(context, AnswerScorePage.routeName, arguments: answer);
+    List<String> colors = [
+      '#84A2D6',
+      '#A3A5B1',
+      '#F65A75',
+      '#39CB89',
+      '#6FCFC5',
+      '#FA8993',
+      '#FF7F00',
+      '#CED3D9',
+    ];
+
+    void pushToAssignmentScorePage() {
+      Navigator.pushNamed(context, AnswerScorePage.routeName,
+          arguments: answer);
     }
 
     return GestureDetector(
-      onTap: pushToAssignmentScorePage,
+      onTap: isTeacher ? pushToAssignmentScorePage : () {},
       child: Card(
         margin: EdgeInsets.symmetric(vertical: 10.0),
         elevation: 4,
         shape: Border(
             left: BorderSide(
-          color: Colors.amber,
+          color: Hexcolor(randomChoice(colors)),
           width: 2,
         )),
         child: Padding(
@@ -46,76 +62,102 @@ class AnswerCard extends StatelessWidget {
                         answer.student.firstName +
                             " " +
                             answer.student.lastName,
-                        style: TextStyle(
-                          fontSize: 16,
-                          letterSpacing: 1.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: ThemeText.assignmentHeaderText,
                       ),
                     )
                   : SizedBox(),
-              isTeacher
+//              isTeacher
+//                  ? Text(
+//                      answer.assignment.title,
+//                      style: ThemeText.assignmentTabTitleText,
+//                    )
+//                  : Text(
+//                      answer.assignment.title,
+//                      style: ThemeText.assignmentTabTitleText,
+//                    ),
+//              SizedBox(
+//                height: 20.0,
+//              ),
+              answer.assignment.subject != null
                   ? Text(
-                      answer.assignment.title,
-                      style: TextStyle(
-                        fontSize: 14,
-                        letterSpacing: 1.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      answer.assignment.subject?.name,
+                      style: ThemeText.assignmentSubjectText,
                     )
-                  : Text(
-                      answer.assignment.title,
-                      style: TextStyle(
-                        fontSize: 16,
-                        letterSpacing: 1.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                  : Text(''),
               SizedBox(
+                height: 10.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    S.of(context).due,
+                    style: ThemeText.assignmentSubjectText,
+                  ),
+                  Text(
+                    Common.formatDate(answer.assignment.dueDate),
+                    style: ThemeText.assignmentSubjectText,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    S.of(context).due,
+                    style: ThemeText.assignmentSubjectText,
+                  ),
+                  Text(
+                    Common.formatDate(answer.assignment.dueDate),
+                    style: ThemeText.assignmentSubjectText,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AnswerAttachButton extends StatelessWidget {
+  final VoidCallback onButtonPressed;
+  final String buttonText;
+
+  const AnswerAttachButton({Key key, this.onButtonPressed, this.buttonText})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 40.0),
+      child: SizedBox(
+        width: 150.0,
+        height: 50.0,
+        child: RaisedButton(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          color: appTheme().primaryColor,
+          onPressed: onButtonPressed,
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                'assets/icons/Upload.svg',
+                width: 20.0,
                 height: 20.0,
               ),
-              Text(
-                answer.description,
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black26),
-              ),
               SizedBox(
-                height: 10.0,
+                width: 5.0,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    S.of(context).due,
-                    style: TextStyle(fontSize: 12, color: Colors.red),
-                  ),
-                  Text(
-                    Common.formatDate(answer.assignment.dueDate),
-                    style: TextStyle(fontSize: 12.0),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    S.of(context).due,
-                    style: TextStyle(fontSize: 12, color: Colors.red),
-                  ),
-                  Text(
-                    Common.formatDate(answer.assignment.dueDate),
-                    style: TextStyle(fontSize: 12.0),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
+              Text(buttonText,
+                  style: TextStyle(fontSize: 14, color: Colors.white)),
             ],
           ),
         ),

@@ -12,14 +12,46 @@ class AnswerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget generateAnswersContent(AnswerLoadedState state){
+      if(state.answerPageData.result.length == 0){
+        return Center(
+          child: Icon(
+            Icons.do_not_disturb,
+            size: 50.0,
+            color: Colors.black,
+            semanticLabel: "No Answer Submitted",
+          ),
+        );
+      }
+      return ListView.builder(
+        itemCount: state.answerPageData.result.length,
+        shrinkWrap: true,
+        itemBuilder: (BuildContext context, int index) {
+          return AnswerCard(
+            answer: state.answerPageData.result[index],
+            role: state.role,
+          );
+        },
+      );
+    }
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.all(20.0),
         child: BlocBuilder<AnswerBloc, AnswerState>(
           builder: (context, state) {
             if (state is AnswerLoadedState) {
-              return ListView.builder(
-                  itemCount: state.answerPageData.result.length,
+              if(state.answerPageData.result.length == 0){
+                return Center(
+                  child: Icon(
+                    Icons.do_not_disturb,
+                    size: 50.0,
+                    color: Colors.black,
+                    semanticLabel: "No Answer Submitted",
+                  ),
+                );
+              }else{
+                return ListView.builder(
+                  itemCount: state.answerPageData.totalElement,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return AnswerCard(
@@ -27,10 +59,10 @@ class AnswerScreen extends StatelessWidget {
                       role: state.role,
                     );
                   },
-              );
+                );
+              }
             }
             if (state is AnswerEmptyState) {
-              print("Empty bloc");
               BlocProvider.of<AnswerBloc>(context)
                   .add(FetchingAnswerEvent(assignmentId: assignment.id));
             }

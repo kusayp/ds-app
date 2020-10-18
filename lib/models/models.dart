@@ -16,3 +16,4 @@ export 'menu-arguments.dart';
 export 'answer/answer.dart';
 export 'class_register/class-register.dart';
 export 'users/users.dart';
+export 'chat/chat.dart';

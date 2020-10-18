@@ -17,6 +17,7 @@ class ClassRegisterScreen extends StatefulWidget {
 class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
   bool isTeacher;
   int _value = 1;
+  int _scheduleValue = 1;
   var schoolClasses = List<SchoolClassModel>();
   @override
   void initState() {
@@ -57,6 +58,14 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
         backgroundColor: Theme.of(context).splashColor,
       ));
     }
+
+    String studentClass (){
+      if (widget.user.user.studentClass != null){
+        return widget.user.user.studentClass?.id.toString();
+      }
+      return widget.user.school.studentClass?.id.toString();
+    }
+
     return BlocListener<ClassRegisterBloc, ClassRegisterState>(
       listener: (context, state) {
         if (state is ClassRegisterSavedState){
@@ -107,18 +116,17 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
                         color: appTheme().backgroundColor,
                         padding: EdgeInsets.all(20.0),
                         child: DropdownButton(
-                            value: _value,
+                            value: _scheduleValue,
                             items: buildDropDownItems(schedules : schedules),
                             onChanged: (value) {
                               setState(() {
-                                _value = value;
+                                _scheduleValue = value;
                               });
                               BlocProvider.of<ClassRegisterBloc>(context)
                                   .add(ClassRegisterFilterByScheduleEvent(
-                                  tableModel: schedules[value -
+                                  tableModel: schedules[_scheduleValue -
                                       1],
-                                  classId: widget.user.school.studentClass.id
-                                      .toString()));
+                                  classId: studentClass()));
                             }),
 
                       ),

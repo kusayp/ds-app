@@ -2,8 +2,10 @@ import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/answer/answer-page.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
+import 'package:dsapp/utils/common.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class AnswerScoreScreen extends StatelessWidget {
   final AnswerModel answer;
@@ -13,7 +15,6 @@ class AnswerScoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void pushToAssignmentScorePage(){
-      Navigator.pushNamed(context, AnswerPage.routeName);
     }
     return SafeArea(
       child: Padding(
@@ -28,40 +29,40 @@ class AnswerScoreScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(S.of(context).subject, style: textSmallStyle),
-                      Text(answer.assignment.title, style: textSmallBlackStyle),
+                      Text(S.of(context).subject, style: ThemeText.assignmentSubjectText),
+                      Text(answer.assignment.subject.name, style: ThemeText.menuDropDownText),
                     ],
                   ),
                   SizedBox(height: 5,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(S.of(context).subject, style: textSmallStyle),
-                      Text(answer.assignment.title, style: textSmallBlackStyle),
+                      Text(S.of(context).subject, style: ThemeText.assignmentSubjectText),
+                      Text(answer.assignment.teacher.firstName + ' ' + answer.assignment.teacher.lastName, style: ThemeText.menuDropDownText),
                     ],
                   ),
                   SizedBox(height: 5,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(S.of(context).subject, style: textSmallStyle),
-                      Text(answer.assignment.title, style: textSmallBlackStyle),
+                      Text(S.of(context).subject, style: ThemeText.assignmentSubjectText),
+                      Text(Common.formatDate(answer.assignment.dueDate), style: ThemeText.menuDropDownText),
                     ],
                   ),
                   SizedBox(height: 5,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(S.of(context).subject, style: textSmallStyle),
-                      Text(answer.assignment.title, style: textSmallBlackStyle),
+                      Text(S.of(context).subject, style: ThemeText.assignmentSubjectText),
+                      Text(Common.formatDate(answer.assignment.dueDate), style: ThemeText.assignmentDueDateText),
                     ],
                   ),
                   SizedBox(height: 5,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(S.of(context).subject, style: textSmallStyle),
-                      Text(answer.assignment.title, style: textSmallBlackStyle),
+                      Text(S.of(context).subject, style: ThemeText.assignmentSubjectText),
+                      Text(Common.formatDate(answer.assignment.dueDate), style: ThemeText.menuDropDownText),
                     ],
                   ),
                   SizedBox(height: 5,),
@@ -88,7 +89,7 @@ class AnswerScoreScreen extends StatelessWidget {
             Divider(
               thickness: 1.0,
               height: 0.8,
-              color: Colors.black12,
+              color: Hexcolor('#A3A5B1'),
             ),
             Padding(
               padding: EdgeInsets.only(top: 10.0, bottom: 20.0),
@@ -96,7 +97,7 @@ class AnswerScoreScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("Obtain"),
+                    Text("Obtain", style: ThemeText.loginInText,),
                     SizedBox(width: 20,),
                     Container(
                       height: 30.0,
@@ -134,7 +135,7 @@ class AnswerScoreScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("Result:"),
+                  Text("Result:", style: ThemeText.loginInText,),
                   SizedBox(width: 30,),
                   Switch(value: true, onChanged: (value){}),
                 ],
@@ -142,6 +143,7 @@ class AnswerScoreScreen extends StatelessWidget {
             ),
             LoginButton(
               buttonText: "Mark",
+              onButtonPressed: pushToAssignmentScorePage,
             )
           ],
         ),

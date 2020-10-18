@@ -37,7 +37,7 @@ class ClassRegisterPager extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         actions: [
-          IconButton(icon: Icon(Icons.save_alt, color: Colors.black,), onPressed: (){
+          FlatButton(onPressed: (){
             showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
@@ -50,7 +50,21 @@ class ClassRegisterPager extends StatelessWidget {
                 ),
                 barrierDismissible: false
             );
-          })
+          }, child: Text('SAVE'),),
+//          IconButton(icon: Icon(Icons.save_alt, color: Colors.black,), onPressed: (){
+//            showDialog(
+//                context: context,
+//                builder: (_) => AlertDialog(
+//                  title: Text("Save Class Register"),
+//                  content: Text("Do you want to continue?"),
+//                  actions: [
+//                    cancelButton,
+//                    continueButton,
+//                  ],
+//                ),
+//                barrierDismissible: false
+//            );
+//          })
         ],
       ),
       extendBodyBehindAppBar: true,

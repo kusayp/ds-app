@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
 //          SizedBox(
 //            width: 8.0,
 //          ),
-            Text("+${country.phoneCode}"),
+            Text("+${country.phoneCode}", style: ThemeText.loginInText,),
           ],
         ),
       ),
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Text(
                               'LOGIN',
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.black, fontSize: 14),
+                              style: ThemeText.loginInText,
                             ),
                             SizedBox(height: 20.0,),
 //                            Row(

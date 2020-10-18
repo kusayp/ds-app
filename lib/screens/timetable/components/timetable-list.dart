@@ -1,5 +1,6 @@
 import 'package:dart_random_choice/dart_random_choice.dart';
 import 'package:dsapp/models/models.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -16,14 +17,14 @@ class TimeTableList extends StatelessWidget {
       children: [
         Container(
           width: width*0.25,
-          child: Text(timeTable.startTime+ " - "+timeTable.endTime),
+          child: Text(timeTable.startTime+ " - "+timeTable.endTime, style: ThemeText.timeTableTimeText,),
         ),
         Container(
           width: width*0.75,
           color: Hexcolor(randomChoice(entries)),
           child: ListTile(
-            title: Text(timeTable.subject.name),
-            subtitle: Text(timeTable.teacher.firstName + " " + timeTable.teacher.lastName),
+            title: Text(timeTable.subject.name, style: ThemeText.timeTableSubjectText,),
+            subtitle: Text(timeTable.teacher.firstName + " " + timeTable.teacher.lastName, style: ThemeText.timeTableTeacherText,),
           ),
         )
       ],

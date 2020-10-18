@@ -90,7 +90,6 @@ class TimeTableScreen extends StatelessWidget {
                     );
                   }
                   if (state is TimeTableEmpty) {
-                    print("Empty bloc");
                     BlocProvider.of<TimeTableBloc>(context)
                         .add(GetTimeTableFromDayEvent(day: currentDay.day, classId: classId, teacherId: teacherId));
                   }

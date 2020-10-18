@@ -22,4 +22,8 @@ class AssignmentRepository {
   Future<void> saveAssignment(schoolId, assignmentModel) async {
     return await assignmentService.saveAssignment(schoolId, assignmentModel);
   }
+
+  Future<void> saveAnswer(schoolId, assignmentId, answerModel) async {
+    return await answerService.saveAnswer(schoolId, assignmentId, answerModel);
+  }
 }

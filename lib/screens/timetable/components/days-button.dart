@@ -2,6 +2,7 @@ import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/models/timetable/days.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class DaysButton extends StatelessWidget {
   final String classId;
@@ -25,7 +26,7 @@ class DaysButton extends StatelessWidget {
 //        margin: EdgeInsets.symmetric(horizontal: 8.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.0),
-          color: isSelected ? Colors.amber : Colors.transparent,
+          color: isSelected ? Hexcolor('#F9AE18') : Colors.transparent,
         ),
         height: size/7,
         width: size/7,
@@ -34,8 +35,8 @@ class DaysButton extends StatelessWidget {
           child: Text(
             day.daySlug,
             style: TextStyle(
-              fontSize: 20.0,
-              color: isSelected ? Colors.white : Colors.black
+              fontSize: 15.0,
+              color: isSelected ? Colors.white : Hexcolor(day.color)
             ),
             textAlign: TextAlign.center,
           ),

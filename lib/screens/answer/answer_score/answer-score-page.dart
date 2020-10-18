@@ -13,7 +13,7 @@ class AnswerScorePage extends StatelessWidget {
         leading: BackButton(color: Colors.black),
         title: Text(
           arguments.student.firstName+" "+arguments.student.lastName,
-          style: TextStyle(color: Colors.black),
+          style: ThemeText.onBoardingHeader,
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
