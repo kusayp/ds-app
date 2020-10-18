@@ -31,6 +31,23 @@ class AnswerBloc extends Bloc<AnswerEvent, AnswerState> {
         yield AnswerErrorState();
       }
     }
+
+    if(event is AssignmentAnswerEvent){
+      yield AnswerLoadingState();
+      try{
+        var schoolId = await sharedPreferences.getSharedPreference("schoolId");
+        AddAnswerModel answerModel = AddAnswerModel(
+          student: event.student,
+          description: event.description,
+        );
+        Map<String, dynamic> data = AddAnswerModel.toJson(answerModel);
+        await repository.saveAnswer(schoolId, event.assignmentId, data);
+        yield AnswerSavedState();
+      }
+      catch(_){
+        yield AnswerErrorState();
+      }
+    }
   }
 
 }

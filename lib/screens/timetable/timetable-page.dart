@@ -19,7 +19,7 @@ class TimeTablePage extends StatelessWidget {
       if (arguments.roleModules.user.studentClass != null){
         return arguments.roleModules.user.studentClass?.id.toString();
       }
-       return arguments.roleModules.school.studentClass.id.toString();
+       return arguments.roleModules.school.studentClass?.id.toString();
     }
 
     return Scaffold(
@@ -27,7 +27,7 @@ class TimeTablePage extends StatelessWidget {
         leading: BackButton(color: Colors.black),
         title: Text(
           "Timetable",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,

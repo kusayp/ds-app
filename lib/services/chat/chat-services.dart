@@ -1,21 +1,20 @@
 import 'dart:convert';
 
-import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/utils/shared-preference.dart';
 import 'package:http/http.dart' as http;
 import 'package:sprintf/sprintf.dart';
 
-class AnswerService {
+class ChatService {
   final baseUrl = CommonConstants.baseUrl;
+  final url = 'groups';
+  final usersUrl = 'students';
   LocalStorage prefs = LocalStorage();
-  final url = 'answers';
 
-  Future<AnswerPageData> getAnswers(schoolId, int assignmentId) async {
+  Future<GroupPageData> getGroupsInClass(schoolId, classId) async {
     String userString = await prefs.getUserDetails();
     LoginResponse user = LoginResponse.fromJson(userString);
-
 
     Map<String, String> headers = {
       'Content-Type': 'application/json',
@@ -23,8 +22,7 @@ class AnswerService {
       'Authorization': 'Bearer ' + user.token,
     };
 
-//    var endpoint = sprintf("%%/%/%/%/%", [baseUrl, "schools", schoolId, AssignmentService().url, assignmentId, url]);
-    var endpoint = baseUrl+"schools/"+schoolId+"/"+AssignmentService().url+"/"+assignmentId.toString()+"/"+url;
+    String endpoint = sprintf('%s%s/%s/%s/%s/%s', [baseUrl, 'schools', schoolId, 'classes', classId, url]);
 
     final response = await http.get(endpoint, headers: headers,);
     print(response.body);
@@ -32,13 +30,12 @@ class AnswerService {
       print(response.body);
       throw new Exception("error getting quotes");
     }
-    return AnswerPageData.fromJson(response.body);
+    return GroupPageData.fromJson(response.body);
   }
 
-  Future<void> saveAnswer(schoolId, int assignmentId, answerModel) async {
+  Future<List<UserModel>> getUserInGroups(schoolId, classId, groupId) async {
     String userString = await prefs.getUserDetails();
     LoginResponse user = LoginResponse.fromJson(userString);
-
 
     Map<String, String> headers = {
       'Content-Type': 'application/json',
@@ -46,9 +43,16 @@ class AnswerService {
       'Authorization': 'Bearer ' + user.token,
     };
 
-    var endpoint = sprintf("%s%s/%s/%s/%s/%s", [baseUrl, "schools", schoolId, AssignmentService().url, assignmentId, url]);
+    String endpoint = sprintf('%s%s/%s/%s/%s/%s/%s/%s', [baseUrl, 'schools', schoolId, 'classes', classId, url, groupId, usersUrl]);
 
-    final response = await http.post(endpoint, headers: headers, body: jsonEncode(answerModel));
-    print(response.statusCode);
+    final response = await http.get(endpoint, headers: headers,);
+    print(response.body);
+    if(response.statusCode != 200) {
+      print(response.body);
+      throw new Exception("error getting quotes");
+    }
+    List<dynamic> json = jsonDecode(response.body);
+    List<UserModel> groups = json != null ? json.map((e) => UserModel.fromJson(e)).toList() : [];
+    return groups;
   }
 }

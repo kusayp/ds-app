@@ -20,3 +20,17 @@ class AnswerModel {
   }
 
 }
+
+class AddAnswerModel {
+  final String description;
+  final int student;
+  final String attachment;
+
+  AddAnswerModel({this.description, this.student, this.attachment});
+
+  static Map<String, dynamic> toJson(AddAnswerModel answerModel) => {
+    'student': answerModel.student,
+    'description': answerModel.description != null ? answerModel.description : null,
+    'attachment': answerModel.attachment,
+  };
+}

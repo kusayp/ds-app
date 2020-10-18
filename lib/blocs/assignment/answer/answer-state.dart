@@ -23,4 +23,6 @@ class AnswerLoadedState extends AnswerState {
 
 class AnswerLoadingState extends AnswerState {}
 
+class AnswerSavedState extends AnswerState {}
+
 class AnswerErrorState extends AnswerState {}

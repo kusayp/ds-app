@@ -9,13 +9,13 @@ class AssignmentDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AssignmentArguments arguments = ModalRoute.of(context).settings.arguments;
+    final AssignmentAnswerArguments arguments = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
           arguments.assignment.title,
-          style: TextStyle(color: Colors.black),
+          style: ThemeText.onBoardingHeader,
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -23,7 +23,7 @@ class AssignmentDetailPage extends StatelessWidget {
       ),
       extendBodyBehindAppBar: true,
       backgroundColor: appTheme().backgroundColor,
-      body: AssignmentDetailScreen(assignment: arguments.assignment, role: arguments.role ,),
+      body: AssignmentDetailScreen(assignment: arguments.assignment, role: arguments.menuArguments ,),
     );
   }
 }

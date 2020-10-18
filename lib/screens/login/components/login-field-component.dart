@@ -52,7 +52,7 @@ class CustomField extends StatelessWidget {
           Positioned(
             left: 30,
             bottom: 40,
-            child: Container(color: Colors.white, child: Text(labelText, textAlign: TextAlign.center,), width: 100.0,),
+            child: Container(color: Colors.white, child: Text(labelText, textAlign: TextAlign.center, style: ThemeText.loginInText,), width: 100.0,),
           )
         ],
       ),
@@ -81,7 +81,7 @@ class CustomShortField extends StatelessWidget {
           Positioned(
             left: 30,
             bottom: 40,
-            child: Container(color: Colors.white, child: Text(labelText, textAlign: TextAlign.center,), width: 90.0,),
+            child: Container(color: Colors.white, child: Text(labelText, textAlign: TextAlign.center, ), width: 90.0,),
           )
         ],
       ),

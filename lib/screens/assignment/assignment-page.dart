@@ -33,7 +33,7 @@ class AssignmentPage extends StatelessWidget {
         leading: BackButton(color: Colors.black),
         title: Text(
           "Assignment",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -59,7 +59,7 @@ class AssignmentPage extends StatelessWidget {
       backgroundColor: appTheme().backgroundColor,
       body: BlocProvider(
         create: (context) => AssignmentBloc(repository: repository),
-        child: AssignmentScreen(user: arguments.roleModules.user,),
+        child: AssignmentScreen(user: arguments,),
       ),
     );
   }

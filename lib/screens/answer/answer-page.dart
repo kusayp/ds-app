@@ -19,7 +19,7 @@ class AnswerPage extends StatelessWidget {
         leading: BackButton(color: Colors.black),
         title: Text(
           S.of(context).submittedAssignments,
-          style: TextStyle(color: Colors.black),
+          style: ThemeText.onBoardingHeader,
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,

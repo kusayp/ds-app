@@ -1,9 +1,7 @@
-//import 'package:dsapp/models/menu/menu.dart';
 import 'package:dsapp/models/models.dart';
-import 'package:dsapp/screens/onboarding/components/buttons.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/utils/shared-preference.dart';
-//import 'package:dsapp/utils/style.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -64,7 +62,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
       height: 4.0,
       width: isActive ? 30.0 : 16.0,
       decoration: BoxDecoration(
-        color: isActive ? widget.themeColor : Color(0xFF929794),
+        color: isActive ? widget.themeColor : appTheme().accentColor,
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     );
@@ -94,10 +92,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                       },
                       child: Text(
                         'Skip',
-                        style: TextStyle(
-                          color: Colors.black12,
-                          fontSize: 20,
-                        ),
+                        style: ThemeText.onBoardingSkip
                       ),
                     ),
                   ),
@@ -149,11 +144,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
           Center(
             child: Text(
               page.title,
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                color: page.titleColor,
-                fontSize: 20,
-              ),
+              style: ThemeText.onBoardingHeader,
               textAlign: TextAlign.center,
             ),
           ),
@@ -162,12 +153,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
             alignment: Alignment.center,
             child: Text(
               page.description,
-              style: TextStyle(
-//                fontWeight: FontWeight.w400,
-                color: page.descriptionColor,
-                fontSize: 15,
-                letterSpacing: 1.2,
-              ),
+              style: ThemeText.onBoardingDescription,
               textAlign: TextAlign.center,
             ),
           ),

@@ -36,7 +36,7 @@ class S {
   /// `Submit assignment`
   String get submittedAssignments {
     return Intl.message(
-      'Submit assignment',
+      'Submitted assignment',
       name: 'submittedAssignments',
       desc: '',
       args: [],

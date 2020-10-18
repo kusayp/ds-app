@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 class AssignmentDetailScreen extends StatelessWidget {
   final AssignmentModel assignment;
-  final String role;
+  final MenuArguments role;
 
   AssignmentDetailScreen({this.assignment, this.role});
 
@@ -28,10 +28,13 @@ class AssignmentDetailScreen extends StatelessWidget {
       Navigator.pushNamed(
         context,
         SubmitAnswerPage.routeName,
-        arguments: assignment.attachment,
+        arguments: AssignmentAnswerArguments(
+          assignment: assignment,
+          menuArguments: role,
+        ),
       );
     }
-    final isTeacher = role == "ENSEINGNANT";
+    final isTeacher = role.roleModules.role == "ENSEINGNANT";
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -50,34 +53,34 @@ class AssignmentDetailScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(S.of(context).subject, style: textSmallStyle),
-                            Text(assignment.subject.name, style: textSmallBlackStyle),
+                            Text(S.of(context).subject, style: ThemeText.assignmentSubjectText),
+                            Text(assignment.subject.name, style: ThemeText.menuDropDownText),
                           ],
                         ),
                         SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Teacher:", style: textSmallStyle),
+                            Text("Teacher:", style: ThemeText.assignmentSubjectText),
                             Text(assignment.teacher.firstName +
                                 ' ' +
-                                assignment.teacher.lastName, style: textSmallBlackStyle),
+                                assignment.teacher.lastName, style: ThemeText.menuDropDownText),
                           ],
                         ),
                         SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Assignment date:", style: textSmallStyle),
-                            Text(Common.formatDate(assignment.dueDate), style: textSmallBlackStyle),
+                            Text("Assignment date:", style: ThemeText.assignmentSubjectText),
+                            Text(Common.formatDate(assignment.dueDate), style: ThemeText.menuDropDownText),
                           ],
                         ),
                         SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Due date:", style: textSmallStyle),
-                            Text(Common.formatDate(assignment.dueDate), style: textSmallBlackStyle),
+                            Text("Due date:", style: ThemeText.assignmentSubjectText),
+                            Text(Common.formatDate(assignment.dueDate), style: ThemeText.assignmentDueDateText),
                           ],
                         ),
                         SizedBox(height: 10,),
@@ -96,8 +99,7 @@ class AssignmentDetailScreen extends StatelessWidget {
                     Tab(
                       child: Text(
                         "Description",
-                        style: TextStyle(color: Colors.black),
-                      ),
+                        style: ThemeText.assignmentTabTitleText),
                     ),
                     Tab(
                       child: Text(
@@ -113,7 +115,7 @@ class AssignmentDetailScreen extends StatelessWidget {
                     height: MediaQuery.of(context).size.height / 2.5,
                     child: TabBarView(
                       children: [
-                        Text(assignment.description, style: textSmallBlackStyle,),
+                        Text(assignment.description, style: ThemeText.loginInText,),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -151,15 +153,6 @@ class AssignmentDetailScreen extends StatelessWidget {
           ),
         ),
       ),
-//      bottomSheet: isTeacher
-//          ? LoginButton(
-//              buttonText: "View Submisssion",
-//              onButtonPressed: viewAnswers,
-//            )
-//          : LoginButton(
-//              buttonText: "Submit Answer",
-//              onButtonPressed: viewSubmitAnswersPage,
-//            ),
     );
   }
 }
