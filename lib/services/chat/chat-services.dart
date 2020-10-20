@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:dsapp/services/chat/db-services.dart';
+import 'package:dsapp/services/push_notification_service.dart';
 import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/utils/shared-preference.dart';
@@ -54,5 +56,19 @@ class ChatService {
     List<dynamic> json = jsonDecode(response.body);
     List<UserModel> groups = json != null ? json.map((e) => UserModel.fromJson(e)).toList() : [];
     return groups;
+  }
+
+  Future<void> saveChat(token, chatModel, data) async {
+    DBServices dbServices = DBServices();
+    dbServices.insertChat(chatModel);
+    Map<String, dynamic> data = {
+    'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+    };
+    PushNotificationService().sendAndRetrieveMessage(token, chatModel.title, chatModel.message, data);
+  }
+
+  Future<List<ChatModel>> fetchChatsFromDb(int toOrFrom) async {
+    DBServices dbServices = DBServices();
+    return dbServices.getChatsFromDb(toOrFrom);
   }
 }
