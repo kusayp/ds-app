@@ -5,8 +5,6 @@ import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:dsapp/locator.dart';
-import 'package:dsapp/services/push_notification_service.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   final OnBoardingModelList pages;
@@ -31,8 +29,6 @@ class OnBoardingScreen extends StatefulWidget {
 class OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
-  final PushNotificationService _pushNotificationService =
-  locator<PushNotificationService>();
 
   LocalStorage sharedPreferences = LocalStorage();
 
@@ -57,12 +53,6 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _pushNotificationService.initialise();
-
-    _pushNotificationService.getToken().then((value) {
-       print('fcm token: $value');
-    });
-
   }
 
   Widget _indicator(bool isActive) {

@@ -19,7 +19,7 @@ class ConversationPage extends StatelessWidget {
         title: Column(
           children: [
             Text(
-              "Joseph Tetteh",
+              arguments.firstName + " " + arguments.lastName,
               style: ThemeText.onBoardingHeader,
             ),
             SizedBox(height: MediaQuery.of(context).size.height*0.02,),
@@ -37,7 +37,7 @@ class ConversationPage extends StatelessWidget {
       backgroundColor: appTheme().backgroundColor,
       body: BlocProvider(
         create: (context) => ChatBloc(repository: repository),
-        child: ConversationScreen(),
+        child: ConversationScreen(userModel: arguments,),
       ),
     );
   }

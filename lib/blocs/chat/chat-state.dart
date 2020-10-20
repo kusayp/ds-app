@@ -34,3 +34,12 @@ class UsersLoadedState extends ChatState {
 class ChatLoadingState extends ChatState {}
 
 class ChatErrorState extends ChatState {}
+
+class FetchedChatListState extends ChatState {
+  final List<ChatModel> chatList;
+
+  FetchedChatListState({this.chatList}) : super();
+
+  @override
+  String toString() => 'FetchedChatListState';
+}
