@@ -1,9 +1,9 @@
 import 'package:dsapp/blocs/blocs.dart';
-import 'package:dsapp/models/menu/menu.dart';
+import 'package:dsapp/locator.dart';
 import 'package:dsapp/models/models.dart';
-import 'package:dsapp/models/onboarding/onboarding-model.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/onboarding/onboarding-screen.dart';
+import 'package:dsapp/services/push_notification_service.dart';
 import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/shared-preference.dart';
 import 'package:dsapp/utils/style.dart';
@@ -25,23 +25,23 @@ class OnBoardingPageScreen extends StatelessWidget {
     );
   }
 
-  Future<bool> checkUserLogin(BuildContext context) async {
-    LocalStorage prefs = LocalStorage();
-    bool onBoardingViewed = await prefs.isOnBoardingViewed();
-    String user = await prefs.getUserDetails();
-    if (user != null){
-      LoginResponse loginResponse = LoginResponse.fromJson(user);
-      var role = loginResponse.schools.single.role.name;
-      RoleModules roleModules = await MenuService().loadUserRoleModules(role);
-      List<Module> modules = roleModules.modules;
-      Navigator.pushReplacementNamed(context, '/menu', arguments: modules);
-      return true;
-    } else if(onBoardingViewed){
-      Navigator.pushReplacementNamed(context, '/login');
-      return true;
-    }
-    return false;
-  }
+//  Future<bool> checkUserLogin(BuildContext context) async {
+//    LocalStorage prefs = LocalStorage();
+//    bool onBoardingViewed = await prefs.isOnBoardingViewed();
+//    String user = await prefs.getUserDetails();
+//    if (user != null){
+//      LoginResponse loginResponse = LoginResponse.fromJson(user);
+//      var role = loginResponse.schools.single.role.name;
+//      RoleModules roleModules = await MenuService().loadUserRoleModules(role);
+//      List<Module> modules = roleModules.modules;
+//      Navigator.pushReplacementNamed(context, '/menu', arguments: modules);
+//      return true;
+//    } else if(onBoardingViewed){
+//      Navigator.pushReplacementNamed(context, '/login');
+//      return true;
+//    }
+//    return false;
+//  }
 
 }
 
@@ -52,11 +52,18 @@ class OnBoardingPage extends StatefulWidget {
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
+  final PushNotificationService _pushNotificationService =
+  locator<PushNotificationService>();
 
   @override
   void initState() {
     super.initState();
     _loadUserInfo();
+    _pushNotificationService.initialise();
+
+    _pushNotificationService.getToken().then((value) {
+      print('fcm token: $value');
+    });
   }
 
   _loadUserInfo() async {
@@ -97,7 +104,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               },
               getStartedClicked: (value) {
                 print(value);
-//          Navigator.pushNamed(context, '/users');
                 _globalKey.currentState.showSnackBar(SnackBar(
                   content: Text("Get Started clicked"),
                 ));
@@ -119,30 +125,4 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       },
     );
   }
-
-  final pages = [
-    OnBoardingModel(
-        title: 'Choose your item',
-        description:
-        'Easily find your grocery items and you will get delivery in wide range Easily find your grocery items and you will get delivery in wide range',
-        titleColor: Colors.black,
-        descriptionColor: const Color(0xFF929794),
-        imagePath: 'assets/images/menu/Timetable.svg'
-    ),
-    OnBoardingModel(
-        title: 'Pick Up or Delivery',
-        description:
-        'We make ordering fast, simple and free-no matter if you order online or cash',
-        titleColor: Colors.black,
-        descriptionColor: const Color(0xFF929794),
-        imagePath: 'assets/images/menu/Timetable.svg'
-    ),
-    OnBoardingModel(
-        title: 'Pay quick and easy',
-        description: 'Pay for order using credit or debit card',
-        titleColor: Colors.black,
-        descriptionColor: const Color(0xFF929794),
-        imagePath: 'assets/images/menu/Timetable.svg'
-    ),
-  ];
 }

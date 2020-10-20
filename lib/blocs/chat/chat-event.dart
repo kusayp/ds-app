@@ -24,3 +24,32 @@ class FetchingUsersInGroupsEvent extends ChatEvent {
   // TODO: implement props
   List<Object> get props => [];
 }
+
+class FetchChatListEvent extends ChatEvent {
+  final int toOrFrom;
+
+  FetchChatListEvent(this.toOrFrom);
+  @override
+  String toString() => 'FetchChatListEvent';
+}
+
+//triggered when stream containing list of chats has new data
+class ReceivedChatsEvent extends ChatEvent {
+  final List<ChatModel> chatList;
+
+  ReceivedChatsEvent(this.chatList);
+
+  @override
+  String toString() => 'ReceivedChatsEvent';
+}
+
+//triggered to send new text message
+class SendTextMessageEvent extends ChatEvent {
+  final String message;
+  final int to;
+
+  SendTextMessageEvent({this.message, this.to}) : super();
+
+  @override
+  String toString() => 'SendTextMessageEvent';
+}

@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
+//import 'package:flutter/foundation.dart' show kDebugMode;
 import 'locator.dart';
 
 void main() async {
@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
       theme: appTheme(),
       initialRoute: '/',
       routes: routes,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

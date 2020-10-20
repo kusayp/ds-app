@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart' as http;
 
 
 
@@ -9,9 +10,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  final String serverToken = 'AAAAJxgM_dc:APA91bECZeEKMQPH-ghKOPRKAHGjCqLptZXdGIgP27vVspUPZQZYMzZ0flXBDDHDnd6Bo0zueKYLd3XfnRzb_iSx3IWnLX2GGJA3KJYNfhbxpgyIkpGiAKwt5eXc9Rt1vqOxn7ZcIBGU';
 
   Future initialise() async {
-
     if (Platform.isIOS) {
       // request permissions if we're on android
       _fcm.requestNotificationPermissions(IosNotificationSettings());
@@ -20,10 +21,9 @@ class PushNotificationService {
     _fcm.configure(
       // Called when the app is in the foreground and we receive a push notification
       onMessage: (Map<String, dynamic> message) async {
-
         final title = message['notification']['title'] ?? '';
         final body = message['notification']['body'] ?? '';
-        final data =  jsonEncode(message['data']);
+        final data = jsonEncode(message['data']);
         print('onMessage: $message');
         showNotification2(1234, title, body, data);
 
@@ -42,23 +42,24 @@ class PushNotificationService {
         print('onResume: $message');
         _serialiseAndNavigate(message);
       },
-        onBackgroundMessage:  myBackgroundMessageHandler,
+      onBackgroundMessage: myBackgroundMessageHandler,
     );
     initialiseLocalNotification();
   }
 
   Future initialiseLocalNotification() async {
-    var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
+    var initializationSettingsAndroid = new AndroidInitializationSettings(
+        'app_icon');
     var initializationSettingsIOS = new IOSInitializationSettings();
     final InitializationSettings initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid,
         iOS: initializationSettingsIOS);
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: onSelectNotification);
+    flutterLocalNotificationsPlugin.initialize(
+        initializationSettings, onSelectNotification: onSelectNotification);
   }
 
-  Future<void> _showNotification(
-      int notificationId,
+  Future<void> _showNotification(int notificationId,
       String notificationTitle,
       String notificationContent,
       String payload, {
@@ -78,7 +79,9 @@ class PushNotificationService {
     );
     var iOSPlatformChannelSpecifics =
     new IOSNotificationDetails(presentSound: false);
-    var platformChannelSpecifics = new NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+    var platformChannelSpecifics = new NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
       notificationId,
       notificationTitle,
@@ -88,8 +91,7 @@ class PushNotificationService {
     );
   }
 
-  void showNotification2(
-      int notificationId,
+  void showNotification2(int notificationId,
       String notificationTitle,
       String notificationContent,
       String payload, {
@@ -98,8 +100,9 @@ class PushNotificationService {
         String channelDescription = 'Default Android Channel for notifications',
         Priority notificationPriority = Priority.high,
         Importance notificationImportance = Importance.max,
-      })  async{
-    await  _showNotification(notificationId, notificationTitle, notificationContent, payload);
+      }) async {
+    await _showNotification(
+        notificationId, notificationTitle, notificationContent, payload);
   }
 
 
@@ -121,6 +124,29 @@ class PushNotificationService {
         //Navigate to appropriate view
       }
     }
+  }
+
+  Future<void> sendAndRetrieveMessage(token, title, message,
+      data) async {
+
+    await http.post(
+      'https://fcm.googleapis.com/fcm/send',
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$serverToken',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': message,
+            'title': title,
+          },
+          'priority': 'high',
+          'data': data,
+          'to': token,
+        },
+      ),
+    );
   }
 }
 
