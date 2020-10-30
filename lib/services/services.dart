@@ -9,3 +9,4 @@ export 'answers/answer-service.dart';
 export 'attendance/attendance-service.dart';
 export 'class_register/class-register-service.dart';
 export 'chat/chat-services.dart';
+export 'chat/db-services.dart';

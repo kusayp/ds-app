@@ -76,7 +76,7 @@ class GroupCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(group.limit.toString(), style: TextStyle(fontSize: 12,),),
-                  Text(group.teacher.firstName, style: TextStyle(fontSize: 12.0),),
+//                  Text(group., style: TextStyle(fontSize: 12.0),),
                 ],
               )
             ],

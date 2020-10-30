@@ -1,4 +1,5 @@
 import 'package:dsapp/models/chat/chat.dart';
+import 'package:dsapp/models/users/user-model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class ChatEvent extends Equatable {
@@ -11,7 +12,9 @@ abstract class ChatEvent extends Equatable {
 
 class FetchingGroupsInClassEvent extends ChatEvent {
   final String classId;
-  FetchingGroupsInClassEvent({this.classId});
+  final String userId;
+  final String filter;
+  FetchingGroupsInClassEvent({this.classId, this.userId, this.filter});
   @override
   // TODO: implement props
   List<Object> get props => [];
@@ -46,7 +49,7 @@ class ReceivedChatsEvent extends ChatEvent {
 //triggered to send new text message
 class SendTextMessageEvent extends ChatEvent {
   final String message;
-  final int to;
+  final UserModel to;
 
   SendTextMessageEvent({this.message, this.to}) : super();
 

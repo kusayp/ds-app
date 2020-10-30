@@ -8,6 +8,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 //import 'package:flutter/foundation.dart' show kDebugMode;
 import 'locator.dart';
 
+final GlobalKey<NavigatorState> navigatorKey =  GlobalKey<NavigatorState>();
+
 void main() async {
    WidgetsFlutterBinding.ensureInitialized();
    await Firebase.initializeApp();
@@ -19,10 +21,15 @@ void main() async {
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
+  Future<dynamic> navigateTo(String routeName, arguments) {
+    return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
+  }
+
   @override
   Widget build(BuildContext context) {
    // S.load(Locale(Intl.getCurrentLocale()));
     return MaterialApp(
+      navigatorKey: navigatorKey,
       localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,

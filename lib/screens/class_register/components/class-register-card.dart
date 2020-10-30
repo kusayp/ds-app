@@ -16,18 +16,21 @@ class ClassRegisterCard extends StatefulWidget {
 }
 
 class _ClassRegisterCardState extends State<ClassRegisterCard> {
-  bool _value = false;
   bool _loading = false;
-  List<ClassRegisterSave> list = [];
-  void register(){
-    list.add(ClassRegisterSave(
-        actor: widget.user.id,
-        classSchedule: widget.classSchedule,
-        present: _value
-    ));
-  }
+
   @override
   Widget build(BuildContext context) {
+
+    Widget _userText(){
+      if(widget.user.role == 8){
+        return Text("Teacher", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black26),);
+      }
+      else if (widget.user.classPrefect){
+        return Text("Class Prefect", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black26),);
+      }else{
+        return Text("");
+      }
+    }
     return BlocListener<ClassRegisterBloc, ClassRegisterState>(
       listener: (context, state) {
       },
@@ -56,7 +59,7 @@ class _ClassRegisterCardState extends State<ClassRegisterCard> {
                   Column(
                     children: [
                       Text(widget.user.firstName + " " + widget.user.lastName, style: TextStyle(fontSize: 16, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
-                      widget.user.classPrefect ? Text("Class Prefect", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black26),) : Text(""),
+                      _userText(),
                     ],
                   ),
                   _loading ? Align(
@@ -71,9 +74,6 @@ class _ClassRegisterCardState extends State<ClassRegisterCard> {
                   value: widget.user.isPresent,
                   onChanged: (value){
                     print(value);
-//                    setState(() {
-//
-//                    });
                     widget.user.isPresent = value;
                     BlocProvider.of<ClassRegisterBloc>(context).add(ToggleClassRegisterEvent(userId: widget.user.id, isPresent: value));
                   },

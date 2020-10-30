@@ -17,4 +17,7 @@ class ClassRegisterRepository {
   Future<void> saveClassRegister(schoolId, classSchedule, userId, present) async {
     return await classRegisterService.saveClassRegister(schoolId, classSchedule, userId, present);
   }
+  Future<void> saveClassRegisterInBatch(String schoolId, TimeTableModel classSchedule, List<ClassRegisterSave> classRegisters) async {
+    return await classRegisterService.saveClassRegisterBatch(schoolId, classSchedule, classRegisters);
+  }
 }

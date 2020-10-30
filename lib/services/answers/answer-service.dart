@@ -28,6 +28,7 @@ class AnswerService {
 
     final response = await http.get(endpoint, headers: headers,);
     print(response.body);
+
     if(response.statusCode != 200) {
       print(response.body);
       throw new Exception("error getting quotes");

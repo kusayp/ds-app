@@ -54,4 +54,8 @@ class ClassRegisterToggleLoadingState extends ClassRegisterState {}
 
 class ClassRegisterSavedState extends ClassRegisterState {}
 
-class ClassRegisterErrorState extends ClassRegisterState {}
+class ClassRegisterErrorState extends ClassRegisterState {
+  final String error;
+
+  ClassRegisterErrorState(this.error);
+}

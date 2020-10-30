@@ -37,7 +37,7 @@ class ConversationPage extends StatelessWidget {
       backgroundColor: appTheme().backgroundColor,
       body: BlocProvider(
         create: (context) => ChatBloc(repository: repository),
-        child: ConversationScreen(userModel: arguments,),
+        child: ConversationScreen(user: arguments,),
       ),
     );
   }

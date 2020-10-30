@@ -19,8 +19,9 @@ class MenuSuccess extends MenuState {
   final List<Module> modules;
   final SchoolModel school;
   final String role;
+  final List<NotificationModel> notifications;
 
-  MenuSuccess({@required this.modules, this.school, this.role, this.roleModules}) : assert(roleModules!= null);
+  MenuSuccess({@required this.modules, this.school, this.role, this.roleModules, this.notifications}) : assert(roleModules!= null);
 
   @override
   List<Object> get props => [modules, role, school, roleModules];
@@ -36,13 +37,10 @@ class MenuFailure extends MenuState {
 }
 
 class NotificationSuccess extends MenuState {
-  final RoleModules roleModules;
-  final List<Module> modules;
-  final SchoolModel school;
-  final String role;
+  final List<NotificationModel> notifications;
 
-  NotificationSuccess({this.modules, this.school, this.role, this.roleModules});
+  NotificationSuccess({this.notifications});
 
   @override
-  List<Object> get props => [modules, role, school, roleModules];
+  List<Object> get props => [notifications];
 }

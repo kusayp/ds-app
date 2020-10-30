@@ -32,9 +32,9 @@ class _UsersScreenState extends State<UsersScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0)),
                       color: appTheme().primaryColor,
-                      onPressed: _getUserTapped,
-                      child: Text('Parent',
-                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                      onPressed: () => _getUserTapped(1),
+                      child: Text('Login with Email',
+                          style: TextStyle(fontSize: 14, color: Colors.white)),
                     ),
                   ),
                   SizedBox(
@@ -43,9 +43,9 @@ class _UsersScreenState extends State<UsersScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0)),
                       color: appTheme().primaryColor,
-                      onPressed: _getUserTapped,
-                      child: Text('Teacher',
-                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                      onPressed: () => _getUserTapped(2),
+                      child: Text('Login with Reg. Number',
+                          style: TextStyle(fontSize: 14, color: Colors.white)),
                     ),
                   ),
                   SizedBox(
@@ -54,9 +54,9 @@ class _UsersScreenState extends State<UsersScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0)),
                       color: appTheme().primaryColor,
-                      onPressed: _getUserTapped,
-                      child: Text('Student',
-                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                      onPressed: () =>  _getUserTapped(3),
+                      child: Text('Login with Phone',
+                          style: TextStyle(fontSize: 14, color: Colors.white)),
                     ),
                   ),
                 ],
@@ -69,8 +69,7 @@ class _UsersScreenState extends State<UsersScreen> {
     );
   }
 
-  void _getUserTapped() {
-//    widget.getStartedClicked("Get Started Tapped");
-    Navigator.pushNamed(context, '/login');
+  void _getUserTapped(int id) {
+    Navigator.pushNamed(context, '/login', arguments: id);
   }
 }

@@ -8,7 +8,7 @@ class UserModel extends Equatable{
   final String firstName;
   final String middleName;
   final String lastName;
-  final String fullName;
+  String fullName;
   final String phone;
   final String email;
   final String password;
@@ -17,8 +17,8 @@ class UserModel extends Equatable{
   final String whatsAppPhone;
   final String pseudo;
   final int gender;
-  final String token;
-  final int role;
+  String token;
+  int role;
   final List<int> roles;
   final String registrationNumber;
   final bool active;
@@ -56,7 +56,6 @@ class UserModel extends Equatable{
     this.whatsAppPhone,
     this.classPrefect
   });
-
   @override
   // TODO: implement props
   List<Object> get props => [id, firstName, lastName, middleName, fullName, phone, email, password, defaultPassword, dateOfBirth, whatsAppPhone, pseudo, gender,
@@ -73,6 +72,7 @@ class UserModel extends Equatable{
         dateOfBirth : json['dateOfBirth'],
         pseudo : json['pseudo'],
         gender : json['gender'],
+        role: json.containsKey('role') ? json['role']['id'] as int : null,
         registrationNumber : json['registrationNumber'],
       studentClass: json["studentClass"] != null ? SchoolClassModel.fromJson(json['studentClass']) : null,
         picture : json['picture'],
@@ -95,5 +95,17 @@ class UserModel extends Equatable{
     'picture' : userModel.picture,
     'classPrefect': userModel.classPrefect,
   };
+
+  set setRole(int role){
+    this.role = role;
+  }
+
+  set setToken(String token){
+    this.token = token;
+  }
+
+  String get getFullName{
+    return this.fullName = firstName + " " + lastName;
+  }
 
 }

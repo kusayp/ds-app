@@ -29,17 +29,20 @@ class ChatList extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(user.firstName + " " + user.lastName),
-          Text("6:30"),
+          Icon(Icons.arrow_forward_ios, size: 20.0, color: Colors.black,),
         ],
       ),
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            "data",
+          user.role == 8 ? Text(
+            "Teacher",
+            softWrap: true,
+          ) : Text(
+            "",
             softWrap: true,
           ),
-          OnlineIndicator(),
+//          OnlineIndicator(),
         ],
       ),
       onTap: () => Navigator.pushNamed(context, ConversationPage.routeName, arguments: user),
@@ -48,7 +51,7 @@ class ChatList extends StatelessWidget {
 }
 
 class InputWidget extends StatelessWidget {
-  final int user;
+  final UserModel user;
 
   final TextEditingController textEditingController = new TextEditingController();
 

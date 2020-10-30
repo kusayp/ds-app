@@ -33,7 +33,11 @@ class UsersLoadedState extends ChatState {
 
 class ChatLoadingState extends ChatState {}
 
-class ChatErrorState extends ChatState {}
+class ChatErrorState extends ChatState {
+  final String error;
+
+  ChatErrorState(this.error);
+}
 
 class FetchedChatListState extends ChatState {
   final List<ChatModel> chatList;

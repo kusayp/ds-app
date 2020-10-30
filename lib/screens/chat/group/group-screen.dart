@@ -74,10 +74,10 @@ class _GroupsScreenState extends State<GroupsScreen> {
                             });
                             isTeacher ? BlocProvider.of<ChatBloc>(context)
                                 .add(FetchingGroupsInClassEvent(
-                                classId: widget.user.school.teacherClasses[_value-1].id.toString()))
+                                classId: widget.user.school.teacherClasses[_value-1].id.toString(), userId: widget.user.user.id.toString()))
                                 : BlocProvider.of<ChatBloc>(context)
                                 .add(FetchingGroupsInClassEvent(
-                                classId: schoolClasses[_value-1].id.toString()));
+                                classId: schoolClasses[_value-1].id.toString(), userId: widget.user.user.id.toString()));
                           }),
 
                     ),
@@ -91,7 +91,6 @@ class _GroupsScreenState extends State<GroupsScreen> {
                             id: state.groupPageData.result[index].id,
                             name: state.groupPageData.result[index].name,
                             subject: state.groupPageData.result[index].subject,
-                            teacher: state.groupPageData.result[index].teacher,
                             limit: state.groupPageData.result[index].limit,
                             classId: state.classId,
                           );
@@ -105,9 +104,9 @@ class _GroupsScreenState extends State<GroupsScreen> {
               }
               if(state is ChatEmptyState){
                 isTeacher ? BlocProvider.of<ChatBloc>(context)
-                    .add(FetchingGroupsInClassEvent(classId: widget.user.school.teacherClasses[0].id.toString()))
+                    .add(FetchingGroupsInClassEvent(classId: widget.user.school.teacherClasses[0].id.toString(), userId: widget.user.user.id.toString()))
                     : BlocProvider.of<ChatBloc>(context)
-                    .add(FetchingGroupsInClassEvent(classId: widget.user.school.studentClass.id.toString()));
+                    .add(FetchingGroupsInClassEvent(classId: widget.user.school.studentClass.id.toString(), userId: widget.user.user.id.toString()));
               }
               return Center(
                 child: CircularProgressIndicator(),
