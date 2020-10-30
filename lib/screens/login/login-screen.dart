@@ -8,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
+  final int id;
+
+  const LoginScreen({Key key, this.id}) : super(key: key);
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -31,17 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    _onLoginButtonPressed() {
-      setState(() {
-        _emailController.text.isEmpty ? _validate = true : _validate = false;
-      });
-//      print(code + _emailController.text.replaceFirst(RegExp(r'^0+'), ""));
-      if(!_validate){
-        BlocProvider.of<LoginBloc>(context).add(LoginButtonPressed(
-            username: _emailController.text, password: _passwordController.text));
-      }
-    }
-
     Widget _buildDropdownItem(Country country) => Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: Container(
@@ -57,6 +49,105 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+
+    Widget loadUserNameField(int id){
+      if(id == 1){
+        return CustomLoginField(
+          width: width-60.0,
+          labelText: "Email",
+          decoration: BoxDecoration(
+            borderRadius:
+            BorderRadius.all(Radius.circular(5)),
+            border: Border.all(
+                color: appTheme().primaryColor, width: 1.0),
+          ),
+          formField: TextFormField(
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: 10.0),
+              border: InputBorder.none,
+              errorText: _validate ? 'Value Can\'t Be Empty' : null,
+            ),
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+          ),
+        );
+      }
+      else if(id == 2){
+        return CustomLoginField(
+          width: width-60.0,
+          labelText: "Reg. Number",
+          decoration: BoxDecoration(
+            borderRadius:
+            BorderRadius.all(Radius.circular(5)),
+            border: Border.all(
+                color: appTheme().primaryColor, width: 1.0),
+          ),
+          formField: TextFormField(
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: 10.0),
+              border: InputBorder.none,
+              errorText: _validate ? 'Value Can\'t Be Empty' : null,
+            ),
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+          ),
+        );
+      }
+      else{
+        return Row(
+          children: [
+            CountryPickerDropdown(
+              initialValue: 'BJ',
+              itemBuilder: _buildDropdownItem,
+              priorityList:[
+                CountryPickerUtils.getCountryByIsoCode('GH'),
+                CountryPickerUtils.getCountryByIsoCode('TG'),
+              ],
+              sortComparator: (Country a, Country b) => a.isoCode.compareTo(b.isoCode),
+              onValuePicked: (Country country) {
+                print("${country.phoneCode}");
+                setState(() {
+                  code = "+${country.phoneCode}";
+                });
+              },
+            ),
+            Expanded(
+              child: CustomLoginField(
+                width: width-180.0,
+                labelText: "Phone",
+                decoration: BoxDecoration(
+                  borderRadius:
+                  BorderRadius.all(Radius.circular(5)),
+                  border: Border.all(
+                      color: appTheme().primaryColor, width: 1.0),
+                ),
+                formField: TextFormField(
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 10.0),
+                    border: InputBorder.none,
+                    errorText: _validate ? 'Value Can\'t Be Empty' : null,
+                  ),
+                  controller: _emailController,
+                  keyboardType: TextInputType.phone,
+                  autofocus: false,
+                ),
+              ),
+            ),
+          ],
+        );
+      }
+    }
+
+    _onLoginButtonPressed() {
+      setState(() {
+        _emailController.text.isEmpty ? _validate = true : _validate = false;
+      });
+//      print(code + _emailController.text.replaceFirst(RegExp(r'^0+'), ""));
+      if(!_validate){
+        BlocProvider.of<LoginBloc>(context).add(LoginButtonPressed(
+            username: _emailController.text, password: _passwordController.text));
+      }
+    }
 
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
@@ -98,66 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: ThemeText.loginInText,
                             ),
                             SizedBox(height: 20.0,),
-//                            Row(
-//                              children: [
-//                                CountryPickerDropdown(
-//                                  initialValue: 'BJ',
-//                                  itemBuilder: _buildDropdownItem,
-//                                  priorityList:[
-//                                    CountryPickerUtils.getCountryByIsoCode('GH'),
-//                                    CountryPickerUtils.getCountryByIsoCode('TG'),
-//                                  ],
-//                                  sortComparator: (Country a, Country b) => a.isoCode.compareTo(b.isoCode),
-//                                  onValuePicked: (Country country) {
-//                                    print("${country.phoneCode}");
-//                                    setState(() {
-//                                      code = "+${country.phoneCode}";
-//                                    });
-//                                  },
-//                                ),
-//                                Expanded(
-//                                  child: CustomLoginField(
-//                                    width: width-180.0,
-//                                    labelText: "Phone",
-//                                    decoration: BoxDecoration(
-//                                      borderRadius:
-//                                      BorderRadius.all(Radius.circular(5)),
-//                                      border: Border.all(
-//                                          color: appTheme().primaryColor, width: 1.0),
-//                                    ),
-//                                    formField: TextFormField(
-//                                      decoration: InputDecoration(
-//                                        contentPadding: EdgeInsets.only(left: 10.0),
-//                                        border: InputBorder.none,
-//                                        errorText: _validate ? 'Value Can\'t Be Empty' : null,
-//                                      ),
-//                                      controller: _emailController,
-//                                      keyboardType: TextInputType.phone,
-//                                      autofocus: false,
-//                                    ),
-//                                  ),
-//                                ),
-//                              ],
-//                            ),
-                            CustomLoginField(
-                              width: width-60.0,
-                              labelText: "Email",
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(5)),
-                                border: Border.all(
-                                    color: appTheme().primaryColor, width: 1.0),
-                              ),
-                              formField: TextFormField(
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(left: 10.0),
-                                  border: InputBorder.none,
-                                  errorText: _validate ? 'Value Can\'t Be Empty' : null,
-                                ),
-                                controller: _emailController,
-                                keyboardType: TextInputType.emailAddress,
-                              ),
-                            ),
+                            loadUserNameField(widget.id),
                             CustomLoginField(
                               width: width-60.0,
                               labelText: "Password",

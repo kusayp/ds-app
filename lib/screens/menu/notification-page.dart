@@ -1,35 +1,36 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/models/menu/menu.dart';
 import 'package:dsapp/models/models.dart';
-import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dsapp/screens/screens.dart';
 
-import '../../screens.dart';
+class NotificationPage extends StatelessWidget {
+  static const routeName = '/notification';
+  final List<Module> modules;
 
-class GroupPage extends StatelessWidget {
-  static const routeName = '/chat';
+  NotificationPage({this.modules});
+
   @override
   Widget build(BuildContext context) {
-    final MenuArguments arguments = ModalRoute.of(context).settings.arguments;
-    final ChatRepository repository = ChatRepository(chatService: ChatService());
+    final MenuService service = MenuService();
+    final String arguments = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
-        title: Text(
-          "Class Groups",
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
+        title: Text("NOTIFICATIONS", style: ThemeText.onBoardingHeader,),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
       extendBodyBehindAppBar: true,
       backgroundColor: appTheme().backgroundColor,
       body: BlocProvider(
-        create: (context) => ChatBloc(repository: repository),
-        child: GroupsScreen(user: arguments.roleModules,),
+        create: (context) => MenuBloc(menuService: service),
+        child: NotificationScreen(
+          school: arguments,
+        ),
       ),
     );
   }

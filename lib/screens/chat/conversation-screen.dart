@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConversationScreen extends StatefulWidget {
-  final UserModel userModel;
+  final UserModel user;
 
-  const ConversationScreen({Key key, this.userModel}) : super(key: key);
+  const ConversationScreen({Key key, this.user}) : super(key: key);
   @override
   _ConversationScreenState createState() => _ConversationScreenState();
 }
@@ -35,7 +35,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                 child: BlocBuilder<ChatBloc, ChatState>(
                   builder: (context, state){
                     if (state is ChatEmptyState){
-                      BlocProvider.of<ChatBloc>(context).add(FetchChatListEvent(widget.userModel.id));
+                      BlocProvider.of<ChatBloc>(context).add(FetchChatListEvent(widget.user.id));
                     }
                     if (state is FetchedChatListState)
                       messages = state.chatList;
@@ -50,7 +50,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                 ),
               ),
             ),
-            InputWidget(user: widget.userModel.id,),
+            InputWidget(user: widget.user,),
           ],
         ),
 

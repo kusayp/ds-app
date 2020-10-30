@@ -41,4 +41,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder> {
   FeePaymentPage.routeName: (BuildContext context) => FeePaymentPage(),
   ParentStudentMenuPage.routeName: (BuildContext context) => ParentStudentMenuPage(),
   AddAssignmentPage.routeName: (BuildContext context) => AddAssignmentPage(),
+  NotificationPage.routeName: (BuildContext context) => NotificationPage(),
 };

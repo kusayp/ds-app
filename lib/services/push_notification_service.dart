@@ -1,5 +1,10 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:dsapp/locator.dart';
+import 'package:dsapp/main.dart';
+import 'package:dsapp/models/models.dart';
+import 'package:dsapp/services/navigation-services.dart';
+import 'package:dsapp/services/services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +14,7 @@ import 'package:http/http.dart' as http;
 
 class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging();
+  DBServices dbServices = DBServices();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   final String serverToken = 'AAAAJxgM_dc:APA91bECZeEKMQPH-ghKOPRKAHGjCqLptZXdGIgP27vVspUPZQZYMzZ0flXBDDHDnd6Bo0zueKYLd3XfnRzb_iSx3IWnLX2GGJA3KJYNfhbxpgyIkpGiAKwt5eXc9Rt1vqOxn7ZcIBGU';
 
@@ -33,14 +39,23 @@ class PushNotificationService {
       // Called when the app has been closed comlpetely and it's opened
       // from the push notification.
       onLaunch: (Map<String, dynamic> message) async {
+        final title = message['notification']['title'] ?? '';
+        final body = message['notification']['body'] ?? '';
+        final data = jsonEncode(message['data']);
         print('onLaunch: $message');
-        _serialiseAndNavigate(message);
+        showNotification2(1234, title, body, data);
+//        _serialiseAndNavigate(message);
+
       },
       // Called when the app is in the background and it's opened
       // from the push notification.
       onResume: (Map<String, dynamic> message) async {
+        final title = message['notification']['title'] ?? '';
+        final body = message['notification']['body'] ?? '';
+        final data = jsonEncode(message['data']);
         print('onResume: $message');
-        _serialiseAndNavigate(message);
+        showNotification2(1234, title, body, data);
+//        _serialiseAndNavigate(message);
       },
       onBackgroundMessage: myBackgroundMessageHandler,
     );
@@ -108,20 +123,33 @@ class PushNotificationService {
 
   Future onSelectNotification(String payload) async {
     print('Notification selected $payload');
+    Map<String, dynamic> json = jsonDecode(payload);
+    _serialiseAndNavigate(json);
   }
 
   Future<String> getToken() async {
     return _fcm.getToken();
   }
 
-  void _serialiseAndNavigate(Map<String, dynamic> message) {
-    var notificationData = message['data'];
-    var view = notificationData['view'];
+  void _serialiseAndNavigate(Map<String, dynamic> message) async {
+//    var notificationData = message['data'];
+    var view = message['type'];
 
     if (view != null) {
       // Navigate to the create post view
-      if (view == 'create_post') {
+      if (view == 'chat_message') {
         //Navigate to appropriate view
+        ChatModel chatModel = ChatModel(
+          title: message['title'],
+          timeStamp: int.parse(message['timeStamp']),
+          message: message['message'],
+          direction: Direction.IN.index,
+          toOrFrom: int.parse(message['toOrFrom']),
+        );
+        dbServices.insertChat(chatModel);
+        UserModel user = await LoginService().getUserById(message['user']);
+        locator<MyApp>().navigateTo('/conversations', user);
+//        Get.to(NextScreen())
       }
     }
   }

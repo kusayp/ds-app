@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dsapp/exceptions/api-exceptions.dart';
 import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/utils/shared-preference.dart';
@@ -8,8 +9,10 @@ import 'package:sprintf/sprintf.dart';
 
 class ClassRegisterService {
   final baseUrl = CommonConstants.baseUrl;
+  final mobileBaseUrl = CommonConstants.baseUrl + 'mobile/schools';
   final url = 'schedules';
   final addUrl = 'class-register';
+  final batchUrl = 'registers/batch';
   LocalStorage prefs = LocalStorage();
   Future<TimeTablePageData> getClassSchedule(schoolId, classId) async {
     String userString = await prefs.getUserDetails();
@@ -88,7 +91,7 @@ class ClassRegisterService {
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-        'Authorization': 'Bearer ' + user.token,
+          'Authorization': 'Bearer ' + user.token,
         },
         body: jsonEncode(data)
     );
@@ -96,6 +99,31 @@ class ClassRegisterService {
     if(response.statusCode != 200) {
       print(response.body);
       print("Success");
+    }
+    print(response.body);
+  }
+
+  Future<void> saveClassRegisterBatch(String schoolId, TimeTableModel classSchedule, List<ClassRegisterSave> classRegisters) async {
+    String userString = await prefs.getUserDetails();
+    LoginResponse user = LoginResponse.fromJson(userString);
+    String endpoint = sprintf('%s/%s/%s/%s/%s', [mobileBaseUrl, schoolId, 'classes', classSchedule.schoolClass.id, batchUrl]);
+
+    final Map<String, List<ClassRegisterSave>> data = {
+      "registers": classRegisters,
+    };
+    final response = await http.get(endpoint,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + user.token,
+        },
+//        body: jsonEncode(data)
+    );
+
+    if(response.statusCode != 200) {
+      print(response.body);
+      print("Success");
+      throw new RestErrorHandling().handleError(response);
     }
     print(response.body);
   }
