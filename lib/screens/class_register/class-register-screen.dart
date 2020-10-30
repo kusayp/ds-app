@@ -59,6 +59,13 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
       ));
     }
 
+    void _showError(String success) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(success),
+        backgroundColor: Theme.of(context).primaryColorDark,
+      ));
+    }
+
     String studentClass (){
       if (widget.user.user.studentClass != null){
         return widget.user.user.studentClass?.id.toString();
@@ -71,12 +78,22 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
         if (state is ClassRegisterSavedState){
          _showSuccess("Class register successfully saved");
         }
+
+        if (state is ClassRegisterErrorState){
+          _showSuccess(state.error);
+        }
       },
       child: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
           child: BlocBuilder<ClassRegisterBloc, ClassRegisterState>(
           builder: (context, state) {
+            if (state is ClassRegisterErrorState){
+              isTeacher ? BlocProvider.of<ClassRegisterBloc>(context)
+                  .add(SchoolClassDropdownEventEvent(classId: widget.user.school.teacherClasses[0].id.toString()))
+                  : BlocProvider.of<ClassRegisterBloc>(context)
+                  .add(SchoolClassDropdownEventEvent(classId: widget.user.school.studentClass.id.toString()));
+            }
             if (state is ClassRegisterEmptyState || state is ClassRegisterSavedState) {
              isTeacher ? BlocProvider.of<ClassRegisterBloc>(context)
                  .add(SchoolClassDropdownEventEvent(classId: widget.user.school.teacherClasses[0].id.toString()))

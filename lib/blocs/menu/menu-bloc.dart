@@ -66,6 +66,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         if (roleModules.role == "APPRENANT"){
           prefs.setSharedPreference('schoolClassId', event.school.studentClass.id.toString());
         }
+//        NotificationPageData notificationPageData = await menuService.fetchNotificationsFilteredByUser(event.school.id.toString());
         yield MenuSuccess(modules: modules, role: roleModules.role, roleModules: item);
       }
       catch (e) {
@@ -74,9 +75,10 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
     }
 
     if (event is NotificationIconClicked) {
-      yield MenuInitial();
+      yield MenuLoading();
       try{
-        yield NotificationSuccess();
+        NotificationPageData notificationPageData = await menuService.fetchNotificationsFilteredByUser(event.school);
+        yield NotificationSuccess(notifications: notificationPageData.results);
       }
       catch(_){
 

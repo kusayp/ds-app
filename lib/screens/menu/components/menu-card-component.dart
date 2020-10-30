@@ -1,5 +1,5 @@
 import 'package:dsapp/models/menu-arguments.dart';
-import 'package:dsapp/models/menu/menu.dart';
+import 'package:dsapp/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -19,7 +19,6 @@ class MenuCard extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(context, '/' + menu.menu.toLowerCase(),
               arguments: MenuArguments(module: menu, roleModules: roleModules));
-          print("menu from menu $menu");
         },
         child: Card(
             color: Colors.white,
@@ -54,6 +53,9 @@ class MenuCard extends StatelessWidget {
 }
 
 class NotificationDialog extends StatelessWidget {
+  final List<NotificationModel> notifications;
+
+  const NotificationDialog({Key key, this.notifications}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -62,7 +64,8 @@ class NotificationDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.0),
       ),
       child: Container(
-        height: MediaQuery.of(context).size.height/1.2,
+        height: MediaQuery.of(context).size.height*0.9,
+        width: MediaQuery.of(context).size.width,
         child: Padding(
           padding: EdgeInsets.all(20.0),
           child: Column(
@@ -78,9 +81,15 @@ class NotificationDialog extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: 5,
+                  itemCount: notifications.length,
                   itemBuilder: (BuildContext context, int index){
-                    return NotificationCard();
+                    if(notifications.isEmpty){
+                      return Center(
+                        child: Text("No notifications received"),
+                      );
+                    }else{
+                      return NotificationCard(notification: notifications[index],);
+                    }
                   },
                 ),
               )
@@ -93,6 +102,9 @@ class NotificationDialog extends StatelessWidget {
 }
 
 class NotificationCard extends StatelessWidget {
+  final NotificationModel notification;
+
+  const NotificationCard({Key key, this.notification}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -109,14 +121,14 @@ class NotificationCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Communicate"),
-                Text("1 hour ago"),
-              ],
-            ),
-            Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled", softWrap: true, style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
+//            Row(
+//              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//              children: [
+//                Text("Communicate"),
+//                Text("1 hour ago"),
+//              ],
+//            ),
+            Text(notification.message, softWrap: true, style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
           ],
         ),
       ),

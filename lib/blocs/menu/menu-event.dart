@@ -17,7 +17,8 @@ class MenuDropDownSelected extends MenuEvent {
 }
 
 class NotificationIconClicked extends MenuEvent {
-  NotificationIconClicked();
+  final String school;
+  NotificationIconClicked({this.school});
 
   @override
   // TODO: implement props

@@ -12,4 +12,8 @@ class LoginRepository {
     print("inside login repo $username");
     return await loginService.login(username, password);
   }
+
+  Future<void> updateUserWithFCMToken(schoolId, userId, String token) async {
+    return await loginService.updateUser(schoolId, userId, token);
+  }
 }

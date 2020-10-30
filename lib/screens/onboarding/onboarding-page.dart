@@ -16,7 +16,6 @@ class OnBoardingPageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-//    checkUserLogin(context);
     return Scaffold(
       body: BlocProvider(
         create: (context) => OnBoardingBloc(onBoardingRepository: onBoardingRepository),
@@ -24,25 +23,6 @@ class OnBoardingPageScreen extends StatelessWidget {
       ),
     );
   }
-
-//  Future<bool> checkUserLogin(BuildContext context) async {
-//    LocalStorage prefs = LocalStorage();
-//    bool onBoardingViewed = await prefs.isOnBoardingViewed();
-//    String user = await prefs.getUserDetails();
-//    if (user != null){
-//      LoginResponse loginResponse = LoginResponse.fromJson(user);
-//      var role = loginResponse.schools.single.role.name;
-//      RoleModules roleModules = await MenuService().loadUserRoleModules(role);
-//      List<Module> modules = roleModules.modules;
-//      Navigator.pushReplacementNamed(context, '/menu', arguments: modules);
-//      return true;
-//    } else if(onBoardingViewed){
-//      Navigator.pushReplacementNamed(context, '/login');
-//      return true;
-//    }
-//    return false;
-//  }
-
 }
 
 class OnBoardingPage extends StatefulWidget {

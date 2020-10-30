@@ -86,10 +86,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                   Container(
                     alignment: Alignment.centerRight,
                     child: FlatButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/login');
-                        sharedPreferences.setOnBoardingViewed(onBoardingViewed: true);
-                      },
+                      onPressed: _getStartedTapped,
                       child: Text(
                         'Skip',
                         style: ThemeText.onBoardingSkip
@@ -163,7 +160,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   void _getStartedTapped() async {
-      Navigator.pushNamed(context, '/login');
+      Navigator.pushNamed(context, '/users');
       sharedPreferences.setOnBoardingViewed(onBoardingViewed: true);
   }
 

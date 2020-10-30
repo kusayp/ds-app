@@ -6,16 +6,16 @@ class ChatRepository {
 
   ChatRepository({this.chatService});
 
-  Future<GroupPageData> getGroupsInClass(schoolId, classId) async {
-    return await chatService.getGroupsInClass(schoolId, classId);
+  Future<GroupPageData> getGroupsInClass(schoolId, classId, user) async {
+    return await chatService.getGroupsInClass(schoolId, classId, user);
   }
 
   Future<List<UserModel>> getUserInGroups(schoolId, classId, groupId) async {
     return await chatService.getUserInGroups(schoolId, classId, groupId);
   }
 
-  Future<void> saveChat(token, ChatModel chatModel, data) async {
-    await chatService.saveChat(token, chatModel, data);
+  Future<void> saveChat(ChatModel chatModel, data) async {
+    await chatService.saveChat(chatModel, data);
   }
 
   Future<List<ChatModel>> getChatsFromDb(int toOrFrom) async {

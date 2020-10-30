@@ -10,12 +10,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    int id = ModalRoute.of(context).settings.arguments;
     final LoginRepository repository = LoginRepository(loginService: LoginService());
     return Scaffold(
+      appBar: AppBar(
+        leading: BackButton(color: Colors.black),
+        title: Text(
+          "Chat",
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
+      extendBodyBehindAppBar: true,
       backgroundColor: appTheme().backgroundColor,
       body: BlocProvider(
         create: (context) => LoginBloc(loginRepository: repository),
-        child: LoginScreen(),
+        child: LoginScreen(id: id,),
       ),
     );
   }

@@ -1,10 +1,12 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/locator.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/menu/components/menu-card-component.dart';
+import 'package:dsapp/screens/menu/menu.dart';
+import 'package:dsapp/services/push_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class MenuScreen extends StatefulWidget {
   final UserModel user;
@@ -18,6 +20,18 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   int initialValue = 1;
+  final PushNotificationService _pushNotificationService =
+  locator<PushNotificationService>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _pushNotificationService.initialise();
+    _pushNotificationService.getToken().then((value) {
+      print('fcm token: $value');
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +48,7 @@ class _MenuScreenState extends State<MenuScreen> {
     }
 
     return BlocListener<MenuBloc, MenuState>(
-      listener: (context, state) {
-        if (state is NotificationSuccess) {
-          showDialog(
-              context: context,
-              builder: (_) => NotificationDialog(),
-              barrierDismissible: false);
-        }
-      },
+      listener: (context, state) {},
       child: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -53,8 +60,9 @@ class _MenuScreenState extends State<MenuScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        height: 50.0,
+                        height: MediaQuery.of(context).size.height*0.05,
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
@@ -63,44 +71,13 @@ class _MenuScreenState extends State<MenuScreen> {
                                   widget.user.lastName,
                               style: TextStyle(fontSize: 20.0),
                             ),
-                            Stack(
-                              children: [
-//                                  IconButton(icon: Icon(Icons.notifications_active), onPressed: (){
-////                                BlocProvider.of<MenuBloc>(context)
-////                                    .add(NotificationIconClicked());
-//                                    showDialog(
-//                                        context: context,
-//                                        builder: (_) => NotificationDialog(),
-//                                        barrierDismissible: false
-//                                    );
-//                                  },
-//                                  ),
-                                SvgPicture.asset(
-                                    "assets/images/menu/Notification.svg"),
-                                Positioned(
-                                  right: 11,
-                                  top: 11,
-                                  child: Container(
-                                    padding: EdgeInsets.all(2),
-                                    decoration: new BoxDecoration(
-                                      color: Hexcolor('#F65A75'),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    constraints: BoxConstraints(
-                                      minWidth: 14,
-                                      minHeight: 14,
-                                    ),
-                                    child: Text(
-                                      '2',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 8,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                )
-                              ],
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, NotificationPage.routeName,
+                                    arguments: widget.schools[initialValue - 1].id.toString());
+                              },
+                              child: SvgPicture.asset(
+                                  "assets/images/menu/Notification.svg",),
                             ),
                           ],
                         ),
@@ -116,8 +93,8 @@ class _MenuScreenState extends State<MenuScreen> {
                               });
                               BlocProvider.of<MenuBloc>(context).add(
                                   MenuDropDownSelected(
-                                      school: widget.schools[value - 1],
-                                      role: widget.schools[value - 1].role.name,
+                                      school: widget.schools[initialValue - 1],
+                                      role: widget.schools[initialValue - 1].role.name,
                                       user: widget.user));
                             }),
                       ),
@@ -142,13 +119,11 @@ class _MenuScreenState extends State<MenuScreen> {
                     ],
                   );
                 }
-                if (state is MenuInitial) {
-                  print("Empty bloc");
+                if (state is MenuInitial)
                   BlocProvider.of<MenuBloc>(context).add(MenuDropDownSelected(
                       school: widget.schools[initialValue - 1],
                       role: widget.schools[initialValue - 1].role.name,
                       user: widget.user));
-                }
                 return Center(
                   child: CircularProgressIndicator(),
                 );
