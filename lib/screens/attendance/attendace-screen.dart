@@ -29,6 +29,13 @@ class AttendanceScreen extends StatelessWidget {
           BlocProvider.of<AttendanceBloc>(context)
               .add(TodayAttendanceEvent(actorId: userId, classId: classId));
         }
+
+        if (state is AttendanceLoadingState){
+//                context.showLoaderOverlay();
+          return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+//                  return CircularProgressIndicator();
+        }
+
         return Center(
           child: CircularProgressIndicator()
         );

@@ -93,6 +93,13 @@ class TimeTableScreen extends StatelessWidget {
                     BlocProvider.of<TimeTableBloc>(context)
                         .add(GetTimeTableFromDayEvent(day: currentDay.day, classId: classId, teacherId: teacherId));
                   }
+
+                  if (state is TimeTableLoading){
+//                context.showLoaderOverlay();
+                    return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+//                  return CircularProgressIndicator();
+                  }
+
                   return Center(
                     child: CircularProgressIndicator(),
                   );

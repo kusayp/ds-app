@@ -5,7 +5,7 @@ import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-//import 'package:http/http.dart' as http;
+import 'package:loader_overlay/loader_overlay.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -16,7 +16,7 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
-          "Chat",
+          "Login",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,

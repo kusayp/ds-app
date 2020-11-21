@@ -20,16 +20,16 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   int initialValue = 1;
-  final PushNotificationService _pushNotificationService =
-  locator<PushNotificationService>();
+//  final PushNotificationService _pushNotificationService =
+//  locator<PushNotificationService>();
 
   @override
   void initState() {
     // TODO: implement initState
-    _pushNotificationService.initialise();
-    _pushNotificationService.getToken().then((value) {
-      print('fcm token: $value');
-    });
+//    _pushNotificationService.initialise();
+//    _pushNotificationService.getToken().then((value) {
+//      print('fcm token: $value');
+//    });
     super.initState();
   }
 

@@ -190,26 +190,6 @@ class MessageCard extends StatelessWidget {
           )
         ]);
   }
-
-//  return Padding(
-//  padding: const EdgeInsets.symmetric(
-//  vertical: 8.0,
-//  horizontal: 5.0,
-//  ),
-//  child: Align(
-//  alignment: message.senderId == userId
-//  ? Alignment.centerRight
-//      : Alignment.centerLeft,
-//  child: Column(
-//  crossAxisAlignment: message.senderId == userId
-//  ? CrossAxisAlignment.end
-//      : CrossAxisAlignment.start,
-//  children: [
-//
-//  ],
-//  ),
-//  ),
-//  );
 }
 
 

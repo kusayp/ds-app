@@ -13,7 +13,7 @@ class LoginRepository {
     return await loginService.login(username, password);
   }
 
-  Future<void> updateUserWithFCMToken(schoolId, userId, String token) async {
-    return await loginService.updateUser(schoolId, userId, token);
+  Future<void> updateUserWithFCMToken(schoolId, LoginResponse response, String token) async {
+    return await loginService.updateUser(schoolId, response, token);
   }
 }

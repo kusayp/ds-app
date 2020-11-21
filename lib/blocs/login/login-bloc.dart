@@ -29,7 +29,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         sharedPreferences.setAuthToken(response.token);
         _pushNotificationService.getToken().then((value) async {
           print('fcm token: $value');
-          await loginRepository.updateUserWithFCMToken(1, response.user.id, value);
+          loginRepository.updateUserWithFCMToken(1, response, value);
         });
         yield LoginSuccess(loginResponse: response);
       }

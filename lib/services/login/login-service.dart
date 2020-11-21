@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/models/users/login-response.dart';
@@ -36,23 +37,26 @@ class LoginService {
     return LoginResponse.fromJson(response.body);
   }
 
-  Future<void> updateUser(schoolId, userId, String token) async {
-    String endpoint = sprintf('%s%s/%s', [baseUrl, usersUrl, userId]);
+  Future<void> updateUser(schoolId, LoginResponse _response, String token) async {
+    String endpoint = sprintf('%s%s/%s', [baseUrl, usersUrl, _response.user.id]);
 
     final Map<String, dynamic> data = {
       "deviceId": token,
     };
     final response = await http.put(endpoint,
         headers: <String, String>{
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + _response.token,
         },
         body: jsonEncode(data)
     );
 
     if(response.statusCode != 200) {
-      print("error getting quotes");
-      print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
+    }
+
+    if(response.statusCode == 200) {
+      print("success");
     }
   }
 

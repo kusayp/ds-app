@@ -5,6 +5,7 @@ import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class ExamsPage extends StatelessWidget {
   static const routeName = '/exam';
@@ -25,7 +26,7 @@ class ExamsPage extends StatelessWidget {
       extendBodyBehindAppBar: true,
       backgroundColor: appTheme().backgroundColor,
       body: BlocProvider(
-        create: (context) => ExamsBloc(repository: repository),
+        create: (context) => ExamsBloc(repository: repository)..add(FetchingExamsEvent()),
         child: ExamsScreen(),
       ),
     );

@@ -38,8 +38,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       yield ChatLoadingState();
       try{
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
+        List<UserModel> users = [];
         final List<UserModel> response = await repository.getUserInGroups(schoolId, event.group.classId, event.group.id);
-        yield UsersLoadedState(users: response);
+        for(var i=0; i<response.length; i++){
+          if(response[i].deviceId != null){
+            users.add(response[i]);
+          }
+        }
+        yield UsersLoadedState(users: users);
       }
       on ApiException catch(e){
         yield ChatErrorState(e.getMessage());
@@ -64,7 +70,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         'timeStamp': DateTime.now().millisecondsSinceEpoch,
         'type': 'chat_message',
         'user': user.user.id,
-        'token': event.to.token,
+        'token': event.to.deviceId,
       };
       await repository.saveChat(chatModel, data);
 //      FetchChatListEvent();
@@ -82,8 +88,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       yield FetchedChatListState(chatList: event.chatList);
     }
   }
-
-//  PushNotificationService().sendAndRetrieveMessage("cyLrlauUQvykx3ASMBGa6z:APA91bEh4Cqbg7DSBzZY9eImWPxNBi3oXkeuraiEoANiBy1moLQz_061M-T3U94dFaPzVeVeX2j8p25Zmb6hx6gDGwSmrBNy0pd32z57AN_vRgQ16zcRp7pViaGFNgbB5JULkU_DSdsn", "DS APP", textEditingController.text, Map<String, dynamic>());
 
   Stream<ChatState> mapFetchChatListEventToState(
       FetchChatListEvent event) async* {
