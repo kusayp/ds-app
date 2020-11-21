@@ -72,7 +72,7 @@ class SubmitAnswerScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Addition and substraction.pdf", style: ThemeText.menuDropDownText,),
+                        Text("Addition and subtraction.pdf", style: ThemeText.menuDropDownText,),
                       ],
                     ),
                   ),

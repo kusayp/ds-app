@@ -94,12 +94,14 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
                   : BlocProvider.of<ClassRegisterBloc>(context)
                   .add(SchoolClassDropdownEventEvent(classId: widget.user.school.studentClass.id.toString()));
             }
+
             if (state is ClassRegisterEmptyState || state is ClassRegisterSavedState) {
              isTeacher ? BlocProvider.of<ClassRegisterBloc>(context)
                  .add(SchoolClassDropdownEventEvent(classId: widget.user.school.teacherClasses[0].id.toString()))
              : BlocProvider.of<ClassRegisterBloc>(context)
                  .add(SchoolClassDropdownEventEvent(classId: widget.user.school.studentClass.id.toString()));
             }
+
             if (state is ClassRegisterLoadedState || state is ClassRegisterToggledState){
               List<UserModel> users= state is ClassRegisterLoadedState ? state.users : (state as ClassRegisterToggledState).users;
               List<TimeTableModel> schedules= state is ClassRegisterLoadedState ? state.schedules : (state as ClassRegisterToggledState).schedules;
@@ -164,6 +166,13 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
                 ],
               );
             }
+
+            if (state is ClassRegisterLoadingState){
+//                context.showLoaderOverlay();
+              return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+//                  return CircularProgressIndicator();
+            }
+
             return Center(
               child: CircularProgressIndicator(),
             );

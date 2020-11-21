@@ -56,13 +56,20 @@ class ProfileScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
-              child: Align(
+              child: userDetails.user.picture != null ? Align(
                 alignment: Alignment.bottomCenter,
                 child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/payment/download.jpeg'),
+                  backgroundImage: NetworkImage(userDetails.user.picture),
                   radius: 70.0,
                 ),
-              ),
+              )
+      : Align(
+      alignment: Alignment.bottomCenter,
+      child: CircleAvatar(
+        backgroundImage: AssetImage('assets/images/payment/download.jpeg'),
+        radius: 70.0,
+      ),
+    ),
             ),
 //          SizedBox(height: 5.0,),
             Text(sprintf('%s %s', [userDetails.user.firstName.toUpperCase(), userDetails.user.lastName.toUpperCase()]), style: TextStyle(fontSize: 24,), textAlign: TextAlign.center,),

@@ -10,7 +10,7 @@ class ExamsBloc extends Bloc<ExamsEvent, ExamsState> {
 
   @override
   void onTransition(Transition<ExamsEvent, ExamsState> transition) {
-    print(transition);    super.onTransition(transition);
+    print(transition); super.onTransition(transition);
   }
 
   @override

@@ -150,6 +150,45 @@ class UserNotFoundDialog extends StatelessWidget {
   }
 }
 
+class ErrorDialog extends StatelessWidget {
+  final String errorMessage;
+
+  const ErrorDialog({Key key, this.errorMessage}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    void goBack(){
+      Navigator.pop(context);
+    }
+    return Dialog(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      child: Container(
+        height: 200,
+        child: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.error, size: 50.0, color: Colors.red,),
+//              SvgPicture.asset("assets/icons/User not found.svg"),
+              SizedBox(height: 10.0,),
+                Text(errorMessage, style: TextStyle(fontSize: 16.0),),
+                SizedBox(height: 10.0,),
+//              Text("Please check and retry again with the correct information", style: TextStyle(fontSize: 16.0),),
+                LoginButton(buttonText: "OK", onButtonPressed: goBack,),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class NoConnectionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

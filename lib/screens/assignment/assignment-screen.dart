@@ -55,6 +55,13 @@ class AssignmentScreen extends StatelessWidget {
                       BlocProvider.of<AssignmentBloc>(context)
                           .add(FetchingAssignmentEvent(teacherId: user.roleModules.user.id.toString()));
                     }
+
+                    if (state is AssignmentLoadingState){
+//                context.showLoaderOverlay();
+                      return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+//                  return CircularProgressIndicator();
+                    }
+
                     return Center(
                       child: CircularProgressIndicator(),
                     );

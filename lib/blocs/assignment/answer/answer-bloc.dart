@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/repositories/repositories.dart';
@@ -27,8 +28,8 @@ class AnswerBloc extends Bloc<AnswerEvent, AnswerState> {
         print(response);
         yield AnswerLoadedState(answerPageData: response, role: role);
       }
-      catch(_){
-        yield AnswerErrorState();
+      on ApiException catch(e){
+        yield AnswerErrorState(e.getMessage());
       }
     }
 
@@ -44,8 +45,8 @@ class AnswerBloc extends Bloc<AnswerEvent, AnswerState> {
         await repository.saveAnswer(schoolId, event.assignmentId, data);
         yield AnswerSavedState();
       }
-      catch(_){
-        yield AnswerErrorState();
+      on ApiException catch(e){
+        yield AnswerErrorState(e.getMessage());
       }
     }
   }

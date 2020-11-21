@@ -32,6 +32,13 @@ class FeesScreen extends StatelessWidget {
               BlocProvider.of<FeesBloc>(context)
                   .add(FetchingFeesEvent(classId: classId, userId: roleModules.user.id.toString()));
             }
+
+            if (state is FeesLoadingState){
+//                context.showLoaderOverlay();
+              return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+//                  return CircularProgressIndicator();
+            }
+
             return Center(
               child: CircularProgressIndicator(),
             );
