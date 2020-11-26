@@ -22,12 +22,14 @@ class _GroupsScreenState extends State<GroupsScreen> {
   bool isTeacher;
   var schoolClasses = List<SchoolClassModel>();
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+  bool hasClass;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     isTeacher = widget.user.role == "ENSEINGNANT";
+    hasClass = widget.user.school.teacherClasses.isNotEmpty;
   }
 
   @override
@@ -68,7 +70,24 @@ class _GroupsScreenState extends State<GroupsScreen> {
         );
       }
       else {
-
+        return Expanded(
+          child: ListView.builder(
+            itemCount: state.groupPageData.result.length,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              GroupModel groupModel = GroupModel(
+                id: state.groupPageData.result[index].id,
+                name: state.groupPageData.result[index].name,
+                subject: state.groupPageData.result[index].subject,
+                limit: state.groupPageData.result[index].limit,
+                classId: state.classId,
+              );
+              return GroupCard(
+                group: groupModel,
+              );
+            },
+          ),
+        );
       }
     }
 
@@ -124,23 +143,8 @@ class _GroupsScreenState extends State<GroupsScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: state.groupPageData.result.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          GroupModel groupModel = GroupModel(
-                            id: state.groupPageData.result[index].id,
-                            name: state.groupPageData.result[index].name,
-                            subject: state.groupPageData.result[index].subject,
-                            limit: state.groupPageData.result[index].limit,
-                            classId: state.classId,
-                          );
-                          return GroupCard(
-                            group: groupModel,
-                          );
-                        },
-                      ),
+                    Container(
+                      child: generateGroupsContent(state),
                     ),
                   ],
                 );
@@ -150,14 +154,14 @@ class _GroupsScreenState extends State<GroupsScreen> {
                 isTeacher
                     ? BlocProvider.of<ChatBloc>(context).add(
                         FetchingGroupsInClassEvent(
-                            classId: widget.user.school.teacherClasses[0].id
-                                .toString(),
-                            userId: widget.user.user.id.toString()))
+                            classId: hasClass ? widget?.user?.school?.teacherClasses[0].id
+                                .toString() : null,
+                            userId: widget?.user?.user?.id?.toString()))
                     : BlocProvider.of<ChatBloc>(context).add(
                         FetchingGroupsInClassEvent(
                             classId:
-                                widget.user.school.studentClass.id.toString(),
-                            userId: widget.user.user.id.toString()));
+                                widget.user?.school?.studentClass?.id?.toString(),
+                            userId: widget?.user?.user?.id?.toString()));
               }
 
               if (state is ChatLoadingState) {

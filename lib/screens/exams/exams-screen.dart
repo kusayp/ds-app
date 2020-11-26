@@ -10,7 +10,18 @@ class ExamsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ExamsBloc, ExamsState>(
-      listener: (context, state){},
+      listener: (context, state){
+        if (state is ExamsErrorState) {
+          print(state.errorMessage);
+//          context.hideLoaderOverlay();
+          showDialog(
+              context: context,
+              builder: (_) => ErrorDialog(
+                errorMessage: state.errorMessage,
+              ),
+              barrierDismissible: false);
+        }
+      },
       child: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20.0),
@@ -19,6 +30,16 @@ class ExamsScreen extends StatelessWidget {
             builder: (context, state) {
               if (state is ExamsLoadedState) {
 //                context.hideLoaderOverlay();
+                if (state.examsPageData.results.length == 0) {
+                  return Center(
+                    child: Icon(
+                      Icons.do_not_disturb,
+                      size: 50.0,
+                      color: Colors.black,
+                      semanticLabel: "No Data Found",
+                    ),
+                  );
+                } else{
                 return ListView.builder(
                   itemCount: state.examsPageData.results.length,
                   shrinkWrap: true,
@@ -27,6 +48,7 @@ class ExamsScreen extends StatelessWidget {
                     );
                   },
                 );
+                }
               }
 //              if(state is ExamsEmptyState){
 //                print("Empty bloc");

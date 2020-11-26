@@ -22,4 +22,8 @@ class AttendanceLoadedState extends AttendanceState {
 
 class AttendanceLoadingState extends AttendanceState {}
 
-class AttendanceErrorState extends AttendanceState {}
+class AttendanceErrorState extends AttendanceState {
+  final String error;
+
+  AttendanceErrorState(this.error);
+}

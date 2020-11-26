@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/shared-preference.dart';
@@ -22,8 +24,15 @@ class LogOut extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    if(true){
-      Future.delayed(Duration(milliseconds: 5)  ,() => logoutUser(context));
+    if(true) {
+      try{
+        final result = InternetAddress.lookup('example.com').timeout(Duration(seconds: 3));
+        if (result != null){
+          Future.delayed(Duration(milliseconds: 5)  ,() => logoutUser(context));
+        }
+      } on SocketException catch (_) {
+        print("No connection");
+      }
     }
     return Scaffold(
       backgroundColor: appTheme().backgroundColor,

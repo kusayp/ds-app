@@ -37,16 +37,30 @@ class SubmitAnswerScreen extends StatelessWidget {
       }
     }
 
+    void _showSnackBar(String success, Color color) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(success),
+        backgroundColor: color,
+      ));
+    }
+
     return SafeArea(
       child: BlocListener<AnswerBloc, AnswerState>(
         listener: (context, state) {
-      if (state is AnswerSavedState) {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          AnswerPage.routeName,  ModalRoute.withName(AssignmentDetailPage.routeName),
-        arguments: arguments.assignment,
-        );
-      }
+          if (state is AnswerErrorState){
+            print(state.errorMessage);
+//          context.hideLoaderOverlay();
+            showDialog(
+                context: context,
+                builder: (_) => ErrorDialog(errorMessage: state.errorMessage,),
+                barrierDismissible: false
+            );
+          }
+
+          if (state is AnswerSavedState){
+            _showSnackBar("Answer successfully submitted", Colors.green);
+          }
+
         },
         child: Padding(
           padding: EdgeInsets.all(20.0),
@@ -80,6 +94,22 @@ class SubmitAnswerScreen extends StatelessWidget {
                 ],
               );
             }
+
+            if (state is AnswerLoadingState){
+//                context.showLoaderOverlay();
+              return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+//                  return CircularProgressIndicator();
+            }
+
+            if (state is AnswerSavedState) {
+              Future.delayed(Duration(milliseconds: 5), () => Navigator.pushNamedAndRemoveUntil(
+                context,
+                AnswerPage.routeName,  ModalRoute.withName(AssignmentDetailPage.routeName),
+                arguments: arguments.assignment.id,
+              ),
+              );
+            }
+
             return Center(
               child: CircularProgressIndicator(),
             );

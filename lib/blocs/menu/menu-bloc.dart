@@ -31,7 +31,10 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         LoginResponse loginResponse = LoginResponse.fromJson(user);
         List<Module> list = [];
         var modules = List<Module>();
-        if(!isStudentParent){
+
+        RoleModules roleModules = await menuService.loadUserRoleModules(event.role);
+
+        if(roleModules.role == "PARENT"){
           for(var i = 0; i < event.school.children.length; i++){
             list.add(
                 Module(
@@ -48,12 +51,11 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
           prefs.setSharedPreference("school", json.encode(SchoolModel.toJson(event.school)));
         }
 
-        RoleModules roleModules = await menuService.loadUserRoleModules(event.role);
-        if(!loginResponse.user.classPrefect){
+        if(!loginResponse.user.classPrefect && roleModules.role == "APPRENANT"){
+          roleModules.modules.removeAt(6);
           modules.insertAll(modules.length, roleModules.modules);
         }
         else{
-          roleModules.modules.removeAt(6);
           modules.insertAll(modules.length, roleModules.modules);
         }
         RoleModules item = RoleModules(
@@ -66,7 +68,6 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         if (roleModules.role == "APPRENANT"){
           prefs.setSharedPreference('schoolClassId', event.school.studentClass.id.toString());
         }
-//        NotificationPageData notificationPageData = await menuService.fetchNotificationsFilteredByUser(event.school.id.toString());
         yield MenuSuccess(modules: modules, role: roleModules.role, roleModules: item);
       }
       catch (e) {

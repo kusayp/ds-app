@@ -26,8 +26,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       yield ChatLoadingState();
       try{
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
+        if (event.classId == null){
+          yield ChatErrorState("User does not belong to a class");
+        }
+        else{
         final GroupPageData response = await repository.getGroupsInClass(schoolId, event.classId, event.userId);
         yield ChatLoadedState(groupPageData: response, classId: event.classId);
+        }
       }
       on ApiException catch(e){
         yield ChatErrorState(e.getMessage());

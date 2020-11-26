@@ -108,14 +108,28 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
         });
     }
 
+    void _showSnackBar(String success, Color color) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(success),
+        backgroundColor: color,
+      ));
+    }
+
     return SafeArea(
       child: BlocListener<AddAssignmentBloc, AddAssignmentState>(
         listener: (context, state) {
-          if (state is AssignmentSavedState) {
-            Navigator.pushNamedAndRemoveUntil(
-              context, AssignmentPage.routeName, ModalRoute.withName("/menu"),
-              arguments: widget.arguments,
+          if (state is AddAssignmentErrorState){
+            print(state.errorMessage);
+//          context.hideLoaderOverlay();
+            showDialog(
+                context: context,
+                builder: (_) => ErrorDialog(errorMessage: state.errorMessage,),
+                barrierDismissible: false
             );
+          }
+
+          if (state is AssignmentSavedState){
+            _showSnackBar("Assignment score successfully saved", Colors.green);
           }
         },
         child: BlocBuilder<AddAssignmentBloc, AddAssignmentState>(
@@ -278,6 +292,21 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
               ),
             );
           }
+
+          if (state is AddAssignmentLoadingState){
+//                context.showLoaderOverlay();
+            return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+//                  return CircularProgressIndicator();
+          }
+
+          if (state is AssignmentSavedState) {
+            Future.delayed(Duration(milliseconds: 5), () => Navigator.pushNamedAndRemoveUntil(
+              context, AssignmentPage.routeName, ModalRoute.withName("/menu"),
+              arguments: widget.arguments,
+            ),
+            );
+          }
+
           return Center(
             child: CircularProgressIndicator(),
           );

@@ -108,16 +108,16 @@ class ClassRegisterService {
     LoginResponse user = LoginResponse.fromJson(userString);
     String endpoint = sprintf('%s/%s/%s/%s/%s', [mobileBaseUrl, schoolId, 'classes', classSchedule.schoolClass.id, batchUrl]);
 
-    final Map<String, List<ClassRegisterSave>> data = {
-      "registers": classRegisters,
+    final Map<String, List<Map<String, dynamic>>> data = {
+      "registers": classRegisters.isNotEmpty ? classRegisters.map((e) => ClassRegisterSave.toJson(e)).toList() : null,
     };
-    final response = await http.get(endpoint,
+    final response = await http.post(endpoint,
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + user.token,
         },
-//        body: jsonEncode(data)
+        body: jsonEncode(data)
     );
 
     if(response.statusCode != 200) {

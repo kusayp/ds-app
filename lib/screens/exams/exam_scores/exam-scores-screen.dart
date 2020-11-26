@@ -13,7 +13,18 @@ class ExamScoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ExamScoreBloc, ExamScoreState>(
-      listener: (context, state){},
+      listener: (context, state){
+        if (state is ExamScoreErrorState) {
+          print(state.errorMessage);
+//          context.hideLoaderOverlay();
+          showDialog(
+              context: context,
+              builder: (_) => ErrorDialog(
+                errorMessage: state.errorMessage,
+              ),
+              barrierDismissible: false);
+        }
+      },
       child: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20.0),
@@ -47,11 +58,19 @@ class ExamScoreScreen extends StatelessWidget {
                         },
                       );
                     }
+
+                    if (state is ExamScoreLoadingState){
+//                context.showLoaderOverlay();
+                      return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+//                  return CircularProgressIndicator();
+                    }
+
                     if(state is ExamScoreInitialState){
                       print("Empty bloc");
                       BlocProvider.of<ExamScoreBloc>(context)
                           .add(FetchingExamScoreEvent(examinationId: exam.id.toString()));
                     }
+
                     if(state is ExamScoreEmptyState){
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -62,6 +81,7 @@ class ExamScoreScreen extends StatelessWidget {
                         ],
                       );
                     }
+
                     return Center(
                       child: CircularProgressIndicator(),
                     );
