@@ -23,4 +23,8 @@ class AssignmentLoadedState extends AssignmentState {
 
 class AssignmentLoadingState extends AssignmentState {}
 
-class AssignmentErrorState extends AssignmentState {}
+class AssignmentErrorState extends AssignmentState {
+  final String errorMessage;
+
+  AssignmentErrorState(this.errorMessage);
+}

@@ -16,9 +16,9 @@ class AttendancePage extends StatelessWidget {
     final AttendanceRepository repository = AttendanceRepository(attendanceService: AttendanceService());
     String studentClass (){
       if (arguments.roleModules.user.studentClass != null){
-        return arguments.roleModules.user.studentClass?.id.toString();
+        return arguments.roleModules?.user?.studentClass?.id?.toString();
       }
-      return arguments.roleModules.school.studentClass.id.toString();
+      return arguments.roleModules?.school?.studentClass?.id?.toString();
     }
     return DefaultTabController(
       length: 2,

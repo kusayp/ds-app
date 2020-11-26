@@ -22,4 +22,8 @@ class ExamsLoadedState extends ExamsState {
 
 class ExamsLoadingState extends ExamsState {}
 
-class ExamsErrorState extends ExamsState {}
+class ExamsErrorState extends ExamsState {
+  final String errorMessage;
+
+  ExamsErrorState(this.errorMessage);
+}

@@ -19,11 +19,14 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
   int _value = 1;
   int _scheduleValue = 1;
   var schoolClasses = List<SchoolClassModel>();
+  bool hasClass;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     isTeacher = widget.user.role == "ENSEINGNANT";
+    hasClass = widget.user.school.teacherClasses.isNotEmpty;
   }
   @override
   Widget build(BuildContext context) {
@@ -52,35 +55,28 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
       }
       return children;
     }
-    void _showSuccess(String success) {
+    void _showSnackBar(String success, Color color) {
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text(success),
-        backgroundColor: Theme.of(context).splashColor,
-      ));
-    }
-
-    void _showError(String success) {
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text(success),
-        backgroundColor: Theme.of(context).primaryColorDark,
+        backgroundColor: color,
       ));
     }
 
     String studentClass (){
       if (widget.user.user.studentClass != null){
-        return widget.user.user.studentClass?.id.toString();
+        return widget.user?.user?.studentClass?.id?.toString();
       }
-      return widget.user.school.studentClass?.id.toString();
+      return widget.user?.school?.studentClass?.id?.toString();
     }
 
     return BlocListener<ClassRegisterBloc, ClassRegisterState>(
       listener: (context, state) {
         if (state is ClassRegisterSavedState){
-         _showSuccess("Class register successfully saved");
+         _showSnackBar("Class register successfully saved", Colors.green);
         }
 
         if (state is ClassRegisterErrorState){
-          _showSuccess(state.error);
+          _showSnackBar(state.error, Colors.red);
         }
       },
       child: SafeArea(
@@ -88,18 +84,12 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
           padding: EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
           child: BlocBuilder<ClassRegisterBloc, ClassRegisterState>(
           builder: (context, state) {
-            if (state is ClassRegisterErrorState){
-              isTeacher ? BlocProvider.of<ClassRegisterBloc>(context)
-                  .add(SchoolClassDropdownEventEvent(classId: widget.user.school.teacherClasses[0].id.toString()))
-                  : BlocProvider.of<ClassRegisterBloc>(context)
-                  .add(SchoolClassDropdownEventEvent(classId: widget.user.school.studentClass.id.toString()));
-            }
 
             if (state is ClassRegisterEmptyState || state is ClassRegisterSavedState) {
              isTeacher ? BlocProvider.of<ClassRegisterBloc>(context)
-                 .add(SchoolClassDropdownEventEvent(classId: widget.user.school.teacherClasses[0].id.toString()))
+                 .add(SchoolClassDropdownEventEvent(classId: hasClass ? widget?.user?.school?.teacherClasses[0]?.id?.toString() : null))
              : BlocProvider.of<ClassRegisterBloc>(context)
-                 .add(SchoolClassDropdownEventEvent(classId: widget.user.school.studentClass.id.toString()));
+                 .add(SchoolClassDropdownEventEvent(classId: widget?.user?.school?.studentClass?.id?.toString()));
             }
 
             if (state is ClassRegisterLoadedState || state is ClassRegisterToggledState){
@@ -121,10 +111,10 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
                           });
                           isTeacher ? BlocProvider.of<ClassRegisterBloc>(context)
                               .add(SchoolClassDropdownEventEvent(
-                              classId: widget.user.school.teacherClasses[_value-1].id.toString()))
+                              classId: widget?.user?.school?.teacherClasses[_value-1].id.toString()))
                           : BlocProvider.of<ClassRegisterBloc>(context)
                               .add(SchoolClassDropdownEventEvent(
-                              classId: schoolClasses[_value-1].id.toString()));
+                              classId: schoolClasses[_value-1]?.id.toString()));
                         }),
 
                   ),

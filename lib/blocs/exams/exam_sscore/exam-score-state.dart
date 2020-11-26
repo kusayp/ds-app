@@ -22,6 +22,10 @@ class ExamScoreLoadedState extends ExamScoreState {
 
 class ExamScoreLoadingState extends ExamScoreState {}
 
-class ExamScoreErrorState extends ExamScoreState {}
+class ExamScoreErrorState extends ExamScoreState {
+  final String errorMessage;
+
+  ExamScoreErrorState(this.errorMessage);
+}
 
 class ExamScoreEmptyState extends ExamScoreState {}

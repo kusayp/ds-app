@@ -8,6 +8,14 @@ class ClassRegisterSave extends Equatable {
 
   ClassRegisterSave({this.user, this.schedule, this.present, this.role});
 
+  static Map<String, dynamic> toJson(ClassRegisterSave classRegisterSave) => {
+    'user': classRegisterSave.user,
+    'schedule': classRegisterSave.schedule,
+    'present': classRegisterSave.present,
+    'role': classRegisterSave.role,
+  };
+
+
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();

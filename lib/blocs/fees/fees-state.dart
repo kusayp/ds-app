@@ -10,6 +10,8 @@ abstract class FeesState extends Equatable {
 
 class FeesEmptyState extends FeesState {}
 
+class FeesInitialState extends FeesState {}
+
 class FeesLoadedState extends FeesState {
   final FeesPageData feesPageData;
 
@@ -22,4 +24,8 @@ class FeesLoadedState extends FeesState {
 
 class FeesLoadingState extends FeesState {}
 
-class FeesErrorState extends FeesState {}
+class FeesErrorState extends FeesState {
+  final String errorMessage;
+
+  FeesErrorState(this.errorMessage);
+}

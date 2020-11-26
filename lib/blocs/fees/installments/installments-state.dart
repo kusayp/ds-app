@@ -11,6 +11,8 @@ abstract class InstallmentsState extends Equatable {
 
 class InstallmentsEmptyState extends InstallmentsState {}
 
+class InstallmentsInitialState extends InstallmentsState {}
+
 class InstallmentsLoadedState extends InstallmentsState {
   final InstallmentsModel installmentList;
   final PaymentList paymentList;
@@ -24,4 +26,8 @@ class InstallmentsLoadedState extends InstallmentsState {
 
 class InstallmentsLoadingState extends InstallmentsState {}
 
-class InstallmentsErrorState extends InstallmentsState {}
+class InstallmentsErrorState extends InstallmentsState {
+  final String errorMessage;
+
+  InstallmentsErrorState(this.errorMessage);
+}

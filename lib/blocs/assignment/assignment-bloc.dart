@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/repositories/repositories.dart';
@@ -32,8 +33,8 @@ class AssignmentBloc extends Bloc<AssignmentEvent, AssignmentState> {
           yield AssignmentLoadedState(assignmentPageData: response, role: role);
         }
       }
-      catch(_){
-        yield AssignmentErrorState();
+      on ApiException catch(e){
+        yield AssignmentErrorState(e.getMessage());
       }
     }
   }

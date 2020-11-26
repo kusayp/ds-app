@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../screens.dart';
 
 class AnswerScreen extends StatelessWidget {
-  final AssignmentModel assignment;
+  final int assignment;
 
   AnswerScreen({this.assignment});
 
@@ -78,7 +78,7 @@ class AnswerScreen extends StatelessWidget {
 
               if (state is AnswerEmptyState) {
                 BlocProvider.of<AnswerBloc>(context)
-                    .add(FetchingAnswerEvent(assignmentId: assignment.id));
+                    .add(FetchingAnswerEvent(assignmentId: assignment));
               }
 
               if (state is AnswerLoadingState){
