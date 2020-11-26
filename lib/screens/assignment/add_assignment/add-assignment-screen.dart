@@ -30,14 +30,16 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
   String _filename;
   int classId;
   int subjectId;
+  bool hasClass;
 
   int _value = 1;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    classId = widget.school.teacherClasses[_value-1].id;
-    subjectId = widget.school.subjects[_value-1].id;
+    hasClass = widget?.user?.school?.teacherClasses?.isNotEmpty;
+//    classId = widget.school.teacherClasses[_value-1].id;
+//    subjectId = widget.school.subjects[_value-1].id;
   }
   @override
   Widget build(BuildContext context) {
@@ -67,7 +69,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
       }
       return children;
     }
-    void showPaymentDialog(){
+    void saveAssignment(){
 
         BlocProvider.of<AddAssignmentBloc>(context).add(ClassAssignmentSaveEvent(
             title: _titleController.text, dueDate: selectedDate, description: _descriptionController.text, classId: classId, subjectId: subjectId, teacherId: widget.user.id));
@@ -203,11 +205,11 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                               child: DropdownButton(
 //                            isExpanded: true,
                                   value: _value,
-                                  items: buildDropDownItems(classes : widget.school.teacherClasses),
+                                  items: buildDropDownItems(classes : widget?.school?.teacherClasses),
                                   onChanged: (value) {
                                     setState(() {
                                       _value = value;
-                                      classId = widget.school.teacherClasses[_value-1].id;
+                                      classId = hasClass ? widget.school.teacherClasses[_value-1].id : null;
                                     });
                                   }),
                             ),
@@ -229,7 +231,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                                   onChanged: (value) {
                                     setState(() {
                                       _value = value;
-                                      subjectId = widget.school.subjects[_value-1].id;
+                                      subjectId = hasClass ? widget.school.subjects[_value-1].id : null;
                                     });
                                   }),
                             ),
@@ -285,7 +287,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                     ),
                     Align(
                       alignment: Alignment.bottomCenter,
-                      child: LoginButton(buttonText: "Create Assignment", onButtonPressed: showPaymentDialog,),
+                      child: LoginButton(buttonText: "Create Assignment", onButtonPressed: saveAssignment,),
                     ),
                   ],
                 ),
