@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/repositories/repositories.dart';
@@ -34,8 +35,8 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
         await repository.saveAssignment(schoolId, data);
         yield AssignmentSavedState();
       }
-      catch(_){
-        yield AddAssignmentErrorState();
+     on ApiException catch(e){
+        yield AddAssignmentErrorState(e.getMessage());
       }
     }
   }

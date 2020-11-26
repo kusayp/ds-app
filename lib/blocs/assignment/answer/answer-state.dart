@@ -25,4 +25,8 @@ class AnswerLoadingState extends AnswerState {}
 
 class AnswerSavedState extends AnswerState {}
 
-class AnswerErrorState extends AnswerState {}
+class AnswerErrorState extends AnswerState {
+  final String errorMessage;
+
+  AnswerErrorState(this.errorMessage);
+}

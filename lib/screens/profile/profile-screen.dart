@@ -16,7 +16,7 @@ class ProfileScreen extends StatelessWidget {
     bool isStudent = userDetails.role == "APPRENANT";
     bool isParent = userDetails.role == "PARENT";
 
-    List<Widget> buildStudentSubjects(List<SubjectModel> subjects){
+    List<Widget> buildStudentSubjects(List<SubjectModel> subjects) {
       final children = <Widget>[];
       for (int i = 0; i < subjects.length; i++) {
         children.add(Text(subjects[i].name));
@@ -24,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
       return children;
     }
 
-    List<Widget> buildTeacherClasses(List<SchoolClassModel> classes){
+    List<Widget> buildTeacherClasses(List<SchoolClassModel> classes) {
       final children = <Widget>[];
       for (int i = 0; i < classes.length; i++) {
         children.add(Text(classes[i].name));
@@ -32,20 +32,26 @@ class ProfileScreen extends StatelessWidget {
       return children;
     }
 
-    List<Widget> buildParentChildren(List<UserModel> wards){
+    List<Widget> buildParentChildren(List<UserModel> wards) {
       final children = <Widget>[];
       for (int i = 0; i < children.length; i++) {
-        children.add(Text(sprintf('%s %s', [wards[i].firstName, wards[i].lastName])));
+        children.add(
+            Text(sprintf('%s %s', [wards[i].firstName, wards[i].lastName])));
       }
       return children;
     }
 
-    onUpdatePressed(){
+    onUpdatePressed() {
       return showDialog(
           context: context,
-          builder: (_) => isStudent ? UpdatePasswordDialog(text: "Please enter your registration number",) : UpdatePasswordDialog(text: "Please comfirm your email or phone number",),
-          barrierDismissible: false
-      );
+          builder: (_) => isStudent
+              ? UpdatePasswordDialog(
+                  text: "Please enter your registration number",
+                )
+              : UpdatePasswordDialog(
+                  text: "Please comfirm your email or phone number",
+                ),
+          barrierDismissible: false);
     }
 
     return SafeArea(
@@ -56,20 +62,46 @@ class ProfileScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
-              child: Align(
+              child:
+//              userDetails.user.picture != null ? Align(
+//                alignment: Alignment.bottomCenter,
+//                child: CircleAvatar(
+//                  backgroundImage: NetworkImage(userDetails.user.picture),
+//                  radius: 70.0,
+//                ),
+//              )
+//      :
+
+              Align(
                 alignment: Alignment.bottomCenter,
                 child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/payment/download.jpeg'),
+                  backgroundImage:
+                  AssetImage('assets/images/payment/download.jpeg'),
                   radius: 70.0,
                 ),
               ),
             ),
 //          SizedBox(height: 5.0,),
-            Text(sprintf('%s %s', [userDetails.user.firstName.toUpperCase(), userDetails.user.lastName.toUpperCase()]), style: TextStyle(fontSize: 24,), textAlign: TextAlign.center,),
-            isStudent ? Padding(
-              padding: const EdgeInsets.only(top: 10.0, bottom: 20.0),
-              child: Text(userDetails.school.studentClass.name, style: TextStyle(fontSize: 14), textAlign: TextAlign.center,),
-            ) : SizedBox(),
+            Text(
+              sprintf('%s %s', [
+                userDetails.user.firstName.toUpperCase(),
+                userDetails.user.lastName.toUpperCase()
+              ]),
+              style: TextStyle(
+                fontSize: 24,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            isStudent
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 20.0),
+                    child: Text(
+                      userDetails.school.studentClass.name,
+                      style: TextStyle(fontSize: 14),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                : SizedBox(),
             Flexible(
               fit: FlexFit.tight,
               child: Container(
@@ -86,7 +118,7 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:10.0, bottom: 10.0),
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -102,49 +134,64 @@ class ProfileScreen extends StatelessWidget {
                         Text("12th street, holme"),
                       ],
                     ),
-                    isTeacher ? Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Classes:"),
-                          Column(
-                            children: buildTeacherClasses(userDetails.school.teacherClasses),
-                          ),
-                        ],
-                      ),
-                    ) : SizedBox(),
-                    isStudent ? Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Subjects:"),
-                          Column(
-                            children: buildStudentSubjects(userDetails.school.subjects),
-                          ),
-                        ],
-                      ),
-                    ) : SizedBox(),
-                    isParent ? Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Children:"),
-                          Column(
-                            children: buildParentChildren(userDetails.school.children),
-                          ),
-                        ],
-                      ),
-                    ) : SizedBox(),
+                    isTeacher
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Classes:"),
+                                Column(
+                                  children: buildTeacherClasses(
+                                      userDetails.school.teacherClasses),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
+                    isStudent
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Subjects:"),
+                                Column(
+                                  children: buildStudentSubjects(
+                                      userDetails.school.subjects),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
+                    isParent
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Children:"),
+                                Column(
+                                  children: buildParentChildren(
+                                      userDetails.school.children),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("Contact School:"),
                         Column(
                           children: [
-                            Text(userDetails.school.address1 ?? "", textAlign: TextAlign.center,),
+                            Text(
+                              userDetails.school.address1 ?? "",
+                              textAlign: TextAlign.center,
+                            ),
                           ],
                         ),
                       ],
@@ -155,7 +202,10 @@ class ProfileScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 00.0),
-              child: LoginButton(buttonText: "Update Password", onButtonPressed: onUpdatePressed,),
+              child: LoginButton(
+                buttonText: "Update Password",
+                onButtonPressed: onUpdatePressed,
+              ),
             )
           ],
         ),

@@ -21,12 +21,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _validate = false;
   String code;
+//  LoginBloc _loginBloc;
 
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+//    _loginBloc = LoginBloc();
     code = "+299";
   }
 
@@ -162,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           if (state is LoginSuccess) {
-            Future.delayed(Duration(milliseconds: 5)  ,() => Navigator.pushNamedAndRemoveUntil(context, '/menu', ModalRoute.withName('/menu'), arguments: state.loginResponse));
+            Future.delayed(Duration(milliseconds: 5) ,() => Navigator.pushNamedAndRemoveUntil(context, '/menu', ModalRoute.withName('/menu'), arguments: state.loginResponse));
 
           }
           if (state is LoginInitial){
@@ -223,6 +225,18 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             );
           }
+
+//          if (state is LoginFailure) {
+//            showDialog(
+//                context: context,
+//                builder: (_) => UserNotFoundDialog(),
+//                barrierDismissible: true
+//            );
+//          }
+
+    if (state is LoginLoading) {
+      return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+    }
           return Center(child: CircularProgressIndicator());
         },
       ),

@@ -1,9 +1,7 @@
 import 'package:dsapp/blocs/blocs.dart';
-import 'package:dsapp/locator.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/onboarding/onboarding-screen.dart';
-import 'package:dsapp/services/push_notification_service.dart';
 import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/shared-preference.dart';
 import 'package:dsapp/utils/style.dart';
@@ -32,18 +30,18 @@ class OnBoardingPage extends StatefulWidget {
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
-  final PushNotificationService _pushNotificationService =
-  locator<PushNotificationService>();
+//  final PushNotificationService _pushNotificationService =
+//  locator<PushNotificationService>();
 
   @override
   void initState() {
     super.initState();
     _loadUserInfo();
-    _pushNotificationService.initialise();
-
-    _pushNotificationService.getToken().then((value) {
-      print('fcm token: $value');
-    });
+//    _pushNotificationService.initialise();
+//
+//    _pushNotificationService.getToken().then((value) {
+//      print('fcm token: $value');
+//    });
   }
 
   _loadUserInfo() async {
@@ -57,7 +55,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     }
     else if (onBoardingViewed) {
       Navigator.pushNamedAndRemoveUntil(
-          context, '/login', ModalRoute.withName('/login'));
+          context, '/users', ModalRoute.withName('/users'));
     } else {
       build(context);
     }

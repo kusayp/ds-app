@@ -20,7 +20,7 @@ class AssignmentDetailScreen extends StatelessWidget {
       Navigator.pushNamed(
         context,
         AnswerPage.routeName,
-        arguments: assignment,
+        arguments: assignment.id,
       );
     }
 

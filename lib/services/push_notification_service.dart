@@ -32,6 +32,7 @@ class PushNotificationService {
         final data = jsonEncode(message['data']);
         print('onMessage: $message');
         showNotification2(1234, title, body, data);
+        saveChatToLocalDb(message);
 
 
         // return;
@@ -44,6 +45,7 @@ class PushNotificationService {
         final data = jsonEncode(message['data']);
         print('onLaunch: $message');
         showNotification2(1234, title, body, data);
+        saveChatToLocalDb(message);
 //        _serialiseAndNavigate(message);
 
       },
@@ -55,7 +57,7 @@ class PushNotificationService {
         final data = jsonEncode(message['data']);
         print('onResume: $message');
         showNotification2(1234, title, body, data);
-//        _serialiseAndNavigate(message);
+        saveChatToLocalDb(message);
       },
       onBackgroundMessage: myBackgroundMessageHandler,
     );
@@ -131,6 +133,17 @@ class PushNotificationService {
     return _fcm.getToken();
   }
 
+  void saveChatToLocalDb(Map<String, dynamic> message) async {
+    ChatModel chatModel = ChatModel(
+      title: message['title'],
+      timeStamp: int.parse(message['timeStamp']),
+      message: message['message'],
+      direction: Direction.IN.index,
+      toOrFrom: int.parse(message['toOrFrom']),
+    );
+    await dbServices.insertChat(chatModel);
+  }
+
   void _serialiseAndNavigate(Map<String, dynamic> message) async {
 //    var notificationData = message['data'];
     var view = message['type'];
@@ -139,14 +152,14 @@ class PushNotificationService {
       // Navigate to the create post view
       if (view == 'chat_message') {
         //Navigate to appropriate view
-        ChatModel chatModel = ChatModel(
-          title: message['title'],
-          timeStamp: int.parse(message['timeStamp']),
-          message: message['message'],
-          direction: Direction.IN.index,
-          toOrFrom: int.parse(message['toOrFrom']),
-        );
-        dbServices.insertChat(chatModel);
+//        ChatModel chatModel = ChatModel(
+//          title: message['title'],
+//          timeStamp: int.parse(message['timeStamp']),
+//          message: message['message'],
+//          direction: Direction.IN.index,
+//          toOrFrom: int.parse(message['toOrFrom']),
+//        );
+//        dbServices.insertChat(chatModel);
         UserModel user = await LoginService().getUserById(message['user']);
         locator<MyApp>().navigateTo('/conversations', user);
 //        Get.to(NextScreen())

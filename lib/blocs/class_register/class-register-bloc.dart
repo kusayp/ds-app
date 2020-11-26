@@ -46,6 +46,9 @@ class ClassRegisterBloc extends Bloc<ClassRegisterEvent, ClassRegisterState> {
       List<UserModel> classUsers = [];
       try{
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
+        if (event.classId == null){
+          yield ClassRegisterErrorState("User does not belong to a class");
+        }else{
         final TimeTablePageData response = await repository.getSchedules(schoolId, event.classId);
         var subject = response.result[0];
         final UserModelPageData studentsList = await repository.getClassActors(schoolId, event.classId, 'students');
@@ -58,6 +61,7 @@ class ClassRegisterBloc extends Bloc<ClassRegisterEvent, ClassRegisterState> {
         this.schedules = response.result;
         this.selectedSchedule = subject;
         yield ClassRegisterLoadedState(schedules : response.result, users: classUsers, selectedSchedules: subject, selectedSchoolClass: event.classId);
+        }
       }
       on ApiException catch(_){
         yield ClassRegisterErrorState(_.getMessage());

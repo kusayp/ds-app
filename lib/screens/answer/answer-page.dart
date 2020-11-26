@@ -13,7 +13,7 @@ class AnswerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AssignmentRepository repository = AssignmentRepository(answerService: AnswerService());
-    final AssignmentModel arguments = ModalRoute.of(context).settings.arguments;
+    final int arguments = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),

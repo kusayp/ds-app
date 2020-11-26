@@ -30,14 +30,16 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
   String _filename;
   int classId;
   int subjectId;
+  bool hasClass;
 
   int _value = 1;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    classId = widget.school.teacherClasses[_value-1].id;
-    subjectId = widget.school.subjects[_value-1].id;
+    hasClass = widget?.user?.school?.teacherClasses?.isNotEmpty;
+//    classId = widget.school.teacherClasses[_value-1].id;
+//    subjectId = widget.school.subjects[_value-1].id;
   }
   @override
   Widget build(BuildContext context) {
@@ -67,7 +69,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
       }
       return children;
     }
-    void showPaymentDialog(){
+    void saveAssignment(){
 
         BlocProvider.of<AddAssignmentBloc>(context).add(ClassAssignmentSaveEvent(
             title: _titleController.text, dueDate: selectedDate, description: _descriptionController.text, classId: classId, subjectId: subjectId, teacherId: widget.user.id));
@@ -108,14 +110,28 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
         });
     }
 
+    void _showSnackBar(String success, Color color) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(success),
+        backgroundColor: color,
+      ));
+    }
+
     return SafeArea(
       child: BlocListener<AddAssignmentBloc, AddAssignmentState>(
         listener: (context, state) {
-          if (state is AssignmentSavedState) {
-            Navigator.pushNamedAndRemoveUntil(
-              context, AssignmentPage.routeName, ModalRoute.withName("/menu"),
-              arguments: widget.arguments,
+          if (state is AddAssignmentErrorState){
+            print(state.errorMessage);
+//          context.hideLoaderOverlay();
+            showDialog(
+                context: context,
+                builder: (_) => ErrorDialog(errorMessage: state.errorMessage,),
+                barrierDismissible: false
             );
+          }
+
+          if (state is AssignmentSavedState){
+            _showSnackBar("Assignment score successfully saved", Colors.green);
           }
         },
         child: BlocBuilder<AddAssignmentBloc, AddAssignmentState>(
@@ -189,11 +205,11 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                               child: DropdownButton(
 //                            isExpanded: true,
                                   value: _value,
-                                  items: buildDropDownItems(classes : widget.school.teacherClasses),
+                                  items: buildDropDownItems(classes : widget?.school?.teacherClasses),
                                   onChanged: (value) {
                                     setState(() {
                                       _value = value;
-                                      classId = widget.school.teacherClasses[_value-1].id;
+                                      classId = hasClass ? widget.school.teacherClasses[_value-1].id : null;
                                     });
                                   }),
                             ),
@@ -215,7 +231,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                                   onChanged: (value) {
                                     setState(() {
                                       _value = value;
-                                      subjectId = widget.school.subjects[_value-1].id;
+                                      subjectId = hasClass ? widget.school.subjects[_value-1].id : null;
                                     });
                                   }),
                             ),
@@ -271,13 +287,28 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                     ),
                     Align(
                       alignment: Alignment.bottomCenter,
-                      child: LoginButton(buttonText: "Create Assignment", onButtonPressed: showPaymentDialog,),
+                      child: LoginButton(buttonText: "Create Assignment", onButtonPressed: saveAssignment,),
                     ),
                   ],
                 ),
               ),
             );
           }
+
+          if (state is AddAssignmentLoadingState){
+//                context.showLoaderOverlay();
+            return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+//                  return CircularProgressIndicator();
+          }
+
+          if (state is AssignmentSavedState) {
+            Future.delayed(Duration(milliseconds: 5), () => Navigator.pushNamedAndRemoveUntil(
+              context, AssignmentPage.routeName, ModalRoute.withName("/menu"),
+              arguments: widget.arguments,
+            ),
+            );
+          }
+
           return Center(
             child: CircularProgressIndicator(),
           );

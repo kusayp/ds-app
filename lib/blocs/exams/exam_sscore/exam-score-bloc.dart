@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/utils/shared-preference.dart';
@@ -31,8 +32,8 @@ class ExamScoreBloc extends Bloc<ExamScoreEvent, ExamScoreState> {
           yield ExamScoreLoadedState(examScorePageData: response);
         }
       }
-      catch(_){
-        yield ExamScoreErrorState();
+      on ApiException catch(e){
+        yield ExamScoreErrorState(e.getMessage());
       }
     }
   }
