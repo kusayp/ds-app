@@ -20,12 +20,11 @@ class OnBoardingBloc extends Bloc<OnBoardingEvent, OnBoardingState> {
 
   @override
   Stream<OnBoardingState> mapEventToState(OnBoardingEvent event) async* {
-    // TODO: implement mapEventToState
     if (event is FetchOnBoarding) {
       yield OnBoardingLoading();
       LocalStorage prefs = LocalStorage();
       bool onBoardingViewed = await prefs.isOnBoardingViewed();
-      String user = await prefs.getUserDetails();
+      String user = await prefs.getSharedPreference("user");
       try {
         if (user != null){
           LoginResponse loginResponse = LoginResponse.fromJson(user);
@@ -52,7 +51,7 @@ class OnBoardingBloc extends Bloc<OnBoardingEvent, OnBoardingState> {
 
     if (event is OnBoardingUserLoggedInEvent){
       LocalStorage prefs = LocalStorage();
-      String user = await prefs.getUserDetails();
+      String user = await prefs.getSharedPreference("user");
       LoginResponse loginResponse = LoginResponse.fromJson(user);
       var role = loginResponse.schools.single.role.name;
       RoleModules roleModules = await MenuService().loadUserRoleModules(role);

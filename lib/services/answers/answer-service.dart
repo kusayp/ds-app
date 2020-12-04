@@ -13,7 +13,7 @@ class AnswerService {
   final url = 'answers';
 
   Future<AnswerPageData> getAnswers(schoolId, int assignmentId) async {
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
 
@@ -23,7 +23,6 @@ class AnswerService {
       'Authorization': 'Bearer ' + user.token,
     };
 
-//    var endpoint = sprintf("%%/%/%/%/%", [baseUrl, "schools", schoolId, AssignmentService().url, assignmentId, url]);
     var endpoint = baseUrl+"schools/"+schoolId+"/"+AssignmentService().url+"/"+assignmentId.toString()+"/"+url;
 
     final response = await http.get(endpoint, headers: headers,);
@@ -37,7 +36,7 @@ class AnswerService {
   }
 
   Future<void> saveAnswer(schoolId, int assignmentId, answerModel) async {
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
 

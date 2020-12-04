@@ -9,7 +9,7 @@ class TimeTableService {
   final url = 'schedules';
   LocalStorage prefs = LocalStorage();
   Future<TimeTablePageData> getTimeTableFilterDay(schoolId, String day, teacherId) async {
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
     Map<String, String> headers = {
@@ -35,7 +35,7 @@ class TimeTableService {
   }
 
   Future<TimeTablePageData> getTimeTableFilterClass(schoolId, String day, classId) async {
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
     Map<String, String> headers = {

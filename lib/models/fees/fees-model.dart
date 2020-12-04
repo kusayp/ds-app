@@ -19,7 +19,6 @@ class FeesModel extends Equatable{
   }
 
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
@@ -35,6 +34,5 @@ class FeeType extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }

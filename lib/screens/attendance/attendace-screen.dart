@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/screens/attendance/components/attendance-view.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class AttendanceScreen extends StatelessWidget {
 
           if (state is AttendanceLoadingState){
 //                context.showLoaderOverlay();
-            return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+            return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
 //                  return CircularProgressIndicator();
           }
 

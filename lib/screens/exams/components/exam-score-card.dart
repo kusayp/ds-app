@@ -1,3 +1,4 @@
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/utils/common.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +67,7 @@ class ExamScoreCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Obtained Mark : " + score.mark.toString(),
+                    S.of(context).obtainedMark + score.mark.toString(),
                     style: TextStyle(fontSize: 12.0),
                   ),
                 ],

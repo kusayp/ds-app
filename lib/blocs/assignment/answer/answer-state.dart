@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 abstract class AnswerState extends Equatable {
   AnswerState();
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
@@ -17,7 +16,6 @@ class AnswerLoadedState extends AnswerState {
   AnswerLoadedState({this.answerPageData, this.role});
 
   @override
-  // TODO: implement props
   List<Object> get props => [answerPageData];
 }
 

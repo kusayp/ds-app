@@ -16,24 +16,15 @@ class ConversationPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
-        title: Column(
-          children: [
-            Text(
-              arguments.firstName + " " + arguments.lastName,
-              style: ThemeText.onBoardingHeader,
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height*0.02,),
-            Text(
-              "Online",
-              style: ThemeText.menuDropDownText,
-            ),
-          ],
+        title: Text(
+          arguments.firstName + " " + arguments.lastName,
+          style: ThemeText.onBoardingHeader,
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      extendBodyBehindAppBar: true,
+//      extendBodyBehindAppBar: true,
       backgroundColor: appTheme().backgroundColor,
       body: BlocProvider(
         create: (context) => ChatBloc(repository: repository),

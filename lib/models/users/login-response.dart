@@ -12,7 +12,6 @@ class LoginResponse extends Equatable{
   LoginResponse({this.token, this.type, this.user, this.schools});
 
   @override
-  // TODO: implement props
   List<Object> get props => [token, type, user, schools];
 
   static LoginResponse fromJson(String responseString) {
@@ -30,7 +29,6 @@ class LoginResponse extends Equatable{
 
   @override
   String toString() {
-    // TODO: implement toString
     return "LoginResponse {token: $token}";
   }
 }

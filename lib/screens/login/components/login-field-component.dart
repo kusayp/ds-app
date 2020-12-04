@@ -1,3 +1,4 @@
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -93,12 +94,11 @@ class LoginButton extends StatelessWidget{
   final VoidCallback onButtonPressed;
   final String buttonText;
 
-  LoginButton({this.onButtonPressed, this.buttonText="SignIn"});
+  LoginButton({this.onButtonPressed, this.buttonText});
 
   @override
   Widget build(BuildContext context) {
 
-    // TODO: implement build
     return Padding(
       padding: const EdgeInsets.only(
           right: 20.0, left: 20.0, top: 10	),
@@ -141,7 +141,7 @@ class UserNotFoundDialog extends StatelessWidget {
               SvgPicture.asset("assets/icons/User not found.svg"),
               Text("We cannot find a match for a user using the information provided", style: TextStyle(fontSize: 16.0),),
               Text("Please check and retry again with the correct information", style: TextStyle(fontSize: 16.0),),
-              LoginButton(buttonText: "OK", onButtonPressed: goBackToLogin,),
+              LoginButton(buttonText: S.of(context).ok, onButtonPressed: goBackToLogin,),
             ],
           ),
         ),
@@ -190,11 +190,12 @@ class ErrorDialog extends StatelessWidget {
 }
 
 class NoConnectionDialog extends StatelessWidget {
+  final VoidCallback onButtonPressed;
+
+  const NoConnectionDialog({Key key, this.onButtonPressed}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    void goBackToLogin(){
-      Navigator.pushNamedAndRemoveUntil(context, '/login', ModalRoute.withName('/login'));
-    }
     return Dialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
@@ -211,7 +212,7 @@ class NoConnectionDialog extends StatelessWidget {
               Text("Oops !", style: TextStyle(fontSize: 24.0),),
               SvgPicture.asset("assets/icons/No Connection.svg"),
               Text("Check your connection and try again", style: TextStyle(fontSize: 16.0),),
-              LoginButton(buttonText: "OK", onButtonPressed: goBackToLogin,),
+              LoginButton(buttonText: "OK", onButtonPressed: onButtonPressed,),
             ],
           ),
         ),

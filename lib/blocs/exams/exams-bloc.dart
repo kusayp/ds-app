@@ -17,7 +17,6 @@ class ExamsBloc extends Bloc<ExamsEvent, ExamsState> {
   @override
   Stream<ExamsState> mapEventToState(ExamsEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
-    // TODO: implement mapEventToState
     if(event is FetchingExamsEvent){
       yield ExamsLoadingState();
       try{

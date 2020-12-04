@@ -12,7 +12,7 @@ class FeesService {
   Future<FeesPageData> getFees(schoolId, classId, userId) async {
 
     LocalStorage prefs = LocalStorage();
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
     Map<String, String> headers = {
@@ -35,7 +35,7 @@ class FeesService {
   Future<InstallmentList> getInstallments(schoolId, feesId) async {
 
     LocalStorage prefs = LocalStorage();
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
     Map<String, String> headers = {
@@ -58,7 +58,7 @@ class FeesService {
   Future<PaymentList> getPayments(schoolId, classId, userId, feesId) async {
 
     LocalStorage prefs = LocalStorage();
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
     Map<String, String> headers = {

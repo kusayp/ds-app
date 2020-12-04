@@ -1,11 +1,11 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/login/login-screen.dart';
 import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -16,7 +16,7 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
-          "Login",
+          S.of(context).login,
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,

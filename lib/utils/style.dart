@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 ThemeData appTheme() {
   return ThemeData(
     fontFamily: 'OpenSans',
-    primaryColor: Hexcolor("#19283E"),
-    accentColor: Colors.white,
-    textSelectionColor: Hexcolor("#000000"),
+    primaryColor: Color(0xff19283E),
+    accentColor: Color(0xffFA8993),
+    textSelectionColor: Colors.white,
     hintColor: Colors.white,
     dividerColor: Colors.white,
     buttonColor: Colors.white,
@@ -25,7 +24,7 @@ abstract class ThemeText {
   );
 
   static TextStyle onBoardingDescription = TextStyle(
-    color: Hexcolor("#A3A5B1"),
+    color: Color(0xffA3A5B1),
     fontSize: 14,
     fontWeight: FontWeight.w100,
   );
@@ -66,7 +65,7 @@ abstract class ThemeText {
   );
 
   static TextStyle timeTableTimeText = TextStyle(
-    color: Hexcolor('#CED3D9'),
+    color: Color(0xffCED3D9),
     fontSize: 12,
     height: 0.5,
     fontWeight: FontWeight.w600,
@@ -87,7 +86,7 @@ abstract class ThemeText {
   );
 
   static TextStyle assignmentPeriodText = TextStyle(
-    color: Hexcolor('#84A2D6'),
+    color: Color(0xff84A2D6),
     fontSize: 10,
     fontWeight: FontWeight.w600,
   );
@@ -100,7 +99,7 @@ abstract class ThemeText {
   );
 
   static TextStyle assignmentSubjectText = TextStyle(
-    color: Hexcolor('#A3A5B1'),
+    color: Color(0xffA3A5B1),
     fontSize: 12,
     fontWeight: FontWeight.w600,
   );
@@ -112,7 +111,7 @@ abstract class ThemeText {
   );
 
   static TextStyle assignmentDueDateText = TextStyle(
-    color: Hexcolor('#FA8993'),
+    color: Color(0xffFA8993),
     fontSize: 12,
     fontWeight: FontWeight.w600,
   );

@@ -14,19 +14,33 @@ class ConversationScreen extends StatefulWidget {
 
 class _ConversationScreenState extends State<ConversationScreen> {
   final ScrollController listScrollController =  ScrollController();
+  bool loading = false;
 
   List<ChatModel> messages = List();
 
   @override
   void initState() {
-//    BlocProvider.of<ChatBloc>(context).add(FetchChatListEvent());
-    // TODO: implement initState
     super.initState();
+//    loading = false;
+  }
+
+  void _showSnackBar(String message, Color color) {
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: color,
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      child: BlocListener<ChatBloc, ChatState>(
+        listener: (context, state) {
+          if (state is ChatErrorState){
+            print(state.error);
+            _showSnackBar(state.error, Colors.red);
+          }
+        },
         child: Column(
           children: [
             Expanded(
@@ -37,11 +51,17 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     if (state is ChatEmptyState){
                       BlocProvider.of<ChatBloc>(context).add(FetchChatListEvent(widget.user.id));
                     }
+
+                    if (state is ChatSendingState){
+                      return SendingCard(text: "sending",);
+//                        return Center(child: Text("Sending message", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+                    }
+
                     if (state is FetchedChatListState)
                       messages = state.chatList;
                     return ListView.builder(
                       padding: EdgeInsets.all(10.0),
-                      itemBuilder: (context, index) => MessageCard(message: messages[index]),
+                      itemBuilder: (context, index) => ChatCard(message: messages[index]),
                       itemCount: messages.length,
                       reverse: true,
                       controller: listScrollController,
@@ -50,9 +70,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
                 ),
               ),
             ),
-            InputWidget(user: widget.user,),
+            InputWidget(user: widget.user, loading: loading,),
           ],
         ),
+      ),
 
     );
   }

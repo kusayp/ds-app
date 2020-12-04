@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/exceptions/api-exceptions.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/utils/shared-preference.dart';
@@ -21,7 +23,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   @override
   Stream<ChatState> mapEventToState(ChatEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
-    // TODO: implement mapEventToState
     if(event is FetchingGroupsInClassEvent){
       yield ChatLoadingState();
       try{
@@ -43,8 +44,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       yield ChatLoadingState();
       try{
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
+        var userId = await sharedPreferences.getSharedPreference("userId");
         List<UserModel> users = [];
         final List<UserModel> response = await repository.getUserInGroups(schoolId, event.group.classId, event.group.id);
+        response.removeWhere((element) => element.id.toString() == userId);
         for(var i=0; i<response.length; i++){
           if(response[i].deviceId != null){
             users.add(response[i]);
@@ -58,28 +61,39 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
 
     if (event is SendTextMessageEvent) {
-      String userString = await sharedPreferences.getUserDetails();
-      LoginResponse user = LoginResponse.fromJson(userString);
-      ChatModel chatModel = ChatModel(
-        title: "DS APP",
-        timeStamp: DateTime.now().millisecondsSinceEpoch,
-        message: event.message,
-        direction: Direction.OUT.index,
-        toOrFrom: event.to.id,
-      );
-      Map<String, dynamic> data = {
-        'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-        'title': "DS APP",
-        'message': event.message,
-        'toOrFrom': event.to,
-        'timeStamp': DateTime.now().millisecondsSinceEpoch,
-        'type': 'chat_message',
-        'user': user.user.id,
-        'token': event.to.deviceId,
-      };
-      await repository.saveChat(chatModel, data);
-//      FetchChatListEvent();
-      yield ChatEmptyState();
+      yield ChatSendingState();
+      try{
+        String userString = await sharedPreferences.getSharedPreference("user");
+        LoginResponse user = LoginResponse.fromJson(userString);
+        ChatModel chatModel = ChatModel(
+          title: S().appName,
+          timeStamp: DateTime.now().millisecondsSinceEpoch,
+          message: event.message,
+          direction: Direction.OUT.index,
+          toOrFrom: event.to.id,
+        );
+
+        Map<String, dynamic> data = {
+          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+          'title': S().appName,
+          'message': event.message,
+          'toOrFrom': event.to.id,
+          'timeStamp': DateTime.now().millisecondsSinceEpoch,
+          'type': 'chat_message',
+          'user': user.user.id,
+          'token': event.to.deviceId,
+        };
+
+        await repository.saveChat(chatModel, data);
+
+        yield ChatEmptyState();
+      }
+      on ApiException catch(e){
+        yield ChatErrorState(e.getMessage());
+      }
+      on SocketException catch(_){
+        yield ChatErrorState("No internet connection");
+      }
     }
 
     if (event is FetchChatListEvent) {

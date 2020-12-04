@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 abstract class AddAssignmentState extends Equatable {
   const AddAssignmentState();
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
@@ -16,13 +15,14 @@ class ClassTeacherSubjectLoadedState extends AddAssignmentState {
   ClassTeacherSubjectLoadedState({this.subjects});
 
   @override
-  // TODO: implement props
   List<Object> get props => [subjects];
 }
 
 class AssignmentSavedState extends AddAssignmentState {}
 
 class AddAssignmentLoadingState extends AddAssignmentState {}
+
+class NoConnectionState1 extends AddAssignmentState {}
 
 class AddAssignmentErrorState extends AddAssignmentState {
   final String errorMessage;

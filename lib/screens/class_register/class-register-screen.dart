@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/class_register/components/class-register-card.dart';
 import 'package:dsapp/utils/style.dart';
@@ -23,7 +24,6 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     isTeacher = widget.user.role == "ENSEINGNANT";
     hasClass = widget.user.school.teacherClasses.isNotEmpty;
@@ -55,6 +55,7 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
       }
       return children;
     }
+
     void _showSnackBar(String success, Color color) {
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text(success),
@@ -72,7 +73,7 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
     return BlocListener<ClassRegisterBloc, ClassRegisterState>(
       listener: (context, state) {
         if (state is ClassRegisterSavedState){
-         _showSnackBar("Class register successfully saved", Colors.green);
+         _showSnackBar(S.of(context).classRegisterSuccessfullySaved, Colors.green);
         }
 
         if (state is ClassRegisterErrorState){
@@ -159,7 +160,7 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
 
             if (state is ClassRegisterLoadingState){
 //                context.showLoaderOverlay();
-              return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+              return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
 //                  return CircularProgressIndicator();
             }
 

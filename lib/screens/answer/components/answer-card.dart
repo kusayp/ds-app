@@ -7,7 +7,6 @@ import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class AnswerCard extends StatelessWidget {
   final AnswerModel answer;
@@ -19,15 +18,15 @@ class AnswerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isTeacher = role == "ENSEINGNANT";
 
-    List<String> colors = [
-      '#84A2D6',
-      '#A3A5B1',
-      '#F65A75',
-      '#39CB89',
-      '#6FCFC5',
-      '#FA8993',
-      '#FF7F00',
-      '#CED3D9',
+    List<int> colors = [
+      0xff84A2D6,
+      0xffA3A5B1,
+      0xffF65A75,
+      0xff39CB89,
+      0xff6FCFC5,
+      0xffFA8993,
+      0xffFF7F00,
+      0xffCED3D9,
     ];
 
     void pushToAssignmentScorePage() {
@@ -42,7 +41,7 @@ class AnswerCard extends StatelessWidget {
         elevation: 4,
         shape: Border(
             left: BorderSide(
-          color: Hexcolor(randomChoice(colors)),
+          color: Color(randomChoice(colors)),
           width: 2,
         )),
         child: Padding(
@@ -66,18 +65,6 @@ class AnswerCard extends StatelessWidget {
                       ),
                     )
                   : SizedBox(),
-//              isTeacher
-//                  ? Text(
-//                      answer.assignment.title,
-//                      style: ThemeText.assignmentTabTitleText,
-//                    )
-//                  : Text(
-//                      answer.assignment.title,
-//                      style: ThemeText.assignmentTabTitleText,
-//                    ),
-//              SizedBox(
-//                height: 20.0,
-//              ),
               answer.assignment.subject != null
                   ? Text(
                       answer.assignment.subject?.name,

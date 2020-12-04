@@ -12,7 +12,7 @@ class ExamsService {
   Future<ExamsPageData> getExams(schoolId) async {
 
     LocalStorage prefs = LocalStorage();
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
 
@@ -33,7 +33,7 @@ class ExamsService {
 
   Future<ExamScorePageData> getExamScores(schoolId, examinationId, studentId) async {
     LocalStorage prefs = LocalStorage();
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
 

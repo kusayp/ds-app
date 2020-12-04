@@ -1,9 +1,7 @@
 import 'package:dsapp/blocs/blocs.dart';
-import 'package:dsapp/locator.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/menu/components/menu-card-component.dart';
 import 'package:dsapp/screens/menu/menu.dart';
-import 'package:dsapp/services/push_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';

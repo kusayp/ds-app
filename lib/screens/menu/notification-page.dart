@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/menu/menu.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/services/services.dart';
@@ -20,7 +21,7 @@ class NotificationPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
-        title: Text("NOTIFICATIONS", style: ThemeText.onBoardingHeader,),
+        title: Text(S.of(context).notifications, style: ThemeText.onBoardingHeader,),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),

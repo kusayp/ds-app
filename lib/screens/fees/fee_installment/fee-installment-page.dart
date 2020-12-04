@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/fees/installments-arguments.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/attendance/components/tab_indicator.dart';
@@ -34,10 +35,10 @@ class FeeInstallmentPage extends StatelessWidget {
             indicator: CircleTabIndicator(color: Colors.black, radius: 3),
             tabs: [
               Tab(
-                child: Text("Installment", style: TextStyle(color: Colors.black),),
+                child: Text(S.of(context).installment, style: TextStyle(color: Colors.black),),
               ),
               Tab(
-                child: Text("History", style: TextStyle(color: Colors.black),),
+                child: Text(S.of(context).history, style: TextStyle(color: Colors.black),),
               ),
             ],
           ),

@@ -17,7 +17,6 @@ class InstallmentsBloc extends Bloc<InstallmentsEvent, InstallmentsState> {
   @override
   Stream<InstallmentsState> mapEventToState(InstallmentsEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
-    // TODO: implement mapEventToState
     if(event is FetchingInstallmentsEvent){
       yield InstallmentsLoadingState();
       try{

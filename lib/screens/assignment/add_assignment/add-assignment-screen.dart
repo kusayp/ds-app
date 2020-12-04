@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
 import 'package:dsapp/screens/screens.dart';
@@ -9,6 +10,7 @@ import 'package:dsapp/utils/style.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
 
 class AddAssignmentScreen extends StatefulWidget {
   final SchoolModel school;
@@ -25,9 +27,10 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  bool _validate = false;
+//  bool _validate = false;
   DateTime selectedDate;
   String _filename;
+  PlatformFile _file;
   int classId;
   int subjectId;
   bool hasClass;
@@ -35,11 +38,10 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
   int _value = 1;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     hasClass = widget?.user?.school?.teacherClasses?.isNotEmpty;
-//    classId = widget.school.teacherClasses[_value-1].id;
-//    subjectId = widget.school.subjects[_value-1].id;
+    classId = widget.school.teacherClasses[_value-1].id;
+    subjectId = widget.school.subjects[_value-1].id;
   }
   @override
   Widget build(BuildContext context) {
@@ -72,21 +74,25 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
     void saveAssignment(){
 
         BlocProvider.of<AddAssignmentBloc>(context).add(ClassAssignmentSaveEvent(
-            title: _titleController.text, dueDate: selectedDate, description: _descriptionController.text, classId: classId, subjectId: subjectId, teacherId: widget.user.id));
+              title: _titleController.text, dueDate: selectedDate, description: _descriptionController.text, classId: classId, subjectId: subjectId, teacherId: widget.user.id, file: _file, attachment: _filename));
 
     }
 
     void openFileExplorer() async {
       FilePickerResult result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['pdf', 'doc'],
+        allowedExtensions: ['pdf', 'docx', 'doc'],
       );
 
       if(result != null) {
-        File file = File(result.files.single.path);
+        PlatformFile file = result.files.single;
         print(file.path);
+        List<File> files = result.files.map((path) => File(path.path)).toList();
+//        List<String> file = result.files.map((e) => e.name).toList();
+        print(result.files.single.extension);
         setState(() {
-          _filename = result.files.single.name;
+          _filename = file.name;
+          _file = file;
           print(_filename);
         });
       }
@@ -105,7 +111,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
           selectedDate = picked;
           _dateController
             ..text = Common.formatDate(selectedDate.millisecondsSinceEpoch)
-          ..selection  = TextSelection.fromPosition(TextPosition(offset: _dateController.text.length, affinity: TextAffinity.upstream))
+            ..selection  = TextSelection.fromPosition(TextPosition(offset: _dateController.text.length, affinity: TextAffinity.upstream))
           ;
         });
     }
@@ -117,12 +123,15 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
       ));
     }
 
+    void goBackToLogin(){
+      Navigator.maybePop(context);
+    }
+
     return SafeArea(
       child: BlocListener<AddAssignmentBloc, AddAssignmentState>(
         listener: (context, state) {
           if (state is AddAssignmentErrorState){
             print(state.errorMessage);
-//          context.hideLoaderOverlay();
             showDialog(
                 context: context,
                 builder: (_) => ErrorDialog(errorMessage: state.errorMessage,),
@@ -130,8 +139,20 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
             );
           }
 
+          if (state is NoConnectionState1){
+            showDialog(
+                context: context,
+                builder: (_) => NoConnectionDialog(onButtonPressed: goBackToLogin,),
+                barrierDismissible: false
+            );
+          }
+
+          if (state is AddAssignmentLoadingState){
+            return Center(child: CircularProgressIndicator());
+          }
+
           if (state is AssignmentSavedState){
-            _showSnackBar("Assignment score successfully saved", Colors.green);
+            _showSnackBar(S.of(context).assignmentScoreSuccessfullySaved, Colors.green);
           }
         },
         child: BlocBuilder<AddAssignmentBloc, AddAssignmentState>(
@@ -147,7 +168,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                         Flexible(
                           child: CustomShortField(
                             width: (MediaQuery.of(context).size.width - 90) / 2,
-                            labelText: "Title",
+                            labelText: S.of(context).title,
                             decoration: BoxDecoration(
                               borderRadius:
                               BorderRadius.all(Radius.circular(5)),
@@ -167,7 +188,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                         Flexible(
                           child: CustomShortField(
                             width: (MediaQuery.of(context).size.width - 90) / 2.0,
-                            labelText: "Due Date",
+                            labelText: S.of(context).dueDate,
                             decoration: BoxDecoration(
                               borderRadius:
                               BorderRadius.all(Radius.circular(5)),
@@ -196,7 +217,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'School Class',
+                              S.of(context).schoolClass,
                               style: TextStyle(),
                             ),
                             Container(
@@ -219,7 +240,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Class Subject',
+                              S.of(context).classSubject,
                               style: TextStyle(),
                             ),
                             Container(
@@ -241,7 +262,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                     ),
                     CustomField(
                       width: MediaQuery.of(context).size.width - 60,
-                      labelText: "Description",
+                      labelText: S.of(context).description,
                       decoration: BoxDecoration(
                         borderRadius:
                         BorderRadius.all(Radius.circular(5)),
@@ -259,7 +280,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                     SizedBox(height: 10.0,),
                     Align(
                       alignment: Alignment.center,
-                      child: AttachButton(buttonText: "Attach File", onButtonPressed: openFileExplorer,),
+                      child: AttachButton(buttonText: S.of(context).attachFile, onButtonPressed: openFileExplorer,),
                     ),
                     SizedBox(height: 10.0,),
                     Container(
@@ -287,18 +308,12 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                     ),
                     Align(
                       alignment: Alignment.bottomCenter,
-                      child: LoginButton(buttonText: "Create Assignment", onButtonPressed: saveAssignment,),
+                      child: LoginButton(buttonText: S.of(context).createAssignment, onButtonPressed: saveAssignment,),
                     ),
                   ],
                 ),
               ),
             );
-          }
-
-          if (state is AddAssignmentLoadingState){
-//                context.showLoaderOverlay();
-            return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
-//                  return CircularProgressIndicator();
           }
 
           if (state is AssignmentSavedState) {
@@ -309,9 +324,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
             );
           }
 
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return Container();
         },
         ),
       ),

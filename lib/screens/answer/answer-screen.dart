@@ -1,5 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
-import 'package:dsapp/models/models.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,28 +12,6 @@ class AnswerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-//    Widget generateAnswersContent(AnswerLoadedState state){
-//      if(state.answerPageData.result.length == 0){
-//        return Center(
-//          child: Icon(
-//            Icons.do_not_disturb,
-//            size: 50.0,
-//            color: Colors.black,
-//            semanticLabel: "No Answer Submitted",
-//          ),
-//        );
-//      }
-//      return ListView.builder(
-//        itemCount: state.answerPageData.result.length,
-//        shrinkWrap: true,
-//        itemBuilder: (BuildContext context, int index) {
-//          return AnswerCard(
-//            answer: state.answerPageData.result[index],
-//            role: state.role,
-//          );
-//        },
-//      );
-//    }
     return BlocListener<AnswerBloc, AnswerState>(
         listener: (context, state){
           if (state is AnswerErrorState){
@@ -83,7 +61,7 @@ class AnswerScreen extends StatelessWidget {
 
               if (state is AnswerLoadingState){
 //                context.showLoaderOverlay();
-                return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+                return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
 //                  return CircularProgressIndicator();
               }
 

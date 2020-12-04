@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:dsapp/locator.dart';
 import 'package:dsapp/main.dart';
 import 'package:dsapp/models/models.dart';
-import 'package:dsapp/services/navigation-services.dart';
 import 'package:dsapp/services/services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -152,17 +151,9 @@ class PushNotificationService {
       // Navigate to the create post view
       if (view == 'chat_message') {
         //Navigate to appropriate view
-//        ChatModel chatModel = ChatModel(
-//          title: message['title'],
-//          timeStamp: int.parse(message['timeStamp']),
-//          message: message['message'],
-//          direction: Direction.IN.index,
-//          toOrFrom: int.parse(message['toOrFrom']),
-//        );
-//        dbServices.insertChat(chatModel);
+//        saveChatToLocalDb(message);
         UserModel user = await LoginService().getUserById(message['user']);
         locator<MyApp>().navigateTo('/conversations', user);
-//        Get.to(NextScreen())
       }
     }
   }
@@ -170,24 +161,29 @@ class PushNotificationService {
   Future<void> sendAndRetrieveMessage(token, title, message,
       data) async {
 
-    await http.post(
-      'https://fcm.googleapis.com/fcm/send',
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Authorization': 'key=$serverToken',
-      },
-      body: jsonEncode(
-        <String, dynamic>{
-          'notification': <String, dynamic>{
-            'body': message,
-            'title': title,
-          },
-          'priority': 'high',
-          'data': data,
-          'to': token,
+    try{
+      await http.post(
+        'https://fcm.googleapis.com/fcm/send',
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'key=$serverToken',
         },
-      ),
-    );
+        body: jsonEncode(
+          <String, dynamic>{
+            'notification': <String, dynamic>{
+              'body': message,
+              'title': title,
+            },
+            'priority': 'high',
+            'data': data,
+            'to': token,
+          },
+        ),
+      );
+    }
+    on SocketException catch (_) {
+
+    }
   }
 }
 
@@ -195,12 +191,12 @@ Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
   print('myBackgroundMessageHandler: $message');
   if (message.containsKey('data')) {
     // Handle data message
-    final dynamic data = message['data'];
+//    final dynamic data = message['data'];
   }
 
   if (message.containsKey('notification')) {
     // Handle notification message
-    final dynamic notification = message['notification'];
+//    final dynamic notification = message['notification'];
   }
 
   // Or do other work.

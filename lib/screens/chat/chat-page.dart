@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/services/services.dart';
@@ -18,7 +19,7 @@ class ChatPage extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
-          "Chat",
+          S.of(context).chat,
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,

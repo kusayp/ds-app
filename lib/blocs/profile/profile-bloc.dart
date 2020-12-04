@@ -16,7 +16,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
-    // TODO: implement mapEventToState
     if(event is FetchingExamsEvent){
       yield ProfileLoadingState();
       try{

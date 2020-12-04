@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/exams/components/exams-card.dart';
 import 'package:dsapp/screens/screens.dart';
@@ -21,12 +22,10 @@ class _GroupsScreenState extends State<GroupsScreen> {
   int _value = 1;
   bool isTeacher;
   var schoolClasses = List<SchoolClassModel>();
-  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   bool hasClass;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     isTeacher = widget.user.role == "ENSEINGNANT";
     hasClass = widget.user.school.teacherClasses.isNotEmpty;
@@ -49,13 +48,6 @@ class _GroupsScreenState extends State<GroupsScreen> {
         ));
       }
       return children;
-    }
-
-    String studentClass() {
-      if (widget.user.user.studentClass != null) {
-        return widget.user.user.studentClass?.id.toString();
-      }
-      return widget.user.school.studentClass?.id.toString();
     }
 
     Widget generateGroupsContent(ChatLoadedState state) {
@@ -168,7 +160,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
 //                context.showLoaderOverlay();
                 return Center(
                     child: Text(
-                  "Loading...",
+                  S.of(context).loading,
                   style: TextStyle(fontSize: 20.0),
                   textAlign: TextAlign.center,
                 ));

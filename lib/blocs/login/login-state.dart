@@ -14,6 +14,8 @@ class LoginInitial extends LoginState {}
 
 class LoginLoading extends LoginState {}
 
+class LoginNoConnection extends LoginState {}
+
 class LoginSuccess extends LoginState {
   final LoginResponse loginResponse;
   final List<Module> modules;

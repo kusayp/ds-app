@@ -17,7 +17,6 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   @override
   Stream<AttendanceState> mapEventToState(AttendanceEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
-    // TODO: implement mapEventToState
     if(event is TodayAttendanceEvent){
       yield AttendanceLoadingState();
       try{

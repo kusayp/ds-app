@@ -17,7 +17,7 @@ class ChatService {
   LocalStorage prefs = LocalStorage();
 
   Future<GroupPageData> getGroupsInClass(schoolId, classId, userId) async {
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
     Map<String, String> headers = {
@@ -38,7 +38,7 @@ class ChatService {
   }
 
   Future<GroupPageData> getTeachersParentsGroups(schoolId, classId) async {
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
     Map<String, String> headers = {
@@ -59,7 +59,7 @@ class ChatService {
   }
 
   Future<List<UserModel>> getUserInGroups(schoolId, classId, groupId) async {
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
     Map<String, String> headers = {
@@ -82,7 +82,7 @@ class ChatService {
   }
 
   Future<List<UserModel>> getUserInTeachersParentsGroups(schoolId, classId, groupId) async {
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
     Map<String, String> headers = {
@@ -106,8 +106,8 @@ class ChatService {
 
   Future<void> saveChat(chatModel, data) async {
     DBServices dbServices = DBServices();
-    PushNotificationService().sendAndRetrieveMessage(data['token'], chatModel.title, chatModel.message, data);
-    dbServices.insertChat(chatModel);
+    await PushNotificationService().sendAndRetrieveMessage(data['token'], chatModel.title, chatModel.message, data);
+    await dbServices.insertChat(chatModel);
   }
 
   Future<List<ChatModel>> fetchChatsFromDb(int toOrFrom) async {

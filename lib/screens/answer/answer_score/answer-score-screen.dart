@@ -8,7 +8,6 @@ import 'package:dsapp/utils/common.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class AnswerScoreScreen extends StatelessWidget {
   final AnswerModel answer;
@@ -41,7 +40,7 @@ class AnswerScoreScreen extends StatelessWidget {
             }
 
             if (state is AnswerSavedState){
-              _showSnackBar("Assignment score successfully saved", Colors.green);
+              _showSnackBar(S.of(context).assignmentScoreSuccessfullySaved, Colors.green);
             }
           },
         child: Padding(
@@ -111,7 +110,7 @@ class AnswerScoreScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 10.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(answer.attachment ?? "No attachment"),
+                        child: Text(answer.attachment ?? S.of(context).noAttachment),
                       ),
                     ),
                   ),
@@ -119,7 +118,7 @@ class AnswerScoreScreen extends StatelessWidget {
                 Divider(
                   thickness: 1.0,
                   height: 0.8,
-                  color: Hexcolor('#A3A5B1'),
+                  color: Color(0xffA3A5B1),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 20.0),
@@ -127,7 +126,7 @@ class AnswerScoreScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("Obtain", style: ThemeText.loginInText,),
+                        Text(S.of(context).obtain, style: ThemeText.loginInText,),
                         SizedBox(width: 20,),
                         Container(
                           height: 30.0,
@@ -165,14 +164,14 @@ class AnswerScoreScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("Result:", style: ThemeText.loginInText,),
+                      Text(S.of(context).result, style: ThemeText.loginInText,),
                       SizedBox(width: 30,),
                       Switch(value: true, onChanged: (value){}),
                     ],
                   ),
                 ),
                 LoginButton(
-                  buttonText: "Mark",
+                  buttonText: S.of(context).mark,
                   onButtonPressed: pushToAssignmentScorePage,
                 )
               ],
@@ -181,7 +180,7 @@ class AnswerScoreScreen extends StatelessWidget {
 
     if (state is AnswerLoadingState){
 //                context.showLoaderOverlay();
-      return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+      return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
 //                  return CircularProgressIndicator();
     }
 

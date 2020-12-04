@@ -15,7 +15,6 @@ class TimeTableModel extends Equatable{
   TimeTableModel({this.id, this.subject, this.schoolClass, this.classRoom, this.teacher, this.day, this.startTime, this.endTime});
 
   @override
-  // TODO: implement props
   List<Object> get props => [];
 
   static TimeTableModel fromJson(Map<String, dynamic> json){

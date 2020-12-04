@@ -21,7 +21,6 @@ class NotificationIconClicked extends MenuEvent {
   NotificationIconClicked({this.school});
 
   @override
-  // TODO: implement props
   List<Object> get props => [];
 
 }

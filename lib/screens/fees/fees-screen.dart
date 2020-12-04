@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/fees/components/fees-card.dart';
 import 'package:dsapp/screens/screens.dart';
@@ -48,20 +49,19 @@ class FeesScreen extends StatelessWidget {
                   children: [
                     Icon(Icons.do_not_disturb, size: 40, color: Colors.black,),
                     SizedBox(),
-                    Text("No Data Found", style: TextStyle(fontSize: 20),),
+                    Text(S.of(context).noDataFound, style: TextStyle(fontSize: 20),),
                   ],
                 );
               }
 
               if(state is FeesInitialState){
-                print("Empty bloc");
                 BlocProvider.of<FeesBloc>(context)
                     .add(FetchingFeesEvent(classId: classId, userId: roleModules.user.id.toString()));
               }
 
               if (state is FeesLoadingState){
 //                context.showLoaderOverlay();
-                return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+                return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
 //                  return CircularProgressIndicator();
               }
 

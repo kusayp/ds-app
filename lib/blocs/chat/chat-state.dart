@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 abstract class ChatState extends Equatable {
   ChatState();
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
@@ -17,7 +16,6 @@ class ChatLoadedState extends ChatState {
   ChatLoadedState({this.groupPageData, this.classId});
 
   @override
-  // TODO: implement props
   List<Object> get props => [groupPageData];
 }
 
@@ -27,11 +25,14 @@ class UsersLoadedState extends ChatState {
   UsersLoadedState({this.users});
 
   @override
-  // TODO: implement props
   List<Object> get props => [users];
 }
 
 class ChatLoadingState extends ChatState {}
+
+class ChatSendingState extends ChatState {}
+
+class ChatSentState extends ChatState {}
 
 class ChatErrorState extends ChatState {
   final String error;

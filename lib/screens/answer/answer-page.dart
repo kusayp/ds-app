@@ -1,6 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/generated/l10n.dart';
-import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/services/services.dart';
@@ -18,7 +17,7 @@ class AnswerPage extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
-          S.of(context).submittedAssignments,
+          S.of(context).submittedAnswers,
           style: ThemeText.onBoardingHeader,
         ),
         centerTitle: true,

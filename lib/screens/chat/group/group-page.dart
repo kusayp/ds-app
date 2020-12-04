@@ -1,11 +1,11 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 import '../../screens.dart';
 
@@ -19,7 +19,7 @@ class GroupPage extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
-          "Class Groups",
+          S.of(context).classGroups,
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,

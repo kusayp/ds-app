@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dsapp/blocs/login/login-event.dart';
 import 'package:dsapp/blocs/login/login-state.dart';
+import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/locator.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
@@ -26,15 +29,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
 
         final LoginResponse response = await loginRepository.loginResponse(event.username, event.password);
-        sharedPreferences.setAuthToken(response.token);
+        sharedPreferences.setSharedPreference("auth_token", response.token);
         _pushNotificationService.getToken().then((value) async {
           print('fcm token: $value');
           loginRepository.updateUserWithFCMToken(1, response, value);
         });
         yield LoginSuccess(loginResponse: response);
       }
-      catch (e) {
-        print(e.message);
+      on SocketException catch(_) {
+        yield LoginNoConnection();
+      }
+      on ApiException catch (e) {
+        print(e.getMessage());
         yield LoginFailure(error: "error");
       }
     }

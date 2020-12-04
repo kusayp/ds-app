@@ -17,7 +17,6 @@ class InstallmentList extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
@@ -35,6 +34,5 @@ class PaymentList extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }

@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/assignment/assignment.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/assignment/components/assignment-card.dart';
 import 'package:dsapp/screens/screens.dart';
@@ -14,6 +15,11 @@ class AssignmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    void goBackToLogin(){
+      BlocProvider.of<AssignmentBloc>(context)
+          .add(FetchingAssignmentEvent(teacherId: user.roleModules.user.id.toString()));
+    }
+
     return BlocListener<AssignmentBloc, AssignmentState>(
       listener: (context, state){
         if (state is AssignmentErrorState){
@@ -22,6 +28,14 @@ class AssignmentScreen extends StatelessWidget {
           showDialog(
               context: context,
               builder: (_) => ErrorDialog(errorMessage: state.errorMessage,),
+              barrierDismissible: false
+          );
+        }
+
+        if (state is NoConnectionState){
+          showDialog(
+              context: context,
+              builder: (_) => NoConnectionDialog(onButtonPressed: goBackToLogin,),
               barrierDismissible: false
           );
         }
@@ -39,7 +53,7 @@ class AssignmentScreen extends StatelessWidget {
                       thickness: 1.0,
                       indent: MediaQuery.of(context).size.width*0.17,
                     ),
-                    Text("Current Week", style: ThemeText.assignmentPeriodText,),
+                    Text(S.of(context).currentWeek, style: ThemeText.assignmentPeriodText,),
                   ],
                 ),
 
@@ -74,14 +88,12 @@ class AssignmentScreen extends StatelessWidget {
                       }
                     }
                     if(state is AssignmentEmptyState){
-                      print("Empty bloc");
-                      BlocProvider.of<AssignmentBloc>(context)
-                          .add(FetchingAssignmentEvent(teacherId: user.roleModules.user.id.toString()));
+                      goBackToLogin();
                     }
 
                     if (state is AssignmentLoadingState){
 //                context.showLoaderOverlay();
-                      return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+                      return Center(child: CircularProgressIndicator());
 //                  return CircularProgressIndicator();
                     }
 

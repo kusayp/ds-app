@@ -4,20 +4,18 @@ import 'package:equatable/equatable.dart';
 abstract class AssignmentDetailState extends Equatable {
   AssignmentDetailState();
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
 class AssignmentDetailEmptyState extends AssignmentDetailState {}
 
 class AssignmentDetailLoadedState extends AssignmentDetailState {
-  final AssignmentPageData assignmentPageData;
+  final AssignmentModel assignmentModel;
 
-  AssignmentDetailLoadedState({this.assignmentPageData});
+  AssignmentDetailLoadedState({this.assignmentModel});
 
   @override
-  // TODO: implement props
-  List<Object> get props => [assignmentPageData];
+  List<Object> get props => [assignmentModel];
 }
 
 class AssignmentDetailLoadingState extends AssignmentDetailState {}
