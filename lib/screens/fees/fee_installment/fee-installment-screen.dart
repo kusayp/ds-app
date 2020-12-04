@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/fees/installments-arguments.dart';
 import 'package:dsapp/screens/fees/fee_payment/fee-payment-page.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
@@ -50,7 +51,7 @@ class FeeInstallmentScreen extends StatelessWidget {
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: LoginButton(buttonText: "Make Payment", onButtonPressed: goToPaymentPage,),
+                    child: LoginButton(buttonText: S.of(context).makePayment, onButtonPressed: goToPaymentPage,),
                   ),
                 ],
               );
@@ -58,7 +59,7 @@ class FeeInstallmentScreen extends StatelessWidget {
 
             if (state is InstallmentsLoadingState){
 //                context.showLoaderOverlay();
-              return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+              return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
 //                  return CircularProgressIndicator();
             }
 
@@ -68,7 +69,7 @@ class FeeInstallmentScreen extends StatelessWidget {
                 children: [
                   Icon(Icons.do_not_disturb, size: 40, color: Colors.black,),
                   SizedBox(),
-                  Text("No Data Found", style: TextStyle(fontSize: 20),),
+                  Text(S.of(context).noDataFound, style: TextStyle(fontSize: 20),),
                 ],
               );
             }

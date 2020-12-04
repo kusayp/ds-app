@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/attendance/attendace-screen.dart';
@@ -28,7 +29,7 @@ class AttendancePage extends StatelessWidget {
           appBar: AppBar(
             leading: BackButton(color: Colors.black),
             title: Text(
-              "Attendance",
+              S.of(context).attendance,
               style: TextStyle(color: Colors.black),
             ),
             centerTitle: true,
@@ -38,10 +39,10 @@ class AttendancePage extends StatelessWidget {
               indicator: CircleTabIndicator(color: Colors.black, radius: 3),
               tabs: [
                 Tab(
-                  child: Text("Today", style: TextStyle(color: Colors.black),),
+                  child: Text(S.of(context).today, style: TextStyle(color: Colors.black),),
                 ),
                 Tab(
-                  child: Text("This Week", style: TextStyle(color: Colors.black),),
+                  child: Text(S.of(context).thisWeek, style: TextStyle(color: Colors.black),),
                 ),
               ],
             ),

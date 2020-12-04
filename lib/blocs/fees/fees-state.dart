@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 abstract class FeesState extends Equatable {
   FeesState();
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
@@ -18,7 +17,6 @@ class FeesLoadedState extends FeesState {
   FeesLoadedState({this.feesPageData});
 
   @override
-  // TODO: implement props
   List<Object> get props => [feesPageData];
 }
 

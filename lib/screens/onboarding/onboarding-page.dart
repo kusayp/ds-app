@@ -13,7 +13,6 @@ class OnBoardingPageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: BlocProvider(
         create: (context) => OnBoardingBloc(onBoardingRepository: onBoardingRepository),
@@ -30,24 +29,17 @@ class OnBoardingPage extends StatefulWidget {
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
-//  final PushNotificationService _pushNotificationService =
-//  locator<PushNotificationService>();
 
   @override
   void initState() {
     super.initState();
     _loadUserInfo();
-//    _pushNotificationService.initialise();
-//
-//    _pushNotificationService.getToken().then((value) {
-//      print('fcm token: $value');
-//    });
   }
 
   _loadUserInfo() async {
     LocalStorage prefs = LocalStorage();
     bool onBoardingViewed = await prefs.isOnBoardingViewed();
-    String user = await prefs.getUserDetails();
+    String user = await prefs.getSharedPreference("user");
     if (user != null) {
       LoginResponse loginResponse = LoginResponse.fromJson(user);
       Navigator.pushNamedAndRemoveUntil(

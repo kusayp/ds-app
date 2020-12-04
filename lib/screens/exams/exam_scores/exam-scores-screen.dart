@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/utils/common.dart';
@@ -35,14 +36,14 @@ class ExamScoreScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Start Date: " + Common.formatDate(exam.startDate)),
-                    Text("End Date: " + Common.formatDate(exam.endDate)),
+                    Text(S.of(context).startDate + Common.formatDate(exam.startDate)),
+                    Text(S.of(context).endDate + Common.formatDate(exam.endDate)),
                   ],
                 ),
               ),
               Align(
                 alignment: Alignment.centerRight,
-                child: Text("MARKED", style: TextStyle(color: Colors.green),),
+                child: Text(S.of(context).marked, style: TextStyle(color: Colors.green),),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
@@ -61,12 +62,11 @@ class ExamScoreScreen extends StatelessWidget {
 
                     if (state is ExamScoreLoadingState){
 //                context.showLoaderOverlay();
-                      return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+                      return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
 //                  return CircularProgressIndicator();
                     }
 
                     if(state is ExamScoreInitialState){
-                      print("Empty bloc");
                       BlocProvider.of<ExamScoreBloc>(context)
                           .add(FetchingExamScoreEvent(examinationId: exam.id.toString()));
                     }
@@ -77,7 +77,7 @@ class ExamScoreScreen extends StatelessWidget {
                         children: [
                           Icon(Icons.do_not_disturb, size: 40,),
                           SizedBox(),
-                          Text("No Data Found", style: TextStyle(fontSize: 20),),
+                          Text(S.of(context).noDataFound, style: TextStyle(fontSize: 20),),
                         ],
                       );
                     }

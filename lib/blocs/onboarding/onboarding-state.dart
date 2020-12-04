@@ -7,7 +7,6 @@ abstract class OnBoardingState extends Equatable {
   const OnBoardingState();
 
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
@@ -24,7 +23,6 @@ class OnBoardingLoaded extends OnBoardingState {
   const OnBoardingLoaded({@required this.onBoardingModelList}) : assert(onBoardingModelList != null);
 
   @override
-  // TODO: implement props
   List<Object> get props => [onBoardingModelList];
 }
 

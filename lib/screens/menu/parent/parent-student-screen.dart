@@ -20,14 +20,12 @@ class _ParentStudentMenuScreenState extends State<ParentStudentMenuScreen> {
   LocalStorage prefs = LocalStorage();
   @override
   void initState() {
-    // TODO: implement initState
     prefs.setSharedPreference('studentUser', json.encode(UserModel.toJson(widget.module.studentUser)));
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
 
-    print("classId"+widget.module.studentUser.studentClass.id.toString());
     return BlocListener<MenuBloc, MenuState>(
       listener: (context, state) {},
       child: SafeArea(
@@ -63,7 +61,6 @@ class _ParentStudentMenuScreenState extends State<ParentStudentMenuScreen> {
                   );
                 }
                 if (state is MenuInitial){
-                  print("Empty bloc");
                   BlocProvider.of<MenuBloc>(context)
                       .add(MenuDropDownSelected(role: "STUDENT"));
                 }

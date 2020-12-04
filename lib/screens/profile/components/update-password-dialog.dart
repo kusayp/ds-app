@@ -1,3 +1,4 @@
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class UpdatePasswordDialog extends StatelessWidget {
                     keyboardType: TextInputType.text,
                   ),
                 ),
-                LoginButton(buttonText: "OK", onButtonPressed: updatePassword,),
+                LoginButton(buttonText: S.of(context).ok, onButtonPressed: updatePassword,),
               ],
             ),
           ),

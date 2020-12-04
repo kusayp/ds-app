@@ -15,7 +15,7 @@ class ClassRegisterService {
   final batchUrl = 'registers/batch';
   LocalStorage prefs = LocalStorage();
   Future<TimeTablePageData> getClassSchedule(schoolId, classId) async {
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
     Map<String, String> headers = {
@@ -36,7 +36,7 @@ class ClassRegisterService {
   }
 
   Future<TimeTablePageData> getListOfActorsInClass(schoolId, classId, scheduleId) async {
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
     Map<String, String> headers = {
@@ -57,7 +57,7 @@ class ClassRegisterService {
   }
 
   Future<UserModelPageData> getActorsInClass(schoolId, classId, url) async {
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
     Map<String, String> headers = {
@@ -78,7 +78,7 @@ class ClassRegisterService {
   }
 
   Future<void> saveClassRegister(schoolId, classSchedule, userId, present) async {
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
     String endpoint = sprintf('%s%s/%s/%s', [baseUrl, 'schools', schoolId, 'class-registers']);
 
@@ -97,14 +97,14 @@ class ClassRegisterService {
     );
 
     if(response.statusCode != 200) {
-      print(response.body);
-      print("Success");
+      print(response.statusCode);
+      throw new RestErrorHandling().handleError(response);
     }
     print(response.body);
   }
 
   Future<void> saveClassRegisterBatch(String schoolId, TimeTableModel classSchedule, List<ClassRegisterSave> classRegisters) async {
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
     String endpoint = sprintf('%s/%s/%s/%s/%s', [mobileBaseUrl, schoolId, 'classes', classSchedule.schoolClass.id, batchUrl]);
 

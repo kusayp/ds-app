@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/timetable/days.dart';
 import 'package:dsapp/screens/timetable/components/days-button.dart';
 import 'package:dsapp/screens/timetable/components/timetable-list.dart';
@@ -96,7 +97,7 @@ class TimeTableScreen extends StatelessWidget {
 
                   if (state is TimeTableLoading){
 //                context.showLoaderOverlay();
-                    return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+                    return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
 //                  return CircularProgressIndicator();
                   }
 

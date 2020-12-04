@@ -1,16 +1,17 @@
+import 'package:dsapp/models/models.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class AssignmentDetailEvent extends Equatable {
   AssignmentDetailEvent();
 
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
-class FetchingAssignmentAnswersEvent extends AssignmentDetailEvent {
-  FetchingAssignmentAnswersEvent();
+class FetchingSignedUrlEvent extends AssignmentDetailEvent {
+  final AssignmentModel assignment;
+
+  FetchingSignedUrlEvent({this.assignment});
   @override
-  // TODO: implement props
-  List<Object> get props => [];
+  List<Object> get props => [assignment];
 }

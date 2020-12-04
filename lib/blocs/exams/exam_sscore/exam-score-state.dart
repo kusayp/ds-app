@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 abstract class ExamScoreState extends Equatable {
   ExamScoreState();
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
@@ -16,7 +15,6 @@ class ExamScoreLoadedState extends ExamScoreState {
   ExamScoreLoadedState({this.examScorePageData});
 
   @override
-  // TODO: implement props
   List<Object> get props => [examScorePageData];
 }
 

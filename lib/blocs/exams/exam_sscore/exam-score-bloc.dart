@@ -17,13 +17,11 @@ class ExamScoreBloc extends Bloc<ExamScoreEvent, ExamScoreState> {
   @override
   Stream<ExamScoreState> mapEventToState(ExamScoreEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
-    // TODO: implement mapEventToState
     if(event is FetchingExamScoreEvent){
       yield ExamScoreLoadingState();
       try{
-        String user = await sharedPreferences.getUserDetails();
+        String user = await sharedPreferences.getSharedPreference("user");
         LoginResponse loginResponse = LoginResponse.fromJson(user);
-//        var role = await sharedPreferences.getSharedPreference("role");
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
         final ExamScorePageData response = await repository.getExamScores(schoolId, event.examinationId, loginResponse.user.id);
         if (response.results.isEmpty){

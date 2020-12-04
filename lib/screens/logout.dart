@@ -10,9 +10,9 @@ class LogOut extends StatelessWidget {
   final LoginService service = LoginService();
   void logoutUser(BuildContext context) async {
     LocalStorage prefs = LocalStorage();
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
-    prefs?.setUserDetails(null);
+    prefs?.setSharedPreference("user", null);
     await service.updateUser(1, user, null);
     Navigator.pushNamedAndRemoveUntil(
         context,
@@ -23,7 +23,6 @@ class LogOut extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     if(true) {
       try{
         final result = InternetAddress.lookup('example.com').timeout(Duration(seconds: 3));

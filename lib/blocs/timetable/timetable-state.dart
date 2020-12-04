@@ -6,7 +6,6 @@ abstract class TimeTableState extends Equatable {
   const TimeTableState();
 
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
@@ -25,7 +24,6 @@ class TimeTableLoaded extends TimeTableState {
   TimeTableLoaded({this.response, this.selectedDay});
 
   @override
-  // TODO: implement props
   List<Object> get props => [response, selectedDay];
 }
 

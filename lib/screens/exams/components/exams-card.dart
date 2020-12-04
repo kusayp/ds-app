@@ -1,3 +1,4 @@
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/exams/exam_scores/exam-scores-page.dart';
 import 'package:dsapp/utils/common.dart';
@@ -34,8 +35,8 @@ class ExamsCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Start Date : " + Common.formatDate(exams.startDate), style: TextStyle(fontSize: 12,),),
-                  Text("End Date : " + Common.formatDate(exams.endDate), style: TextStyle(fontSize: 12.0),),
+                  Text(S.of(context).startDate + Common.formatDate(exams.startDate), style: TextStyle(fontSize: 12,),),
+                  Text(S.of(context).endDate + Common.formatDate(exams.endDate), style: TextStyle(fontSize: 12.0),),
                 ],
               )
             ],

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/models/models.dart';
@@ -17,7 +19,6 @@ class AssignmentBloc extends Bloc<AssignmentEvent, AssignmentState> {
   @override
   Stream<AssignmentState> mapEventToState(AssignmentEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
-    // TODO: implement mapEventToState
     if(event is FetchingAssignmentEvent){
       yield AssignmentLoadingState();
       try{
@@ -35,6 +36,10 @@ class AssignmentBloc extends Bloc<AssignmentEvent, AssignmentState> {
       }
       on ApiException catch(e){
         yield AssignmentErrorState(e.getMessage());
+      }
+
+      on SocketException catch(e){
+        yield NoConnectionState();
       }
     }
   }

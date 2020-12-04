@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/timetable/timetable-screen.dart';
@@ -26,7 +27,7 @@ class TimeTablePage extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
-          "Timetable",
+          S.of(context).timetable,
           style: TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,

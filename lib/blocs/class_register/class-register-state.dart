@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 abstract class ClassRegisterState extends Equatable {
   ClassRegisterState();
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
@@ -20,7 +19,6 @@ class ClassRegisterToggledState extends ClassRegisterState {
   ClassRegisterToggledState({this.users, this.schedules, this.selectedSchedules, this.timeStamp, this.selectedSchoolClass});
 
   @override
-  // TODO: implement props
   List<Object> get props => [users, schedules, selectedSchedules, timeStamp, selectedSchoolClass];
 }
 
@@ -30,7 +28,6 @@ class ClassRegisterScheduleLoadedState extends ClassRegisterState{
   ClassRegisterScheduleLoadedState({this.tablePageData});
 
   @override
-  // TODO: implement props
   List<Object> get props => [tablePageData];
 }
 
@@ -44,7 +41,6 @@ class ClassRegisterLoadedState extends ClassRegisterState {
   ClassRegisterLoadedState({this.users, this.schedules, this.selectedSchedules, this.timeStamp, this.selectedSchoolClass});
 
   @override
-  // TODO: implement props
   List<Object> get props => [users, schedules, selectedSchedules, timeStamp, selectedSchoolClass];
 }
 

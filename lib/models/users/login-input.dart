@@ -9,7 +9,6 @@ class LoginInput{
 
   @override
   String toString() {
-    // TODO: implement toString
     return "User { username: $username, password: $password}";
   }
 }

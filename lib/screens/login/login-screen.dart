@@ -1,6 +1,7 @@
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/utils/style.dart';
@@ -26,7 +27,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 //    _loginBloc = LoginBloc();
     code = "+299";
@@ -54,48 +54,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     Widget loadUserNameField(int id){
       if(id == 1){
-        return CustomLoginField(
-          width: width-60.0,
-          labelText: "Email",
-          decoration: BoxDecoration(
-            borderRadius:
-            BorderRadius.all(Radius.circular(5)),
-            border: Border.all(
-                color: appTheme().primaryColor, width: 1.0),
-          ),
-          formField: TextFormField(
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.only(left: 10.0),
-              border: InputBorder.none,
-              errorText: _validate ? 'Value Can\'t Be Empty' : null,
-            ),
-            controller: _emailController,
-            keyboardType: TextInputType.emailAddress,
-          ),
-        );
-      }
-      else if(id == 2){
-        return CustomLoginField(
-          width: width-60.0,
-          labelText: "Reg. Number",
-          decoration: BoxDecoration(
-            borderRadius:
-            BorderRadius.all(Radius.circular(5)),
-            border: Border.all(
-                color: appTheme().primaryColor, width: 1.0),
-          ),
-          formField: TextFormField(
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.only(left: 10.0),
-              border: InputBorder.none,
-              errorText: _validate ? 'Value Can\'t Be Empty' : null,
-            ),
-            controller: _emailController,
-            keyboardType: TextInputType.emailAddress,
-          ),
-        );
-      }
-      else{
         return Row(
           children: [
             CountryPickerDropdown(
@@ -116,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Expanded(
               child: CustomLoginField(
                 width: width-180.0,
-                labelText: "Phone",
+                labelText: S.of(context).phone,
                 decoration: BoxDecoration(
                   borderRadius:
                   BorderRadius.all(Radius.circular(5)),
@@ -138,13 +96,58 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         );
       }
+      else if(id == 2){
+        return CustomLoginField(
+          width: width-60.0,
+          labelText: S.of(context).regNumber,
+          decoration: BoxDecoration(
+            borderRadius:
+            BorderRadius.all(Radius.circular(5)),
+            border: Border.all(
+                color: appTheme().primaryColor, width: 1.0),
+          ),
+          formField: TextFormField(
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: 10.0),
+              border: InputBorder.none,
+              errorText: _validate ? 'Value Can\'t Be Empty' : null,
+            ),
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+          ),
+        );
+      }
+      else{
+        return CustomLoginField(
+          width: width-60.0,
+          labelText: S.of(context).email,
+          decoration: BoxDecoration(
+            borderRadius:
+            BorderRadius.all(Radius.circular(5)),
+            border: Border.all(
+                color: appTheme().primaryColor, width: 1.0),
+          ),
+          formField: TextFormField(
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: 10.0),
+              border: InputBorder.none,
+              errorText: _validate ? 'Value Can\'t Be Empty' : null,
+            ),
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+          ),
+        );
+      }
+    }
+
+    void goBackToLogin(){
+      Navigator.pushNamedAndRemoveUntil(context, '/login', ModalRoute.withName('/login'));
     }
 
     _onLoginButtonPressed() {
       setState(() {
         _emailController.text.isEmpty ? _validate = true : _validate = false;
       });
-//      print(code + _emailController.text.replaceFirst(RegExp(r'^0+'), ""));
       if(!_validate){
         BlocProvider.of<LoginBloc>(context).add(LoginButtonPressed(
             username: _emailController.text, password: _passwordController.text));
@@ -157,6 +160,14 @@ class _LoginScreenState extends State<LoginScreen> {
           showDialog(
               context: context,
               builder: (_) => UserNotFoundDialog(),
+              barrierDismissible: false
+          );
+        }
+
+        if (state is LoginNoConnection) {
+          showDialog(
+              context: context,
+              builder: (_) => NoConnectionDialog(onButtonPressed: goBackToLogin,),
               barrierDismissible: false
           );
         }
@@ -186,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'LOGIN',
+                              S.of(context).login,
                               textAlign: TextAlign.center,
                               style: ThemeText.loginInText,
                             ),
@@ -194,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             loadUserNameField(widget.id),
                             CustomLoginField(
                               width: width-60.0,
-                              labelText: "Password",
+                              labelText: S.of(context).password,
                               decoration: BoxDecoration(
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(5)),
@@ -215,6 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(height: MediaQuery.of(context).size.height * 0.10,),
                             LoginButton(
                               onButtonPressed: _onLoginButtonPressed,
+                              buttonText: S.of(context).signin,
                             ),
                           ],
                         ),
@@ -226,16 +238,8 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           }
 
-//          if (state is LoginFailure) {
-//            showDialog(
-//                context: context,
-//                builder: (_) => UserNotFoundDialog(),
-//                barrierDismissible: true
-//            );
-//          }
-
     if (state is LoginLoading) {
-      return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+      return Center(child: CircularProgressIndicator());
     }
           return Center(child: CircularProgressIndicator());
         },

@@ -1,3 +1,4 @@
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 
@@ -32,8 +33,8 @@ class _UsersScreenState extends State<UsersScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0)),
                       color: appTheme().primaryColor,
-                      onPressed: () => _getUserTapped(1),
-                      child: Text('Login with Email',
+                      onPressed: () => _getUserTapped(3),
+                      child: Text(S.of(context).loginWithEmail,
                           style: TextStyle(fontSize: 14, color: Colors.white)),
                     ),
                   ),
@@ -44,7 +45,7 @@ class _UsersScreenState extends State<UsersScreen> {
                           borderRadius: BorderRadius.circular(8.0)),
                       color: appTheme().primaryColor,
                       onPressed: () => _getUserTapped(2),
-                      child: Text('Login with Reg. Number',
+                      child: Text(S.of(context).loginWithRegNumber,
                           style: TextStyle(fontSize: 14, color: Colors.white)),
                     ),
                   ),
@@ -54,8 +55,8 @@ class _UsersScreenState extends State<UsersScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0)),
                       color: appTheme().primaryColor,
-                      onPressed: () =>  _getUserTapped(3),
-                      child: Text('Login with Phone',
+                      onPressed: () =>  _getUserTapped(1),
+                      child: Text(S.of(context).loginWithPhone,
                           style: TextStyle(fontSize: 14, color: Colors.white)),
                     ),
                   ),

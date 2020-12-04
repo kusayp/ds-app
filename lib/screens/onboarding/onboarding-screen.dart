@@ -1,3 +1,4 @@
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/utils/shared-preference.dart';
@@ -51,7 +52,6 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -88,7 +88,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                     child: FlatButton(
                       onPressed: _getStartedTapped,
                       child: Text(
-                        'Skip',
+                        S.of(context).skip,
                         style: ThemeText.onBoardingSkip
                       ),
                     ),
@@ -113,8 +113,8 @@ class OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                   SizedBox(height:  MediaQuery.of(context).size.height * 0.01,),
                   _currentPage != widget.pages.onBoardingList.length - 1
-                      ? LoginButton(onButtonPressed: pageController, buttonText: "Next",)
-                      : LoginButton(onButtonPressed: _getStartedTapped, buttonText: "Get Started",),
+                      ? LoginButton(onButtonPressed: pageController, buttonText: S.of(context).next,)
+                      : LoginButton(onButtonPressed: _getStartedTapped, buttonText: S.of(context).getStarted,),
                 ],
               ),
             ),

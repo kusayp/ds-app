@@ -19,14 +19,14 @@ class MenuService {
 
   Future<RoleModules> loadUserRoleModules(role) async {
     String jsonString = await _loadUserRoleModules(role);
-    await sharedPreferences.setModules(jsonString);
+    await sharedPreferences.setSharedPreference("modules", jsonString);
     final jsonResponse = json.decode(jsonString);
     RoleModules roleModules = RoleModules.fromJson(jsonResponse);
     return roleModules;
   }
 
   Future<NotificationPageData> fetchNotificationsFilteredByUser(schoolId) async {
-    String userString = await sharedPreferences.getUserDetails();
+    String userString = await sharedPreferences.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
     Map<String, String> headers = {

@@ -20,7 +20,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       yield MenuInitial();
       LocalStorage prefs = LocalStorage();
       bool isStudentParent = event.role == "STUDENT";
-      String user = await prefs.getUserDetails();
+      String user = await prefs.getSharedPreference("user");
       prefs.setSharedPreference("schoolId", event.school.id.toString());
       prefs.setSharedPreference("school", json.encode(SchoolModel.toJson(event.school)));
       UserModel studentUser = UserModel();
@@ -31,6 +31,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       }
       try {
         LoginResponse loginResponse = LoginResponse.fromJson(user);
+        prefs.setSharedPreference("userId", loginResponse.user.id.toString());
         List<Module> list = [];
         var modules = List<Module>();
 

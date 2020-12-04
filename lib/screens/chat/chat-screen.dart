@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/chat/chat.dart';
 import 'package:dsapp/screens/chat/components/chat-card.dart';
 import 'package:dsapp/screens/screens.dart';
@@ -42,25 +43,11 @@ class ChatScreen extends StatelessWidget {
               }else{
               return Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/icons/Edit.svg",
-                        width: 20,
-                        height: 20,
-                      ),
-                      Icon(Icons.search)
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
                   Expanded(
                     child: ListView.builder(
                         itemCount: state.users.length,
                         itemBuilder: (context, index) {
-                          return ChatList(
+                          return ChatItem(
                             user: state.users[index],
                           );
                         }),
@@ -72,7 +59,7 @@ class ChatScreen extends StatelessWidget {
 
             if (state is ChatLoadingState){
 //                context.showLoaderOverlay();
-              return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+              return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
 //                  return CircularProgressIndicator();
             }
 

@@ -6,7 +6,6 @@ import 'package:dsapp/utils/common.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class AssignmentCard extends StatelessWidget {
   final AssignmentModel assignment;
@@ -18,7 +17,16 @@ class AssignmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List<String> colors = ['#84A2D6', '#A3A5B1', '#F65A75', '#39CB89', '#6FCFC5', '#FA8993', '#FF7F00', '#CED3D9',];
+    List<int> colors = [
+      0xff84A2D6,
+      0xffA3A5B1,
+      0xffF65A75,
+      0xff39CB89,
+      0xff6FCFC5,
+      0xffFA8993,
+      0xffFF7F00,
+      0xffCED3D9,
+    ];
 
     return GestureDetector(
       onTap: (){
@@ -29,7 +37,7 @@ class AssignmentCard extends StatelessWidget {
         elevation: 4,
         shape: Border(
           left: BorderSide(
-            color: Hexcolor(randomChoice(colors)),
+            color: Color(randomChoice(colors)),
             width: 2,
           )
         ),
@@ -41,19 +49,19 @@ class AssignmentCard extends StatelessWidget {
               Text(assignment.title, style: ThemeText.assignmentHeaderText,),
               Text(assignment.subject.name, style: ThemeText.assignmentSubjectText,),
               Divider(
-                color: Hexcolor('#A3A5B1'),
+                color: Color(0xffA3A5B1),
                 thickness: 0.8,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(S.of(context).due, style: TextStyle(fontSize: 12, color: Hexcolor('#F65A75')),),
+                  Text(S.of(context).due, style: TextStyle(fontSize: 12, color: Color(0xffF65A75)),),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
                     child: Text(Common.formatDate(assignment.dueDate), style: ThemeText.assignmentDateText,),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30.0),
-                      color: Hexcolor('#FF7F00'),
+                      color: Color(0xffFF7F00),
                     ),
                   ),
                 ],

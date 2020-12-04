@@ -11,7 +11,7 @@ class AttendanceService {
   Future<ClassRegisterPageData> getAttendance(schoolId, classId, actorId) async {
 
     LocalStorage prefs = LocalStorage();
-    String userString = await prefs.getUserDetails();
+    String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
 

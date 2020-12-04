@@ -33,7 +33,7 @@ class LoginService {
       print(response.body);
       throw new Exception("error getting quotes");
     }
-    await sharedPreferences.setUserDetails(response.body);
+    await sharedPreferences.setSharedPreference("user", response.body);
     return LoginResponse.fromJson(response.body);
   }
 
@@ -61,7 +61,7 @@ class LoginService {
   }
 
   Future<UserModel> getUserById(userId,) async {
-    String userString = await sharedPreferences.getUserDetails();
+    String userString = await sharedPreferences.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
     String endpoint = sprintf('%s%s/%s', [baseUrl, usersUrl, userId]);
     final response = await http.get(endpoint,

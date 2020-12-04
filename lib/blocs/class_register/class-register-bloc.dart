@@ -22,7 +22,6 @@ class ClassRegisterBloc extends Bloc<ClassRegisterEvent, ClassRegisterState> {
   @override
   Stream<ClassRegisterState> mapEventToState(ClassRegisterEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
-    // TODO: implement mapEventToState
     if(event is ClassRegisterFilterByScheduleEvent){
       yield ClassRegisterLoadingState();
       List<UserModel> classUsers = [];

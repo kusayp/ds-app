@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
 import 'package:dsapp/screens/screens.dart';
@@ -15,7 +16,7 @@ class SubmitAnswerScreen extends StatelessWidget {
   const SubmitAnswerScreen({Key key, this.arguments}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    String _filename;
+//    String _filename;
     void viewSubmitAnswersPage() {
       BlocProvider.of<AnswerBloc>(context).add(AssignmentAnswerEvent(
           student: arguments.menuArguments.roleModules.user.id, description: "", attachment: "", assignmentId: arguments.assignment.id));
@@ -58,7 +59,7 @@ class SubmitAnswerScreen extends StatelessWidget {
           }
 
           if (state is AnswerSavedState){
-            _showSnackBar("Answer successfully submitted", Colors.green);
+            _showSnackBar(S.of(context).answerSuccessfullySubmitted, Colors.green);
           }
 
         },
@@ -74,7 +75,7 @@ class SubmitAnswerScreen extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: AnswerAttachButton(
-                        buttonText: "Choose File",
+                        buttonText: S.of(context).chooseFile,
                         onButtonPressed: openFileExplorer,
                       ),
                     ),
@@ -90,14 +91,14 @@ class SubmitAnswerScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  LoginButton(buttonText: "Submit", onButtonPressed: viewSubmitAnswersPage,)
+                  LoginButton(buttonText: S.of(context).submit, onButtonPressed: viewSubmitAnswersPage,)
                 ],
               );
             }
 
             if (state is AnswerLoadingState){
 //                context.showLoaderOverlay();
-              return Center(child: Text("Loading...", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+              return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
 //                  return CircularProgressIndicator();
             }
 

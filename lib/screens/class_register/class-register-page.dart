@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/class_register/class-register-screen.dart';
@@ -6,7 +7,6 @@ import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class ClassRegisterPager extends StatelessWidget {
   final MenuArguments arguments;
@@ -16,11 +16,11 @@ class ClassRegisterPager extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Widget cancelButton = FlatButton(
-      child: Text("Cancel"),
+      child: Text(S.of(context).cancel),
       onPressed:  () => Navigator.of(context).pop(),
     );
     Widget continueButton = FlatButton(
-      child: Text("Continue"),
+      child: Text(S.of(context).continueText),
       onPressed:  () {
         BlocProvider.of<ClassRegisterBloc>(context).add(SaveClassRegisterEvent());
         Navigator.of(context).pop();
@@ -31,7 +31,7 @@ class ClassRegisterPager extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
-          "Class Register",
+          S.of(context).classRegister,
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -42,8 +42,8 @@ class ClassRegisterPager extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (_) => AlertDialog(
-                  title: Text("Save Class Register"),
-                  content: Text("Do you want to continue?"),
+                  title: Text(S.of(context).saveClassRegister),
+                  content: Text(S.of(context).doYouWantToContinue),
                   actions: [
                     cancelButton,
                     continueButton,
@@ -51,7 +51,7 @@ class ClassRegisterPager extends StatelessWidget {
                 ),
                 barrierDismissible: false
             );
-          }, child: Text('SAVE', style: TextStyle(backgroundColor: Hexcolor('#F65A75'), color: Colors.white, fontWeight: FontWeight.bold),), ),
+          }, child: Text(S.of(context).save, style: TextStyle(backgroundColor: Color(0xffF65A75), color: Colors.white, fontWeight: FontWeight.bold),), ),
         ],
       ),
       extendBodyBehindAppBar: true,

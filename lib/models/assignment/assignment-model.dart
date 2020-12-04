@@ -1,6 +1,7 @@
 import 'package:dsapp/models/models.dart';
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class AssignmentModel extends Equatable{
   final int id;
   final String title;
@@ -9,9 +10,14 @@ class AssignmentModel extends Equatable{
   final SchoolClassModel schoolClass;
   final int dueDate;
   final UserModel teacher;
-  final String attachment;
+  final List<dynamic> attachments;
+  List<String> downloadUrls;
 
-  AssignmentModel({this.id, this.title, this.description, this.subject, this.schoolClass, this.dueDate, this.teacher, this.attachment});
+  AssignmentModel({this.id, this.title, this.description, this.subject, this.schoolClass, this.dueDate, this.teacher, this.attachments, this.downloadUrls});
+
+  set setDownloadUrls(List<String> downloadUrls) {
+    this.downloadUrls = downloadUrls;
+  }
 
   static AssignmentModel fromJson(Map<String, dynamic> json){
     return AssignmentModel(
@@ -22,7 +28,7 @@ class AssignmentModel extends Equatable{
         teacher: json.containsKey("teacher") ? UserModel.fromJson(json['teacher']) : null,
         title: json['title'],
         description: json['description'],
-        attachment: json['attachment']
+        attachments: json['attachments']
     );
   }
 
@@ -30,16 +36,9 @@ class AssignmentModel extends Equatable{
     'id': assignmentModel.id,
     'name': assignmentModel.title,
     'subject': assignmentModel.subject != null ? SubjectModel.toJson(assignmentModel.subject) : null,
-//    'children': schoolModel.children.isNotEmpty ? schoolModel.children.map<Map<String, dynamic>>((e) => UserModel.toJson(e)).toList() : null,
-//    'children': schoolModel.children.isNotEmpty ? schoolModel.children.map((e) => UserModel.toJson(e)).toList() : null,
-//    'studentClass': schoolModel?.studentClass != null ? SchoolClassModel.toJson(schoolModel?.studentClass) : null,
-//    'teacherClasses': schoolModel.teacherClasses.isNotEmpty ? schoolModel.teacherClasses.map((e) => SchoolClassModel.toJson(e)).toList() : null,
-//    'logo': schoolModel.name,
-//    'role': schoolModel.name,
   };
 
   @override
-  // TODO: implement props
   List<Object> get props => [];
 
 
@@ -53,9 +52,9 @@ class AddAssignmentModel {
   final int schoolClass;
   final int dueDate;
   final int teacher;
-  final String attachment;
+  final List<String> attachments;
 
-  AddAssignmentModel({this.id, this.title, this.description, this.subject, this.schoolClass, this.dueDate, this.teacher, this.attachment});
+  AddAssignmentModel({this.id, this.title, this.description, this.subject, this.schoolClass, this.dueDate, this.teacher, this.attachments});
 
   static Map<String, dynamic> toJson(AddAssignmentModel assignmentModel) => {
     'id': assignmentModel.id,
@@ -65,6 +64,6 @@ class AddAssignmentModel {
     'teacher': assignmentModel.teacher,
     'dueDate': assignmentModel.dueDate,
     'description': assignmentModel.description != null ? assignmentModel.description : null,
-    'attachment': assignmentModel.attachment,
+    'attachments': assignmentModel.attachments,
   };
 }

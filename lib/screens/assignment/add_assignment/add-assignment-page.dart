@@ -18,7 +18,7 @@ class AddAssignmentPage extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
-          "Add Assignment",
+          S().addAssignment,
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,

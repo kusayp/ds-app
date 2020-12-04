@@ -46,7 +46,6 @@ class AttendanceDayCard extends StatelessWidget{
   const AttendanceDayCard({Key key, this.classRegisterModel}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10.0),
       elevation: 4,

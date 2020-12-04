@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dsapp/screens/screens.dart';
@@ -21,7 +22,7 @@ class NotificationScreen extends StatelessWidget {
                 if (state is NotificationSuccess) {
                   if(state.notifications.isEmpty){
                     return Center(
-                      child: Text("No notifications received"),
+                      child: Text(S.of(context).noNotificationsReceived),
                     );
                   }else{
                   return ListView.builder(

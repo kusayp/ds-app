@@ -1,3 +1,4 @@
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/menu-arguments.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,7 @@ class NotificationDialog extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("NOTIFICATIONS"),
+                  Text(S.of(context).notifications),
                   IconButton(icon: Icon(Icons.close, color: Colors.black), onPressed: () => Navigator.of(context).pop(),)
                 ],
               ),
@@ -85,7 +86,7 @@ class NotificationDialog extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index){
                     if(notifications.isEmpty){
                       return Center(
-                        child: Text("No notifications received"),
+                        child: Text(S.of(context).noNotificationsReceived),
                       );
                     }else{
                       return NotificationCard(notification: notifications[index],);

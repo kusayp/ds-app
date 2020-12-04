@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
+import 'package:file_picker/file_picker.dart';
 
 abstract class AddAssignmentEvent extends Equatable {
   const AddAssignmentEvent();
@@ -13,7 +14,6 @@ class ClassDropdownEvent extends AddAssignmentEvent {
 
   ClassDropdownEvent({this.teacherId, this.classId});
   @override
-  // TODO: implement props
   List<Object> get props => [classId, teacherId];
 }
 
@@ -24,11 +24,10 @@ class ClassAssignmentSaveEvent extends AddAssignmentEvent {
   final int subjectId;
   final DateTime dueDate;
   final String description;
-  final File file;
+  final PlatformFile file;
   final String attachment;
 
   ClassAssignmentSaveEvent({this.attachment, this.title, this.subjectId, this.dueDate, this.description, this.file, this.teacherId, this.classId});
   @override
-  // TODO: implement props
   List<Object> get props => [classId, teacherId, subjectId, dueDate, description, file, title];
 }

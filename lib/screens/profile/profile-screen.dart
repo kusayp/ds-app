@@ -1,3 +1,4 @@
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
 import 'package:dsapp/screens/screens.dart';
@@ -113,7 +114,7 @@ class ProfileScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Email:"),
+                        Text(S.of(context).email),
                         Text(userDetails.user.email),
                       ],
                     ),
@@ -122,7 +123,7 @@ class ProfileScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Phone:"),
+                          Text(S.of(context).phone),
                           Text(userDetails.user.phone),
                         ],
                       ),
@@ -130,7 +131,7 @@ class ProfileScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Address:"),
+                        Text(S.of(context).address),
                         Text("12th street, holme"),
                       ],
                     ),
@@ -141,7 +142,7 @@ class ProfileScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Classes:"),
+                                Text(S.of(context).classes),
                                 Column(
                                   children: buildTeacherClasses(
                                       userDetails.school.teacherClasses),
@@ -157,7 +158,7 @@ class ProfileScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Subjects:"),
+                                Text(S.of(context).subject),
                                 Column(
                                   children: buildStudentSubjects(
                                       userDetails.school.subjects),
@@ -173,7 +174,7 @@ class ProfileScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Children:"),
+                                Text(S.of(context).children),
                                 Column(
                                   children: buildParentChildren(
                                       userDetails.school.children),
@@ -185,7 +186,7 @@ class ProfileScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Contact School:"),
+                        Text(S.of(context).contactSchool),
                         Column(
                           children: [
                             Text(
@@ -203,7 +204,7 @@ class ProfileScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 00.0),
               child: LoginButton(
-                buttonText: "Update Password",
+                buttonText: S.of(context).updatePassword,
                 onButtonPressed: onUpdatePressed,
               ),
             )

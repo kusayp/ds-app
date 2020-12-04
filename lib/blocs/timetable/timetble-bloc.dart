@@ -13,7 +13,6 @@ class TimeTableBloc extends Bloc<TimeTableEvent, TimeTableState> {
   @override
   Stream<TimeTableState> mapEventToState(TimeTableEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
-    // TODO: implement mapEventToState
     if (event is GetTimeTableFromDayEvent) {
       yield TimeTableLoading();
       try{

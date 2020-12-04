@@ -17,7 +17,6 @@ class AnswerBloc extends Bloc<AnswerEvent, AnswerState> {
   @override
   Stream<AnswerState> mapEventToState(AnswerEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
-    // TODO: implement mapEventToState
     if(event is FetchingAnswerEvent){
       yield AnswerLoadingState();
       try{

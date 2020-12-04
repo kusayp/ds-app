@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +24,10 @@ class _ClassRegisterCardState extends State<ClassRegisterCard> {
 
     Widget _userText(){
       if(widget.user.role == 8){
-        return Text("Teacher", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black26),);
+        return Text(S.of(context).teacher, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black26),);
       }
       else if (widget.user.classPrefect){
-        return Text("Class Prefect", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black26),);
+        return Text(S.of(context).classPrefect, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black26),);
       }else{
         return Text("");
       }
@@ -107,14 +108,14 @@ class ConfirmClassRegisterSaveDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Do you want to continue?"),
+              Text(S.of(context).doYouWantToContinue),
               SizedBox(
                 width: 320.0,
                 child: RaisedButton(
                   onPressed: () => onPressed,
                   child: Center(
                     child: Text(
-                      "OK",
+                      S.of(context).ok,
                       style: TextStyle(color: Colors.white,),
                     ),
                   ),
@@ -128,3 +129,5 @@ class ConfirmClassRegisterSaveDialog extends StatelessWidget {
     );
   }
 }
+
+

@@ -1,3 +1,4 @@
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/fees/installment.dart';
 import 'package:dsapp/models/fees/installments-model.dart';
 import 'package:dsapp/utils/common.dart';
@@ -10,7 +11,6 @@ class InstallmentCard extends StatelessWidget{
   const InstallmentCard({Key key, this.installment}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Card(
       margin: EdgeInsets.symmetric(vertical: 10.0),
       elevation: 4,
@@ -29,7 +29,7 @@ class InstallmentCard extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(installment.type, style: TextStyle(fontSize: 16, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
-                Text("Due Date :"+ Common.formatDate(installment.dueDate), style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
+                Text(S.of(context).dueDate + Common.formatDate(installment.dueDate), style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
               ],
             ),
             SizedBox(
@@ -38,8 +38,7 @@ class InstallmentCard extends StatelessWidget{
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("overdue", style: TextStyle(fontSize: 1, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
-//                Text(sprintf("%s% of Fee", [installment.percentage]), style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
+                Text(S.of(context).overdue, style: TextStyle(fontSize: 1, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
                 Text(installment.percentage.toString() + "% of Fee", style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
               ],
             ),

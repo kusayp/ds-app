@@ -1,4 +1,5 @@
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/assignment/assignment-screen.dart';
@@ -14,7 +15,7 @@ class AssignmentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final MenuArguments arguments = ModalRoute.of(context).settings.arguments;
 
-    var choices = ["Overview", "Add Assignment"];
+    var choices = ["Overview", S.of(context).addAssignment];
 
     bool isTeacher = arguments.roleModules.role == "ENSEINGNANT";
     void handleClick(String value) {
@@ -32,7 +33,7 @@ class AssignmentPage extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
-          "Assignment",
+          S.of(context).assignment,
           style: TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
