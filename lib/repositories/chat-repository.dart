@@ -14,12 +14,12 @@ class ChatRepository {
     return await chatService.getUserInGroups(schoolId, classId, groupId);
   }
 
-  Future<void> saveChat(ChatModel chatModel, data) async {
-    await chatService.saveChat(chatModel, data);
+  Future<void> saveChat(int senderId, int receiverId, String message) async {
+    await chatService.saveChat(senderId, receiverId, message);
   }
 
-  Future<List<ChatModel>> getChatsFromDb(int toOrFrom) async {
-    return await chatService.fetchChatsFromDb(toOrFrom);
+  Future<Stream> getChatsFromDb(int senderId, int receiverId) async {
+    return await chatService.fetchChatsFromDb(senderId, receiverId);
   }
 
 }

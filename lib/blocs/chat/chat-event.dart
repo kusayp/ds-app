@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsapp/models/chat/chat.dart';
 import 'package:dsapp/models/users/user-model.dart';
 import 'package:equatable/equatable.dart';
@@ -35,7 +36,7 @@ class FetchChatListEvent extends ChatEvent {
 
 //triggered when stream containing list of chats has new data
 class ReceivedChatsEvent extends ChatEvent {
-  final List<ChatModel> chatList;
+  final Stream<QuerySnapshot> chatList;
 
   ReceivedChatsEvent(this.chatList);
 

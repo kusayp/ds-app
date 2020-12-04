@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/services/push_notification_service.dart';
 import 'package:dsapp/services/services.dart';
@@ -104,14 +105,35 @@ class ChatService {
     return groups;
   }
 
-  Future<void> saveChat(chatModel, data) async {
-    DBServices dbServices = DBServices();
-    await PushNotificationService().sendAndRetrieveMessage(data['token'], chatModel.title, chatModel.message, data);
-    await dbServices.insertChat(chatModel);
+  Future<void> saveChat(int senderId, int receiverId, String message) async {
+    String chatId = getChatId(senderId, receiverId);
+    var documentRef = FirebaseFirestore.instance
+        .collection('messages')
+        .doc(chatId)
+        .collection(chatId)
+        .doc(Timestamp.now().millisecondsSinceEpoch.toString());
+
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      transaction.set(documentRef, {
+        'from': senderId,
+        'to': receiverId,
+        'message': message,
+        'timestamp': Timestamp.now().millisecondsSinceEpoch
+      });
+    });
   }
 
-  Future<List<ChatModel>> fetchChatsFromDb(int toOrFrom) async {
-    DBServices dbServices = DBServices();
-    return dbServices.getChatsFromDb(toOrFrom);
+  String getChatId(int senderId, int receiverId){
+    if(senderId < receiverId){
+      return "${senderId.toString()}_${receiverId.toString()}";
+    }else{
+      return "${receiverId.toString()}_${senderId.toString()}";
+    }
+  }
+
+  Stream<QuerySnapshot> fetchChatsFromDb(int senderId, int receiverId) {
+    String chatId = getChatId(senderId, receiverId);
+
+    return FirebaseFirestore.instance.collection('messages').doc(chatId).collection(chatId).snapshots();
   }
 }

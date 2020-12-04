@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/chat/components/chat-card.dart';
@@ -16,7 +17,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   final ScrollController listScrollController =  ScrollController();
   bool loading = false;
 
-  List<ChatModel> messages = List();
+  List<QueryDocumentSnapshot> messages = List();
 
   @override
   void initState() {
@@ -57,16 +58,24 @@ class _ConversationScreenState extends State<ConversationScreen> {
 //                        return Center(child: Text("Sending message", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
                     }
 
-                    if (state is FetchedChatListState)
-                      messages = state.chatList;
-                    return ListView.builder(
-                      padding: EdgeInsets.all(10.0),
-                      itemBuilder: (context, index) => ChatCard(message: messages[index]),
-                      itemCount: messages.length,
-                      reverse: true,
-                      controller: listScrollController,
+                    if (state is FetchedChatListState){
+//                      messages = state.chatList;
+                    return StreamBuilder<QuerySnapshot>(
+                      stream: state.chatList,
+                      builder: (context, snapshot) {
+                        messages = snapshot.data.docs;
+                        return ListView.builder(
+                          padding: EdgeInsets.all(10.0),
+                          itemBuilder: (context, index) => ChatCard(message: messages[index], userId: state.userId,),
+                          itemCount: messages.length,
+                          reverse: true,
+                          controller: listScrollController,
+                        );
+                      }
                     );
-                  },
+                  }
+                    return Container();
+                  }
                 ),
               ),
             ),

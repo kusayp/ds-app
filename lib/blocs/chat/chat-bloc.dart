@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/exceptions/api-exceptions.dart';
 import 'package:dsapp/generated/l10n.dart';
@@ -65,26 +66,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       try{
         String userString = await sharedPreferences.getSharedPreference("user");
         LoginResponse user = LoginResponse.fromJson(userString);
-        ChatModel chatModel = ChatModel(
-          title: S().appName,
-          timeStamp: DateTime.now().millisecondsSinceEpoch,
-          message: event.message,
-          direction: Direction.OUT.index,
-          toOrFrom: event.to.id,
-        );
 
-        Map<String, dynamic> data = {
-          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-          'title': S().appName,
-          'message': event.message,
-          'toOrFrom': event.to.id,
-          'timeStamp': DateTime.now().millisecondsSinceEpoch,
-          'type': 'chat_message',
-          'user': user.user.id,
-          'token': event.to.deviceId,
-        };
-
-        await repository.saveChat(chatModel, data);
+        await repository.saveChat(user.user.id, event.to.id, event.message);
 
         yield ChatEmptyState();
       }
@@ -97,9 +80,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
 
     if (event is FetchChatListEvent) {
-      List<ChatModel> chats = await repository.getChatsFromDb(event.toOrFrom);
+      String userString = await sharedPreferences.getSharedPreference("user");
+      LoginResponse user = LoginResponse.fromJson(userString);
+      Stream<QuerySnapshot> chats = await repository.getChatsFromDb(user.user.id, event.toOrFrom);
 //      yield* mapFetchChatListEventToState(event);
-      yield FetchedChatListState(chatList: chats);
+      yield FetchedChatListState(chatList: chats, userId: user.user.id);
     }
 
     if (event is ReceivedChatsEvent) {
@@ -108,16 +93,16 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
-  Stream<ChatState> mapFetchChatListEventToState(
-      FetchChatListEvent event) async* {
-    try {
-      chatsSubscription?.cancel();
-      chatsSubscription = repository
-          .getChatsFromDb(event.toOrFrom)
-          .then((chats) => add(ReceivedChatsEvent(chats))) as StreamSubscription;
-    } on ApiException catch (exception) {
-      print(exception);
-      yield ChatErrorState(exception.getMessage());
-    }
-  }
+//  Stream<ChatState> mapFetchChatListEventToState(
+//      FetchChatListEvent event) async* {
+//    try {
+//      chatsSubscription?.cancel();
+//      chatsSubscription = repository
+//          .getChatsFromDb(event.toOrFrom)
+//          .then((chats) => add(ReceivedChatsEvent(chats))) as StreamSubscription;
+//    } on ApiException catch (exception) {
+//      print(exception);
+//      yield ChatErrorState(exception.getMessage());
+//    }
+//  }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
@@ -293,14 +294,14 @@ class ChatItem extends StatelessWidget {
 }
 
 class ChatCard extends StatelessWidget{
-  final ChatModel message;
+  final QueryDocumentSnapshot message;
   final int userId;
 
   const ChatCard({Key key, this.message, this.userId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    bool isMe = message.direction == Direction.OUT.index;
+    bool isMe = userId == message.data()['from'];
     return Container(
       width: MediaQuery.of(context).size.width * 0.75,
       margin: isMe
@@ -326,7 +327,7 @@ class ChatCard extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-              message.message,
+              message.data()['message'],
               style: TextStyle(
                   color: Colors.blueGrey,
                   fontSize: 13.0,
@@ -339,7 +340,7 @@ class ChatCard extends StatelessWidget{
             children: [
               Text(
                 DateFormat('dd MMM kk:mm').format(
-                    DateTime.fromMillisecondsSinceEpoch(message.timeStamp)),
+                    DateTime.fromMillisecondsSinceEpoch(message.data()['timestamp'])),
                 style: TextStyle(
                     color: Colors.blueGrey,
                     fontSize: 13.0,
