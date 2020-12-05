@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/chat/components/chat-card.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -63,14 +64,23 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     return StreamBuilder<QuerySnapshot>(
                       stream: state.chatList,
                       builder: (context, snapshot) {
-                        messages = snapshot.data.docs;
-                        return ListView.builder(
-                          padding: EdgeInsets.all(10.0),
-                          itemBuilder: (context, index) => ChatCard(message: messages[index], userId: state.userId,),
-                          itemCount: messages.length,
-                          reverse: true,
-                          controller: listScrollController,
-                        );
+                        if (!snapshot.hasData) {
+                          return Center(
+                          child: CircularProgressIndicator(
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(appTheme().accentColor)));
+                        } else {
+                          messages = snapshot.data.docs;
+                          return ListView.builder(
+                            padding: EdgeInsets.all(10.0),
+                            itemBuilder: (context, index) =>
+                                ChatCard(message: messages[index],
+                                  userId: state.userId,),
+                            itemCount: messages.length,
+                            reverse: true,
+                            controller: listScrollController,
+                          );
+                        }
                       }
                     );
                   }

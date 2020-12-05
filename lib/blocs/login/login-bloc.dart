@@ -33,6 +33,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         _pushNotificationService.getToken().then((value) async {
           print('fcm token: $value');
           loginRepository.updateUserWithFCMToken(1, response, value);
+          loginRepository.loginToFirebaseWithWithCustomToken(response.user, value);
         });
         yield LoginSuccess(loginResponse: response);
       }

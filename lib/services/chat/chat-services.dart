@@ -105,35 +105,5 @@ class ChatService {
     return groups;
   }
 
-  Future<void> saveChat(int senderId, int receiverId, String message) async {
-    String chatId = getChatId(senderId, receiverId);
-    var documentRef = FirebaseFirestore.instance
-        .collection('messages')
-        .doc(chatId)
-        .collection(chatId)
-        .doc(Timestamp.now().millisecondsSinceEpoch.toString());
 
-    await FirebaseFirestore.instance.runTransaction((transaction) async {
-      transaction.set(documentRef, {
-        'from': senderId,
-        'to': receiverId,
-        'message': message,
-        'timestamp': Timestamp.now().millisecondsSinceEpoch
-      });
-    });
-  }
-
-  String getChatId(int senderId, int receiverId){
-    if(senderId < receiverId){
-      return "${senderId.toString()}_${receiverId.toString()}";
-    }else{
-      return "${receiverId.toString()}_${senderId.toString()}";
-    }
-  }
-
-  Stream<QuerySnapshot> fetchChatsFromDb(int senderId, int receiverId) {
-    String chatId = getChatId(senderId, receiverId);
-
-    return FirebaseFirestore.instance.collection('messages').doc(chatId).collection(chatId).snapshots();
-  }
 }

@@ -49,12 +49,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         List<UserModel> users = [];
         final List<UserModel> response = await repository.getUserInGroups(schoolId, event.group.classId, event.group.id);
         response.removeWhere((element) => element.id.toString() == userId);
-        for(var i=0; i<response.length; i++){
-          if(response[i].deviceId != null){
-            users.add(response[i]);
-          }
-        }
-        yield UsersLoadedState(users: users);
+        // for(var i=0; i<response.length; i++){
+        //   if(response[i].deviceId != null){
+        //     users.add(response[i]);
+        //   }
+        // }
+        yield UsersLoadedState(users: response);
       }
       on ApiException catch(e){
         yield ChatErrorState(e.getMessage());
@@ -82,7 +82,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (event is FetchChatListEvent) {
       String userString = await sharedPreferences.getSharedPreference("user");
       LoginResponse user = LoginResponse.fromJson(userString);
-      Stream<QuerySnapshot> chats = await repository.getChatsFromDb(user.user.id, event.toOrFrom);
+      Stream<QuerySnapshot> chats =  repository.getChatsFromDb(user.user.id, event.toOrFrom);
 //      yield* mapFetchChatListEventToState(event);
       yield FetchedChatListState(chatList: chats, userId: user.user.id);
     }

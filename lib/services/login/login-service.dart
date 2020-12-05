@@ -7,6 +7,7 @@ import 'package:dsapp/models/users/login-response.dart';
 import 'package:dsapp/utils/shared-preference.dart';
 import 'package:http/http.dart' as http;
 import 'package:sprintf/sprintf.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginService {
   LocalStorage sharedPreferences = LocalStorage();
@@ -34,7 +35,9 @@ class LoginService {
       throw new Exception("error getting quotes");
     }
     await sharedPreferences.setSharedPreference("user", response.body);
-    return LoginResponse.fromJson(response.body);
+    LoginResponse loginResponse = LoginResponse.fromJson(response.body);
+
+    return loginResponse;
   }
 
   Future<void> updateUser(schoolId, LoginResponse _response, String token) async {
