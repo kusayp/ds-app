@@ -14,15 +14,23 @@ class FeesScreen extends StatelessWidget {
   const FeesScreen({Key key, this.roleModules, this.classId}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    void initPage() {
+      BlocProvider.of<FeesBloc>(context)
+          .add(FetchingFeesEvent(classId: classId, userId: roleModules.user.id.toString()));
+    }
+
+    void goBack() {
+      initPage();
+      Navigator.pop(context);
+    }
     return BlocListener<FeesBloc, FeesState>(
       listener: (context, state){
         if (state is FeesErrorState) {
-          print(state.errorMessage);
-//          context.hideLoaderOverlay();
           showDialog(
               context: context,
               builder: (_) => ErrorDialog(
                 errorMessage: state.errorMessage,
+                onButtonPressed: goBack,
               ),
               barrierDismissible: false);
         }
@@ -55,19 +63,16 @@ class FeesScreen extends StatelessWidget {
               }
 
               if(state is FeesInitialState){
-                BlocProvider.of<FeesBloc>(context)
-                    .add(FetchingFeesEvent(classId: classId, userId: roleModules.user.id.toString()));
+                initPage();
               }
 
               if (state is FeesLoadingState){
-//                context.showLoaderOverlay();
-                return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
-//                  return CircularProgressIndicator();
+                return Center(
+                    child: CircularProgressIndicator()
+                );
               }
 
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return Container();
             },
           ),
         ),

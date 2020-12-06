@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/models/models.dart';
@@ -30,6 +32,9 @@ class AnswerBloc extends Bloc<AnswerEvent, AnswerState> {
       on ApiException catch(e){
         yield AnswerErrorState(e.getMessage());
       }
+      on SocketException catch(_){
+        yield AnswerErrorState("No internet connection");
+      }
     }
 
     if(event is AssignmentAnswerEvent){
@@ -46,6 +51,9 @@ class AnswerBloc extends Bloc<AnswerEvent, AnswerState> {
       }
       on ApiException catch(e){
         yield AnswerErrorState(e.getMessage());
+      }
+      on SocketException catch(_){
+        yield AnswerErrorState("No internet connection");
       }
     }
   }

@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/chat/components/chat-card.dart';
+import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
 
 class ConversationScreen extends StatefulWidget {
   final UserModel user;
@@ -16,7 +20,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   final ScrollController listScrollController =  ScrollController();
   bool loading = false;
 
-  List<ChatModel> messages = List();
+  List<QueryDocumentSnapshot> messages = List();
 
   @override
   void initState() {
@@ -31,13 +35,38 @@ class _ConversationScreenState extends State<ConversationScreen> {
     ));
   }
 
+  void initPage() {
+    BlocProvider.of<ChatBloc>(context).add(FetchChatListEvent(widget.user.id));
+  }
+
+//  Widget buildChatList(List<QueryDocumentSnapshot> conversations, FetchedChatListState state){
+//    return ListView.builder(
+//      padding: EdgeInsets.all(10.0),
+//      itemBuilder: (context, index) =>
+//          ChatCard(message: conversations[index],
+//            userId: state.userId,),
+//      itemCount: conversations.length,
+//      reverse: true,
+//      controller: listScrollController,
+//    );
+//  }
+
+  Widget timeGroup(String date){
+    return Container(
+      width: 70.0,
+      padding: EdgeInsets.all(5.0),
+      color: appTheme().primaryColor,
+      child: Text(date, style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: BlocListener<ChatBloc, ChatState>(
         listener: (context, state) {
           if (state is ChatErrorState){
-            print(state.error);
+            initPage();
             _showSnackBar(state.error, Colors.red);
           }
         },
@@ -49,24 +78,47 @@ class _ConversationScreenState extends State<ConversationScreen> {
                 child: BlocBuilder<ChatBloc, ChatState>(
                   builder: (context, state){
                     if (state is ChatEmptyState){
-                      BlocProvider.of<ChatBloc>(context).add(FetchChatListEvent(widget.user.id));
+                      initPage();
                     }
 
                     if (state is ChatSendingState){
-                      return SendingCard(text: "sending",);
-//                        return Center(child: Text("Sending message", style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
+                      return Center(child: CircularProgressIndicator(),);
                     }
 
-                    if (state is FetchedChatListState)
-                      messages = state.chatList;
-                    return ListView.builder(
-                      padding: EdgeInsets.all(10.0),
-                      itemBuilder: (context, index) => ChatCard(message: messages[index]),
-                      itemCount: messages.length,
-                      reverse: true,
-                      controller: listScrollController,
+                    if (state is FetchedChatListState){
+                    return StreamBuilder<QuerySnapshot>(
+                      stream: state.chatList,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                          child: CircularProgressIndicator(
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(appTheme().accentColor)));
+                        } else {
+                          messages = snapshot.data.docs;
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 10.0, left: 10.0),
+                            child: GroupedListView<dynamic, String>(
+                              padding: EdgeInsets.all(10.0),
+                              elements: messages,
+                              groupBy: (element) => DateFormat('dd MMM yy').format(DateTime.fromMillisecondsSinceEpoch(element['timestamp'].millisecondsSinceEpoch)),
+                              groupSeparatorBuilder: (String groupByValue) => timeGroup(groupByValue),
+                              itemBuilder: (context, dynamic element) => ChatCard(message: element,
+                                userId: state.userId,),
+//                              itemComparator: (item1, item2) => item1['name'].compareTo(item2['name']), // optional
+                              useStickyGroupSeparators: true, // optional
+                              floatingHeader: true, // optional
+                              order: GroupedListOrder.ASC, // optional
+                              reverse: true,
+                              controller: listScrollController,
+                            ),
+                          );
+                        }
+                      }
                     );
-                  },
+                  }
+                    return Container();
+                  }
                 ),
               ),
             ),

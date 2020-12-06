@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsapp/models/models.dart';
+import 'package:dsapp/services/firebase/firebase-services.dart';
 import 'package:dsapp/services/services.dart';
 
 class ChatRepository {
   final ChatService chatService;
+  final FirebaseService firebaseService;
 
-  ChatRepository({this.chatService});
+  ChatRepository({this.chatService, this.firebaseService});
 
   Future<GroupPageData> getGroupsInClass(schoolId, classId, user) async {
     return await chatService.getGroupsInClass(schoolId, classId, user);
@@ -14,12 +17,12 @@ class ChatRepository {
     return await chatService.getUserInGroups(schoolId, classId, groupId);
   }
 
-  Future<void> saveChat(ChatModel chatModel, data) async {
-    await chatService.saveChat(chatModel, data);
+  Future<void> saveChat(int senderId, int receiverId, String message, Map<String, dynamic> data) async {
+    await firebaseService.saveChat(senderId, receiverId, message, data);
   }
 
-  Future<List<ChatModel>> getChatsFromDb(int toOrFrom) async {
-    return await chatService.fetchChatsFromDb(toOrFrom);
+  Stream<QuerySnapshot> getChatsFromDb(int senderId, int receiverId)  {
+    return  firebaseService.fetchChatsFromDb(senderId, receiverId);
   }
 
 }

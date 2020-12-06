@@ -9,15 +9,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ExamsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    void goBack() {
+      Navigator.pop(context);
+    }
+
     return BlocListener<ExamsBloc, ExamsState>(
       listener: (context, state){
         if (state is ExamsErrorState) {
-          print(state.errorMessage);
-//          context.hideLoaderOverlay();
           showDialog(
               context: context,
               builder: (_) => ErrorDialog(
                 errorMessage: state.errorMessage,
+                onButtonPressed: goBack,
               ),
               barrierDismissible: false);
         }
@@ -26,10 +29,8 @@ class ExamsScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(20.0),
           child: BlocBuilder<ExamsBloc, ExamsState>(
-            // ignore: missing_return
             builder: (context, state) {
               if (state is ExamsLoadedState) {
-//                context.hideLoaderOverlay();
                 if (state.examsPageData.results.length == 0) {
                   return Center(
                     child: Icon(
@@ -51,9 +52,7 @@ class ExamsScreen extends StatelessWidget {
                 }
               }
               if (state is ExamsLoadingState){
-//                context.showLoaderOverlay();
-                return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
-//                  return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator(),);
               }
 
               return Container();

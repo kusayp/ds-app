@@ -18,6 +18,19 @@ class AssignmentDetailLoadedState extends AssignmentDetailState {
   List<Object> get props => [assignmentModel];
 }
 
+class AssignmentFileOpenedState extends AssignmentDetailState {
+  final String tempPath;
+
+  AssignmentFileOpenedState({this.tempPath});
+
+  @override
+  List<Object> get props => [tempPath];
+}
+
 class AssignmentDetailLoadingState extends AssignmentDetailState {}
 
-class AssignmentDetailErrorState extends AssignmentDetailState {}
+class AssignmentDetailErrorState extends AssignmentDetailState {
+  final String errorMessage;
+
+  AssignmentDetailErrorState(this.errorMessage);
+}

@@ -37,9 +37,8 @@ class AssignmentBloc extends Bloc<AssignmentEvent, AssignmentState> {
       on ApiException catch(e){
         yield AssignmentErrorState(e.getMessage());
       }
-
       on SocketException catch(e){
-        yield NoConnectionState();
+        yield AssignmentErrorState("No internet connection");
       }
     }
   }

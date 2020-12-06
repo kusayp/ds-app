@@ -8,8 +8,9 @@ class CustomLoginField extends StatelessWidget {
   final BoxDecoration decoration;
   final Widget formField;
   final double width;
+  final double textWidth;
 
-  CustomLoginField({this.labelText, this.decoration, this.formField, this.width});
+  CustomLoginField({this.labelText, this.decoration, this.formField, this.width, this.textWidth = 70.0});
   @override
   Widget build(BuildContext context) {
 //    double width = MediaQuery.of(context).size.width;
@@ -25,7 +26,7 @@ class CustomLoginField extends StatelessWidget {
         Positioned(
           left: 30,
           bottom: 40,
-          child: Container(color: Colors.white, child: Text(labelText, textAlign: TextAlign.center,), width: 70.0,),
+          child: Container(color: Colors.white, child: Text(labelText, textAlign: TextAlign.center,), width: textWidth,),
         )
       ],
     );
@@ -120,11 +121,12 @@ class LoginButton extends StatelessWidget{
 }
 
 class UserNotFoundDialog extends StatelessWidget {
+  final VoidCallback onButtonPressed;
+
+  const UserNotFoundDialog({Key key, this.onButtonPressed}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    void goBackToLogin(){
-      Navigator.pushNamedAndRemoveUntil(context, '/login', ModalRoute.withName('/login'));
-    }
     return Dialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
@@ -141,7 +143,7 @@ class UserNotFoundDialog extends StatelessWidget {
               SvgPicture.asset("assets/icons/User not found.svg"),
               Text("We cannot find a match for a user using the information provided", style: TextStyle(fontSize: 16.0),),
               Text("Please check and retry again with the correct information", style: TextStyle(fontSize: 16.0),),
-              LoginButton(buttonText: S.of(context).ok, onButtonPressed: goBackToLogin,),
+              LoginButton(buttonText: S.of(context).ok, onButtonPressed: onButtonPressed,),
             ],
           ),
         ),
@@ -152,13 +154,14 @@ class UserNotFoundDialog extends StatelessWidget {
 
 class ErrorDialog extends StatelessWidget {
   final String errorMessage;
+  final VoidCallback onButtonPressed;
 
-  const ErrorDialog({Key key, this.errorMessage}) : super(key: key);
+  const ErrorDialog({Key key, this.errorMessage, this.onButtonPressed}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    void goBack(){
-      Navigator.pop(context);
-    }
+//    void goBack(){
+//      Navigator.pop(context);
+//    }
     return Dialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
@@ -179,7 +182,7 @@ class ErrorDialog extends StatelessWidget {
                 Text(errorMessage, style: TextStyle(fontSize: 16.0),),
                 SizedBox(height: 10.0,),
 //              Text("Please check and retry again with the correct information", style: TextStyle(fontSize: 16.0),),
-                LoginButton(buttonText: "OK", onButtonPressed: goBack,),
+                LoginButton(buttonText: "OK", onButtonPressed: onButtonPressed,),
               ],
             ),
           ),

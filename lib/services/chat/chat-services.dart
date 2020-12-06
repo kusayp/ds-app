@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/services/push_notification_service.dart';
 import 'package:dsapp/services/services.dart';
@@ -74,7 +75,7 @@ class ChatService {
     print(response.body);
     if(response.statusCode != 200) {
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     List<dynamic> json = jsonDecode(response.body);
     List<UserModel> groups = json != null ? json.map((e) => UserModel.fromJson(e)).toList() : [];
@@ -97,21 +98,12 @@ class ChatService {
     print(response.body);
     if(response.statusCode != 200) {
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     List<dynamic> json = jsonDecode(response.body);
     List<UserModel> groups = json != null ? json.map((e) => UserModel.fromJson(e)).toList() : [];
     return groups;
   }
 
-  Future<void> saveChat(chatModel, data) async {
-    DBServices dbServices = DBServices();
-    await PushNotificationService().sendAndRetrieveMessage(data['token'], chatModel.title, chatModel.message, data);
-    await dbServices.insertChat(chatModel);
-  }
 
-  Future<List<ChatModel>> fetchChatsFromDb(int toOrFrom) async {
-    DBServices dbServices = DBServices();
-    return dbServices.getChatsFromDb(toOrFrom);
-  }
 }

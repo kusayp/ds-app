@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/exceptions/api-exceptions.dart';
@@ -38,6 +40,9 @@ class ClassRegisterBloc extends Bloc<ClassRegisterEvent, ClassRegisterState> {
       on ApiException catch(e){
         yield ClassRegisterErrorState(e.getMessage());
       }
+      on SocketException catch(_){
+        yield ClassRegisterErrorState("No internet connection");
+      }
     }
 
     if(event is SchoolClassDropdownEventEvent){
@@ -64,6 +69,9 @@ class ClassRegisterBloc extends Bloc<ClassRegisterEvent, ClassRegisterState> {
       }
       on ApiException catch(_){
         yield ClassRegisterErrorState(_.getMessage());
+      }
+      on SocketException catch(_){
+        yield ClassRegisterErrorState("No internet connection");
       }
     }
 
@@ -101,9 +109,10 @@ class ClassRegisterBloc extends Bloc<ClassRegisterEvent, ClassRegisterState> {
       }
       on ApiException catch(e){
         yield ClassRegisterErrorState(e.getMessage());
-
       }
-
+      on SocketException catch(_){
+        yield ClassRegisterErrorState("No internet connection");
+      }
     }
   }
 

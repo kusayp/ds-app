@@ -12,14 +12,26 @@ class AnswerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    void initPage() {
+      BlocProvider.of<AnswerBloc>(context)
+          .add(FetchingAnswerEvent(assignmentId: assignment));
+    }
+
+    void goBack() {
+      initPage();
+      Navigator.pop(context);
+    }
+
     return BlocListener<AnswerBloc, AnswerState>(
         listener: (context, state){
           if (state is AnswerErrorState){
-            print(state.errorMessage);
-//          context.hideLoaderOverlay();
             showDialog(
                 context: context,
-                builder: (_) => ErrorDialog(errorMessage: state.errorMessage,),
+                builder: (_) => ErrorDialog(
+                  errorMessage: state.errorMessage,
+                  onButtonPressed: goBack,
+                ),
                 barrierDismissible: false
             );
           }
@@ -55,19 +67,16 @@ class AnswerScreen extends StatelessWidget {
               }
 
               if (state is AnswerEmptyState) {
-                BlocProvider.of<AnswerBloc>(context)
-                    .add(FetchingAnswerEvent(assignmentId: assignment));
+                initPage();
               }
 
               if (state is AnswerLoadingState){
-//                context.showLoaderOverlay();
-                return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
-//                  return CircularProgressIndicator();
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
               }
 
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return Container();
             },
           ),
         ),

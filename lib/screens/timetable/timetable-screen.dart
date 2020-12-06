@@ -1,6 +1,7 @@
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/timetable/days.dart';
+import 'package:dsapp/screens/screens.dart';
 import 'package:dsapp/screens/timetable/components/days-button.dart';
 import 'package:dsapp/screens/timetable/components/timetable-list.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,9 @@ class TimeTableScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int idValue = DateTime.now().weekday;
+    Day currentDay = days[idValue-1];
+
     List<Widget> buildTimeTableDays(TimeTableLoaded state) {
       final children = <Widget>[];
 
@@ -56,11 +60,29 @@ class TimeTableScreen extends StatelessWidget {
       );
     }
 
-    int idValue = DateTime.now().weekday;
-    Day currentDay = days[idValue-1];
+    void initPage() {
+      BlocProvider.of<TimeTableBloc>(context)
+          .add(GetTimeTableFromDayEvent(day: currentDay.day, classId: classId, teacherId: teacherId));
+    }
+
+    void goBack() {
+      initPage();
+      Navigator.maybePop(context);
+    }
 
     return BlocListener<TimeTableBloc, TimeTableState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is TimeTableError){
+            showDialog(
+                context: context,
+                builder: (_) => ErrorDialog(
+                  errorMessage: state.errorMessage,
+                  onButtonPressed: goBack,
+                ),
+                barrierDismissible: false
+            );
+          }
+        },
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.only(right: 20.0, left: 20.0),
@@ -91,19 +113,14 @@ class TimeTableScreen extends StatelessWidget {
                     );
                   }
                   if (state is TimeTableEmpty) {
-                    BlocProvider.of<TimeTableBloc>(context)
-                        .add(GetTimeTableFromDayEvent(day: currentDay.day, classId: classId, teacherId: teacherId));
+                    initPage();
                   }
 
                   if (state is TimeTableLoading){
-//                context.showLoaderOverlay();
-                    return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
-//                  return CircularProgressIndicator();
+                    return Center(child:  CircularProgressIndicator(),);
                   }
 
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return Container();
                 },
               ),
             ),

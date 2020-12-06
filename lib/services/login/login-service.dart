@@ -7,6 +7,7 @@ import 'package:dsapp/models/users/login-response.dart';
 import 'package:dsapp/utils/shared-preference.dart';
 import 'package:http/http.dart' as http;
 import 'package:sprintf/sprintf.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginService {
   LocalStorage sharedPreferences = LocalStorage();
@@ -31,10 +32,12 @@ class LoginService {
     if(response.statusCode != 200) {
       print("error getting quotes");
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     await sharedPreferences.setSharedPreference("user", response.body);
-    return LoginResponse.fromJson(response.body);
+    LoginResponse loginResponse = LoginResponse.fromJson(response.body);
+
+    return loginResponse;
   }
 
   Future<void> updateUser(schoolId, LoginResponse _response, String token) async {
@@ -75,7 +78,7 @@ class LoginService {
     if(response.statusCode != 200) {
       print("error getting quotes");
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     Map<String, dynamic> json = jsonDecode(response.body);
     return UserModel.fromJson(json);

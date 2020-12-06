@@ -30,6 +30,7 @@ class UserModel extends Equatable {
   final String picture;
   final bool classPrefect;
   bool isPresent = false;
+  final customFBToken;
 
   UserModel(
       {this.id,
@@ -56,7 +57,8 @@ class UserModel extends Equatable {
       this.role,
       this.roles,
       this.whatsAppPhone,
-      this.classPrefect});
+      this.classPrefect,
+      this.customFBToken});
 
   @override
   List<Object> get props => [
@@ -85,7 +87,8 @@ class UserModel extends Equatable {
         dob,
         picture,
         classPrefect,
-        isPresent
+        isPresent,
+        customFBToken
       ];
 
   static UserModel fromJson(Map<String, dynamic> json) {
@@ -107,6 +110,7 @@ class UserModel extends Equatable {
           : null,
       picture: json['picture'],
       classPrefect: json['classPrefect'],
+      customFBToken: json['customFBToken']
     );
   }
 

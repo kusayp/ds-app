@@ -59,7 +59,7 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
         yield AddAssignmentErrorState(e.getMessage());
       }
      on SocketException catch(e){
-       yield NoConnectionState1();
+       yield AddAssignmentErrorState("No internet connection");
      }
     }
   }

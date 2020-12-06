@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:equatable/equatable.dart';
 
@@ -41,9 +42,10 @@ class ChatErrorState extends ChatState {
 }
 
 class FetchedChatListState extends ChatState {
-  final List<ChatModel> chatList;
+  final Stream<QuerySnapshot> chatList;
+  final int userId;
 
-  FetchedChatListState({this.chatList}) : super();
+  FetchedChatListState({this.chatList, this.userId}) : super();
 
   @override
   String toString() => 'FetchedChatListState';

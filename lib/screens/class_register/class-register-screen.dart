@@ -56,6 +56,18 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
       return children;
     }
 
+    void initPage() {
+      isTeacher ? BlocProvider.of<ClassRegisterBloc>(context)
+          .add(SchoolClassDropdownEventEvent(classId: hasClass ? widget?.user?.school?.teacherClasses[0]?.id?.toString() : null))
+          : BlocProvider.of<ClassRegisterBloc>(context)
+          .add(SchoolClassDropdownEventEvent(classId: widget?.user?.school?.studentClass?.id?.toString()));
+    }
+
+    void goBack() {
+      initPage();
+      Navigator.pop(context);
+    }
+
     void _showSnackBar(String success, Color color) {
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text(success),
@@ -77,6 +89,7 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
         }
 
         if (state is ClassRegisterErrorState){
+          initPage();
           _showSnackBar(state.error, Colors.red);
         }
       },
@@ -87,10 +100,7 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
           builder: (context, state) {
 
             if (state is ClassRegisterEmptyState || state is ClassRegisterSavedState) {
-             isTeacher ? BlocProvider.of<ClassRegisterBloc>(context)
-                 .add(SchoolClassDropdownEventEvent(classId: hasClass ? widget?.user?.school?.teacherClasses[0]?.id?.toString() : null))
-             : BlocProvider.of<ClassRegisterBloc>(context)
-                 .add(SchoolClassDropdownEventEvent(classId: widget?.user?.school?.studentClass?.id?.toString()));
+             initPage();
             }
 
             if (state is ClassRegisterLoadedState || state is ClassRegisterToggledState){
@@ -159,14 +169,10 @@ class _ClassRegisterScreenState extends State<ClassRegisterScreen> {
             }
 
             if (state is ClassRegisterLoadingState){
-//                context.showLoaderOverlay();
-              return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
-//                  return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator(),);
             }
 
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return Container();
           },
           ),
         ),

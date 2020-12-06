@@ -123,7 +123,7 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
       ));
     }
 
-    void goBackToLogin(){
+    void goBack(){
       Navigator.maybePop(context);
     }
 
@@ -131,10 +131,12 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
       child: BlocListener<AddAssignmentBloc, AddAssignmentState>(
         listener: (context, state) {
           if (state is AddAssignmentErrorState){
-            print(state.errorMessage);
             showDialog(
                 context: context,
-                builder: (_) => ErrorDialog(errorMessage: state.errorMessage,),
+                builder: (_) => ErrorDialog(
+                  errorMessage: state.errorMessage,
+                  onButtonPressed: goBack,
+                ),
                 barrierDismissible: false
             );
           }
@@ -142,13 +144,9 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
           if (state is NoConnectionState1){
             showDialog(
                 context: context,
-                builder: (_) => NoConnectionDialog(onButtonPressed: goBackToLogin,),
+                builder: (_) => NoConnectionDialog(onButtonPressed: goBack,),
                 barrierDismissible: false
             );
-          }
-
-          if (state is AddAssignmentLoadingState){
-            return Center(child: CircularProgressIndicator());
           }
 
           if (state is AssignmentSavedState){
@@ -275,6 +273,8 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
                             border: InputBorder.none),
                         controller: _descriptionController,
                         keyboardType: TextInputType.multiline,
+                        maxLines: 1,
+                        // textInputAction: TextInputAction.newline,
                       ),
                     ),
                     SizedBox(height: 10.0,),
@@ -322,6 +322,10 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
               arguments: widget.arguments,
             ),
             );
+          }
+
+          if (state is AddAssignmentLoadingState){
+            return Center(child: CircularProgressIndicator());
           }
 
           return Container();

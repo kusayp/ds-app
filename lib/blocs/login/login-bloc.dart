@@ -33,6 +33,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         _pushNotificationService.getToken().then((value) async {
           print('fcm token: $value');
           loginRepository.updateUserWithFCMToken(1, response, value);
+          loginRepository.loginToFirebaseWithWithCustomToken(response.user, value);
         });
         yield LoginSuccess(loginResponse: response);
       }
@@ -40,8 +41,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield LoginNoConnection();
       }
       on ApiException catch (e) {
-        print(e.getMessage());
-        yield LoginFailure(error: "error");
+        yield LoginFailure(error: e.getMessage());
       }
     }
   }

@@ -2,6 +2,7 @@ import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/screens/login/login-screen.dart';
+import 'package:dsapp/services/firebase/firebase-services.dart';
 import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int id = ModalRoute.of(context).settings.arguments;
-    final LoginRepository repository = LoginRepository(loginService: LoginService());
+    final LoginRepository repository = LoginRepository(loginService: LoginService(), firebaseService: FirebaseService());
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),

@@ -37,6 +37,23 @@ class _GroupsScreenState extends State<GroupsScreen> {
       schoolClasses.add(widget.user.school.studentClass);
     }
 
+    void initPage() {
+      isTeacher
+          ? BlocProvider.of<ChatBloc>(context).add(FetchingGroupsInClassEvent(
+              classId: hasClass
+                  ? widget?.user?.school?.teacherClasses[0].id.toString()
+                  : null,
+              userId: widget?.user?.user?.id?.toString()))
+          : BlocProvider.of<ChatBloc>(context).add(FetchingGroupsInClassEvent(
+              classId: widget.user?.school?.studentClass?.id?.toString(),
+              userId: widget?.user?.user?.id?.toString()));
+    }
+
+    void goBack() {
+      initPage();
+      Navigator.pop(context);
+    }
+
     List<DropdownMenuItem> buildDropDownClassesItems(
         {List<SchoolClassModel> classes}) {
       final children = <DropdownMenuItem>[];
@@ -60,8 +77,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
             semanticLabel: "No Data Found",
           ),
         );
-      }
-      else {
+      } else {
         return Expanded(
           child: ListView.builder(
             itemCount: state.groupPageData.result.length,
@@ -86,12 +102,11 @@ class _GroupsScreenState extends State<GroupsScreen> {
     return BlocListener<ChatBloc, ChatState>(
       listener: (context, state) {
         if (state is ChatErrorState) {
-          print(state.error);
-//          context.hideLoaderOverlay();
           showDialog(
               context: context,
               builder: (_) => ErrorDialog(
                     errorMessage: state.error,
+                    onButtonPressed: goBack,
                   ),
               barrierDismissible: false);
         }
@@ -102,7 +117,6 @@ class _GroupsScreenState extends State<GroupsScreen> {
           child: BlocBuilder<ChatBloc, ChatState>(
             builder: (context, state) {
               if (state is ChatLoadedState) {
-//                context.hideLoaderOverlay();
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,23 +127,27 @@ class _GroupsScreenState extends State<GroupsScreen> {
                           value: _value,
                           items: isTeacher
                               ? buildDropDownClassesItems(
-                              classes: widget.user.school.teacherClasses)
-                              : buildDropDownClassesItems(classes: schoolClasses),
+                                  classes: widget.user.school.teacherClasses)
+                              : buildDropDownClassesItems(
+                                  classes: schoolClasses),
                           onChanged: (value) {
                             setState(() {
                               _value = value;
                             });
                             isTeacher
                                 ? BlocProvider.of<ChatBloc>(context).add(
-                                FetchingGroupsInClassEvent(
-                                    classId: widget
-                                        .user.school.teacherClasses[_value - 1].id
-                                        .toString(),
-                                    userId: widget.user.user.id.toString()))
+                                    FetchingGroupsInClassEvent(
+                                        classId: widget.user.school
+                                            .teacherClasses[_value - 1].id
+                                            .toString(),
+                                        userId: widget.user.user.id.toString()))
                                 : BlocProvider.of<ChatBloc>(context).add(
-                                FetchingGroupsInClassEvent(
-                                    classId: schoolClasses[_value - 1].id.toString(),
-                                    userId: widget.user.user.id.toString()));
+                                    FetchingGroupsInClassEvent(
+                                        classId: schoolClasses[_value - 1]
+                                            .id
+                                            .toString(),
+                                        userId:
+                                            widget.user.user.id.toString()));
                           }),
                     ),
                     SizedBox(
@@ -143,28 +161,13 @@ class _GroupsScreenState extends State<GroupsScreen> {
               }
 
               if (state is ChatEmptyState) {
-                isTeacher
-                    ? BlocProvider.of<ChatBloc>(context).add(
-                        FetchingGroupsInClassEvent(
-                            classId: hasClass ? widget?.user?.school?.teacherClasses[0].id
-                                .toString() : null,
-                            userId: widget?.user?.user?.id?.toString()))
-                    : BlocProvider.of<ChatBloc>(context).add(
-                        FetchingGroupsInClassEvent(
-                            classId:
-                                widget.user?.school?.studentClass?.id?.toString(),
-                            userId: widget?.user?.user?.id?.toString()));
+                initPage();
               }
 
               if (state is ChatLoadingState) {
-//                context.showLoaderOverlay();
                 return Center(
-                    child: Text(
-                  S.of(context).loading,
-                  style: TextStyle(fontSize: 20.0),
-                  textAlign: TextAlign.center,
-                ));
-//                  return CircularProgressIndicator();
+                  child: CircularProgressIndicator(),
+                );
               }
 
               return Container();

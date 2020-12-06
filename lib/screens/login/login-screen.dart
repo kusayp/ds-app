@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
 import 'package:dsapp/screens/screens.dart';
+import 'package:dsapp/services/connection-status-singleton.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,20 +20,28 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  StreamSubscription _connectionChangeStream;
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _validate = false;
+  // bool isOffline = false;
   String code;
-//  LoginBloc _loginBloc;
 
 
   @override
   void initState() {
     super.initState();
-//    _loginBloc = LoginBloc();
     code = "+299";
+    // ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
+    // _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);
   }
+
+  // void connectionChanged(dynamic hasConnection) {
+  //   setState(() {
+  //     isOffline = !hasConnection;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   controller: _emailController,
                   keyboardType: TextInputType.phone,
+                  textInputAction: TextInputAction.next,
                   autofocus: false,
                 ),
               ),
@@ -98,6 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
       else if(id == 2){
         return CustomLoginField(
+          textWidth: 100.0,
           width: width-60.0,
           labelText: S.of(context).regNumber,
           decoration: BoxDecoration(
@@ -113,7 +126,8 @@ class _LoginScreenState extends State<LoginScreen> {
               errorText: _validate ? 'Value Can\'t Be Empty' : null,
             ),
             controller: _emailController,
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.next,
           ),
         );
       }
@@ -135,6 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
           ),
         );
       }
@@ -159,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is LoginFailure) {
           showDialog(
               context: context,
-              builder: (_) => UserNotFoundDialog(),
+              builder: (_) => UserNotFoundDialog(onButtonPressed: goBackToLogin,),
               barrierDismissible: false
           );
         }
@@ -171,6 +186,14 @@ class _LoginScreenState extends State<LoginScreen> {
               barrierDismissible: false
           );
         }
+
+        // if (isOffline) {
+        //   showDialog(
+        //       context: context,
+        //       builder: (_) => NoConnectionDialog(onButtonPressed: goBackToLogin,),
+        //       barrierDismissible: false
+        //   );
+        // }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
@@ -178,70 +201,74 @@ class _LoginScreenState extends State<LoginScreen> {
             Future.delayed(Duration(milliseconds: 5) ,() => Navigator.pushNamedAndRemoveUntil(context, '/menu', ModalRoute.withName('/menu'), arguments: state.loginResponse));
 
           }
-          if (state is LoginInitial){
-            return Padding(
-              padding: const EdgeInsets.only(right: 30.0, left: 30.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        Container(
-                          height: MediaQuery.of(context).size.height / 2,
-                        ),
-                      ],
-                    ),
-                    Container(
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              S.of(context).login,
-                              textAlign: TextAlign.center,
-                              style: ThemeText.loginInText,
-                            ),
-                            SizedBox(height: 20.0,),
-                            loadUserNameField(widget.id),
-                            CustomLoginField(
-                              width: width-60.0,
-                              labelText: S.of(context).password,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(5)),
-                                border: Border.all(
-                                    color: appTheme().primaryColor, width: 1.0),
-                              ),
-                              formField: TextFormField(
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(left: 10.0),
-                                  border: InputBorder.none,
-                                  errorText: _validate ? 'Value Can\'t Be Empty' : null,
-                                ),
-                                obscureText: true,
-                                autofocus: false,
-                                controller: _passwordController,
-                              ),
-                            ),
-                            SizedBox(height: MediaQuery.of(context).size.height * 0.10,),
-                            LoginButton(
-                              onButtonPressed: _onLoginButtonPressed,
-                              buttonText: S.of(context).signin,
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            );
+
+          // if (state is LoginInitial){
+          //   return ;
+          // }
+
+          if (state is LoginLoading) {
+            return Center(
+              child: CircularProgressIndicator(),);
           }
 
-    if (state is LoginLoading) {
-      return Center(child: CircularProgressIndicator());
-    }
-          return Center(child: CircularProgressIndicator());
+          return Padding(
+            padding: const EdgeInsets.only(right: 30.0, left: 30.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Stack(
+                    children: <Widget>[
+                      Container(
+                        height: MediaQuery.of(context).size.height / 2,
+                      ),
+                    ],
+                  ),
+                  Container(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            S.of(context).login,
+                            textAlign: TextAlign.center,
+                            style: ThemeText.loginInText,
+                          ),
+                          SizedBox(height: 20.0,),
+                          loadUserNameField(widget.id),
+                          CustomLoginField(
+                            width: width-60.0,
+                            labelText: S.of(context).password,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(5)),
+                              border: Border.all(
+                                  color: appTheme().primaryColor, width: 1.0),
+                            ),
+                            formField: TextFormField(
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(left: 10.0),
+                                border: InputBorder.none,
+                                errorText: _validate ? 'Value Can\'t Be Empty' : null,
+                              ),
+                              textInputAction: TextInputAction.go,
+                              obscureText: true,
+                              autofocus: false,
+                              controller: _passwordController,
+                            ),
+                          ),
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.10,),
+                          LoginButton(
+                            onButtonPressed: _onLoginButtonPressed,
+                            buttonText: S.of(context).signin,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
         },
       ),
     );

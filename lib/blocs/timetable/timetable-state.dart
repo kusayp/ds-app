@@ -28,7 +28,9 @@ class TimeTableLoaded extends TimeTableState {
 }
 
 class TimeTableError extends TimeTableState {
+  final String errorMessage;
 
+  TimeTableError(this.errorMessage);
 }
 
 class DaySelectedState extends TimeTableState{

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/exceptions/exceptions.dart';
@@ -26,6 +28,9 @@ class ExamsBloc extends Bloc<ExamsEvent, ExamsState> {
       }
       on ApiException catch(e){
         yield ExamsErrorState(e.getMessage());
+      }
+      on SocketException catch(_){
+        yield ExamsErrorState("No internet connection");
       }
     }
   }
