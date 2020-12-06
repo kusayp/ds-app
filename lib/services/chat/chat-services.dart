@@ -75,7 +75,7 @@ class ChatService {
     print(response.body);
     if(response.statusCode != 200) {
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     List<dynamic> json = jsonDecode(response.body);
     List<UserModel> groups = json != null ? json.map((e) => UserModel.fromJson(e)).toList() : [];
@@ -98,7 +98,7 @@ class ChatService {
     print(response.body);
     if(response.statusCode != 200) {
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     List<dynamic> json = jsonDecode(response.body);
     List<UserModel> groups = json != null ? json.map((e) => UserModel.fromJson(e)).toList() : [];

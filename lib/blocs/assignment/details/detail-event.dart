@@ -15,3 +15,11 @@ class FetchingSignedUrlEvent extends AssignmentDetailEvent {
   @override
   List<Object> get props => [assignment];
 }
+
+class OpenFileEvent extends AssignmentDetailEvent {
+  final String downloadUrl;
+
+  OpenFileEvent({this.downloadUrl});
+  @override
+  List<Object> get props => [downloadUrl];
+}

@@ -41,8 +41,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield LoginNoConnection();
       }
       on ApiException catch (e) {
-        print(e.getMessage());
-        yield LoginFailure(error: "error");
+        yield LoginFailure(error: e.getMessage());
       }
     }
   }

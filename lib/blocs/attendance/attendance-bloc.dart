@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/exceptions/exceptions.dart';
@@ -30,6 +32,9 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       }
       on ApiException catch(_){
         yield AttendanceErrorState(_.getMessage());
+      }
+      on SocketException catch(_){
+        yield AttendanceErrorState("No internet connection");
       }
     }
   }

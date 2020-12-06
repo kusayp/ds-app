@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dsapp/blocs/blocs.dart';
+import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/repositories/repositories.dart';
 import 'package:dsapp/utils/shared-preference.dart';
@@ -27,8 +30,11 @@ class TimeTableBloc extends Bloc<TimeTableEvent, TimeTableState> {
         }
         yield TimeTableLoaded(response: response, selectedDay: event.day);
       }
-      catch(_){
-        yield TimeTableError();
+      on ApiException catch(e){
+        yield TimeTableError(e.getMessage());
+      }
+      on SocketException catch(_){
+        yield TimeTableError("No internet connection");
       }
     }
     if(event is GetDaySelected){

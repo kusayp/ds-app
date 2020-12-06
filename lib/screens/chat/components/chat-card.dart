@@ -95,6 +95,8 @@ class InputWidget extends StatelessWidget {
                   hintText: S.of(context).typeAMessage,
                   hintStyle: TextStyle(color: appTheme().primaryColor),
                 ),
+                maxLines: 1,
+                // textInputAction: TextInputAction.newline,
               ),
             ),
           ),
@@ -238,56 +240,13 @@ class ChatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => Navigator.pushNamed(context, ConversationPage.routeName,
-          arguments: user),
-      child: Padding(
-        padding: EdgeInsets.all(20),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(right: 12.0),
-              child: Stack(
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {
-                      print('You want to see the display pictute.');
-                    },
-                    child: this.user.picture != null ? CircleAvatar(
-                      backgroundImage: NetworkImage(this.user.picture),
-                      radius: 30.0,
-                    ) : CircleAvatar(
-                      child: SvgPicture.asset(
-                        "assets/images/menu/Profile.svg",
-                        width: 30,
-                        height: 30,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                  padding: EdgeInsets.only(left: 6.0, right: 6.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        this.user.getFullName,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  )),
-            ),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 20.0,
-              color: Colors.black,
-            ),
-          ],
-        ),
+    return
+    Card(
+      child: ListTile(
+        onTap: () => Navigator.pushNamed(context, ConversationPage.routeName, arguments: user),
+        leading: user.picture != null ? CircleAvatar(backgroundImage: NetworkImage(this.user.picture),radius: 30.0,) : CircleAvatar(child: SvgPicture.asset("assets/images/menu/Profile.svg",width: 30,height: 30,),),
+        title: Text(user.getFullName, style: TextStyle(fontSize: 15),),
+        trailing: Icon(Icons.arrow_forward_ios, size: 20.0, color: Colors.black,),
       ),
     );
   }
@@ -302,31 +261,46 @@ class ChatCard extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     bool isMe = userId == message.data()['from'];
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.75,
-      margin: isMe
-          ? EdgeInsets.only(top: 7.0, bottom: 8.0, left: 80.0)
-          : EdgeInsets.only(top:8.0, bottom: 8.0),
-      padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
-      decoration: isMe ? BoxDecoration(
-          color: appTheme().splashColor,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15.0),
-              bottomLeft: Radius.circular(15.0),
-              topRight: Radius.circular(15.0)
-          )
-      ) : BoxDecoration(
-          color: Color(0xFFe4f1fe),
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15.0),
-              topRight: Radius.circular(15.0),
-              bottomRight: Radius.circular(15.0)
-          )
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
+    CrossAxisAlignment messageAlignment() {
+      if (isMe) {
+        return CrossAxisAlignment.end;
+      } else {
+        return CrossAxisAlignment.start;
+      }
+    }
+    MainAxisAlignment timeAlignment() {
+      if (isMe) {
+        return MainAxisAlignment.end;
+      } else {
+        return MainAxisAlignment.start;
+      }
+    }
+    return Column(
+      crossAxisAlignment: messageAlignment(),
+      children: [
+        Container(
+          constraints: BoxConstraints(minWidth: 70.0, maxWidth: 250.0),
+//      width: MediaQuery.of(context).size.width * 0.75,
+          margin: isMe
+              ? EdgeInsets.only(top: 7.0, bottom: 8.0, left: 80.0)
+              : EdgeInsets.only(top:8.0, bottom: 8.0, right: 80.0),
+          padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
+          decoration: isMe ? BoxDecoration(
+              color: appTheme().splashColor,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.0),
+                  bottomLeft: Radius.circular(15.0),
+                  topRight: Radius.circular(15.0)
+              )
+          ) : BoxDecoration(
+              color: Color(0xFFe4f1fe),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.0),
+                  topRight: Radius.circular(15.0),
+                  bottomRight: Radius.circular(15.0)
+              )
+          ),
+          child: Text(
               message.data()['message'],
               style: TextStyle(
                   color: Colors.blueGrey,
@@ -334,27 +308,28 @@ class ChatCard extends StatelessWidget{
                   fontWeight: FontWeight.w600
               )
           ),
-          SizedBox(height: 8.0,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                DateFormat('dd MMM kk:mm').format(
-                    DateTime.fromMillisecondsSinceEpoch(message.data()['timestamp'])),
-                style: TextStyle(
-                    color: Colors.blueGrey,
-                    fontSize: 13.0,
-                    fontWeight: FontWeight.w600
-                ),
+        ),
+
+        // SizedBox(height: 8.0,),
+        Row(
+          mainAxisAlignment: timeAlignment(),
+          children: [
+            Text(
+              DateFormat('h:mm a').format(
+                  DateTime.fromMillisecondsSinceEpoch(message.data()['timestamp'].millisecondsSinceEpoch)),
+              style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w600
               ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Icon(Icons.check),
-              )
-            ],
-          ),
-        ],
-      ),
+            ),
+            isMe ? Align(
+              alignment: Alignment.bottomRight,
+              child: Icon(Icons.check, size: 10.0,),
+            ) : SizedBox(),
+          ],
+        ),
+      ],
     );
   }
 }

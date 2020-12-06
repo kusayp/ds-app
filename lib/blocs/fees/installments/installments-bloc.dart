@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/exceptions/exceptions.dart';
@@ -31,6 +33,9 @@ class InstallmentsBloc extends Bloc<InstallmentsEvent, InstallmentsState> {
       }
       on ApiException catch(e){
         yield InstallmentsErrorState(e.getMessage());
+      }
+      on SocketException catch(_){
+        yield InstallmentsErrorState("No internet connection");
       }
     }
   }

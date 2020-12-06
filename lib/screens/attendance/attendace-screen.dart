@@ -12,15 +12,24 @@ class AttendanceScreen extends StatelessWidget {
   const AttendanceScreen({Key key, this.userId, this.classId}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    void initPage() {
+      BlocProvider.of<AttendanceBloc>(context)
+          .add(TodayAttendanceEvent(actorId: userId, classId: classId));
+    }
+
+    void goBack() {
+      initPage();
+      Navigator.pop(context);
+    }
+
     return BlocListener<AttendanceBloc, AttendanceState>(
     listener: (context, state) {
       if (state is AttendanceErrorState) {
-        print(state.error);
-//          context.hideLoaderOverlay();
         showDialog(
             context: context,
             builder: (_) => ErrorDialog(
               errorMessage: state.error,
+              onButtonPressed: goBack,
             ),
             barrierDismissible: false);
       }
@@ -41,19 +50,14 @@ class AttendanceScreen extends StatelessWidget {
             );
           }
           if(state is AttendanceEmptyState){
-            BlocProvider.of<AttendanceBloc>(context)
-                .add(TodayAttendanceEvent(actorId: userId, classId: classId));
+            initPage();
           }
 
           if (state is AttendanceLoadingState){
-//                context.showLoaderOverlay();
-            return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
-//                  return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator(),);
           }
 
-          return Center(
-            child: CircularProgressIndicator()
-          );
+          return Container();
         }
       ),
     );

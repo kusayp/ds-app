@@ -51,6 +51,8 @@ dependencies:
   open_file: ^3.0.3
   dio: ^3.0.10
   path_provider: ^1.6.24
+  connectivity: ^2.0.2
+  grouped_list: ^3.7.1
 
 dev_dependencies:
   flutter_test:

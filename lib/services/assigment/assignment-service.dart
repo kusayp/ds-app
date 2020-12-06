@@ -35,7 +35,6 @@ class AssignmentService {
   }
 
   Future<AssignmentPageData> getAssignmentByTeacher(schoolId, teacherId) async {
-//    try{}on SocketException catch (_) {}
     String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
@@ -77,10 +76,8 @@ class AssignmentService {
   }
 
   Future<String> getSignedUrl(String objectKey) async {
-    try{
       String userString = await prefs.getSharedPreference("user");
       LoginResponse user = LoginResponse.fromJson(userString);
-
 
       Map<String, String> headers = {
         'Content-Type': 'application/json',
@@ -101,9 +98,6 @@ class AssignmentService {
         throw new RestErrorHandling().handleError(response);
       }
       return response.body;
-    }on SocketException catch(_){
-      throw SocketException;
-    }
   }
 
   Future<String> getSignedFetchUrl(String objectKey) async {
@@ -128,8 +122,6 @@ class AssignmentService {
   }
 
   Future<void> uploadToS3WithSignedUrl(String uploadUrl, Uint8List file) async {
-
-//    Uint8List bytes = await file.readAsBytes();
 
     Map<String, String> headers = {
       'Content-Type': 'application/octet-stream',

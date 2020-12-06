@@ -17,8 +17,8 @@ class ChatRepository {
     return await chatService.getUserInGroups(schoolId, classId, groupId);
   }
 
-  Future<void> saveChat(int senderId, int receiverId, String message) async {
-    await firebaseService.saveChat(senderId, receiverId, message);
+  Future<void> saveChat(int senderId, int receiverId, String message, Map<String, dynamic> data) async {
+    await firebaseService.saveChat(senderId, receiverId, message, data);
   }
 
   Stream<QuerySnapshot> getChatsFromDb(int senderId, int receiverId)  {

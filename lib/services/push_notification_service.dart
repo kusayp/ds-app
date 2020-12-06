@@ -31,8 +31,6 @@ class PushNotificationService {
         final data = jsonEncode(message['data']);
         print('onMessage: $message');
         showNotification2(1234, title, body, data);
-        saveChatToLocalDb(message);
-
 
         // return;
       },
@@ -44,8 +42,6 @@ class PushNotificationService {
         final data = jsonEncode(message['data']);
         print('onLaunch: $message');
         showNotification2(1234, title, body, data);
-        saveChatToLocalDb(message);
-//        _serialiseAndNavigate(message);
 
       },
       // Called when the app is in the background and it's opened
@@ -56,7 +52,6 @@ class PushNotificationService {
         final data = jsonEncode(message['data']);
         print('onResume: $message');
         showNotification2(1234, title, body, data);
-        saveChatToLocalDb(message);
       },
       onBackgroundMessage: myBackgroundMessageHandler,
     );
@@ -132,17 +127,6 @@ class PushNotificationService {
     return _fcm.getToken();
   }
 
-  void saveChatToLocalDb(Map<String, dynamic> message) async {
-    ChatModel chatModel = ChatModel(
-      title: message['title'],
-      timeStamp: int.parse(message['timeStamp']),
-      message: message['message'],
-      direction: Direction.IN.index,
-      toOrFrom: int.parse(message['toOrFrom']),
-    );
-    await dbServices.insertChat(chatModel);
-  }
-
   void _serialiseAndNavigate(Map<String, dynamic> message) async {
 //    var notificationData = message['data'];
     var view = message['type'];
@@ -151,15 +135,13 @@ class PushNotificationService {
       // Navigate to the create post view
       if (view == 'chat_message') {
         //Navigate to appropriate view
-//        saveChatToLocalDb(message);
         UserModel user = await LoginService().getUserById(message['user']);
         locator<MyApp>().navigateTo('/conversations', user);
       }
     }
   }
 
-  Future<void> sendAndRetrieveMessage(token, title, message,
-      data) async {
+  Future<void> sendAndRetrieveMessage(Map<String, dynamic> data) async {
 
     try{
       await http.post(
@@ -171,12 +153,12 @@ class PushNotificationService {
         body: jsonEncode(
           <String, dynamic>{
             'notification': <String, dynamic>{
-              'body': message,
-              'title': title,
+              'body': data['message'],
+              'title': data['title'],
             },
             'priority': 'high',
             'data': data,
-            'to': token,
+            'to': data['token'],
           },
         ),
       );

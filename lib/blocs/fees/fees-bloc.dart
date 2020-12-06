@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/exceptions/exceptions.dart';
@@ -30,6 +32,9 @@ class FeesBloc extends Bloc<FeesEvent, FeesState> {
       }
       on ApiException catch(e){
         yield FeesErrorState(e.getMessage());
+      }
+      on SocketException catch(_){
+        yield FeesErrorState("No internet connection");
       }
     }
   }

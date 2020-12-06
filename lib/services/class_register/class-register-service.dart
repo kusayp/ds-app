@@ -30,7 +30,7 @@ class ClassRegisterService {
     print(response.body);
     if(response.statusCode != 200) {
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     return TimeTablePageData.fromJson(response.body);
   }
@@ -51,7 +51,7 @@ class ClassRegisterService {
     print(response.body);
     if(response.statusCode != 200) {
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     return TimeTablePageData.fromJson(response.body);
   }
@@ -72,7 +72,7 @@ class ClassRegisterService {
     print(response.body);
     if(response.statusCode != 200) {
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     return UserModelPageData.fromJson(response.body);
   }

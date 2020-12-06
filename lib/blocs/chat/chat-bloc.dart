@@ -39,6 +39,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       on ApiException catch(e){
         yield ChatErrorState(e.getMessage());
       }
+      on SocketException catch(_){
+        yield ChatErrorState("No internet connection");
+      }
     }
 
     if(event is FetchingUsersInGroupsEvent){
@@ -59,6 +62,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       on ApiException catch(e){
         yield ChatErrorState(e.getMessage());
       }
+      on SocketException catch(_){
+        yield ChatErrorState("No internet connection");
+      }
     }
 
     if (event is SendTextMessageEvent) {
@@ -67,7 +73,16 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         String userString = await sharedPreferences.getSharedPreference("user");
         LoginResponse user = LoginResponse.fromJson(userString);
 
-        await repository.saveChat(user.user.id, event.to.id, event.message);
+        Map<String, dynamic> data = {
+          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+          'title': "DS APP",
+          'message': event.message,
+          'type': 'chat_message',
+          'user': user.user.id,
+          'token': event.to.deviceId,
+        };
+
+        await repository.saveChat(user.user.id, event.to.id, event.message, data);
 
         yield ChatEmptyState();
       }

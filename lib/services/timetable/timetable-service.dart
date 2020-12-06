@@ -1,3 +1,4 @@
+import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/utils/shared-preference.dart';
@@ -18,10 +19,6 @@ class TimeTableService {
       'Authorization': 'Bearer ' + user.token,
     };
 
-//    var queryParameters = {
-//      'filter': 'day|$day',
-//    };
-
     String endpoint = sprintf('%s%s/%s/%s?filter=day|%s,teacher|%s', [baseUrl, 'schools', schoolId, url, day, teacherId]);
     print(endpoint);
 
@@ -29,7 +26,7 @@ class TimeTableService {
     print(response.body);
     if(response.statusCode != 200) {
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     return TimeTablePageData.fromJson(response.body);
   }
@@ -51,7 +48,7 @@ class TimeTableService {
     print(response.body);
     if(response.statusCode != 200) {
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     return TimeTablePageData.fromJson(response.body);
   }

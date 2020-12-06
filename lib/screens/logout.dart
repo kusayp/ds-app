@@ -25,7 +25,7 @@ class LogOut extends StatelessWidget {
   Widget build(BuildContext context) {
     if(true) {
       try{
-        final result = InternetAddress.lookup('example.com').timeout(Duration(seconds: 3));
+        final result = InternetAddress.lookup('example.com');
         if (result != null){
           Future.delayed(Duration(milliseconds: 5)  ,() => logoutUser(context));
         }

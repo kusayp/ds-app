@@ -13,15 +13,23 @@ class ExamScoreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void initPage() {
+      BlocProvider.of<ExamScoreBloc>(context)
+          .add(FetchingExamScoreEvent(examinationId: exam.id.toString()));
+    }
+
+    void goBack() {
+      initPage();
+      Navigator.pop(context);
+    }
     return BlocListener<ExamScoreBloc, ExamScoreState>(
       listener: (context, state){
         if (state is ExamScoreErrorState) {
-          print(state.errorMessage);
-//          context.hideLoaderOverlay();
           showDialog(
               context: context,
               builder: (_) => ErrorDialog(
                 errorMessage: state.errorMessage,
+                onButtonPressed: goBack,
               ),
               barrierDismissible: false);
         }
@@ -61,14 +69,11 @@ class ExamScoreScreen extends StatelessWidget {
                     }
 
                     if (state is ExamScoreLoadingState){
-//                context.showLoaderOverlay();
-                      return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
-//                  return CircularProgressIndicator();
+                      return Center(child: CircularProgressIndicator(),);
                     }
 
                     if(state is ExamScoreInitialState){
-                      BlocProvider.of<ExamScoreBloc>(context)
-                          .add(FetchingExamScoreEvent(examinationId: exam.id.toString()));
+                      initPage();
                     }
 
                     if(state is ExamScoreEmptyState){

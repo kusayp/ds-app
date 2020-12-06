@@ -669,3 +669,56 @@
 ////    );
 ////  }
 ////}
+
+//InkWell(
+//onTap: () => Navigator.pushNamed(context, ConversationPage.routeName,
+//arguments: user),
+//child: Row(
+//crossAxisAlignment: CrossAxisAlignment.start,
+////        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//children: <Widget>[
+//Container(
+//margin: EdgeInsets.only(right: 12.0),
+//child: Stack(
+//children: <Widget>[
+//InkWell(
+//onTap: () {
+//print('You want to see the display pictute.');
+//},
+//child: this.user.picture != null ? CircleAvatar(
+//backgroundImage: NetworkImage(this.user.picture),
+//radius: 30.0,
+//) : CircleAvatar(
+//child: SvgPicture.asset(
+//"assets/images/menu/Profile.svg",
+//width: 30,
+//height: 30,
+//),
+//),
+//)
+//],
+//),
+//),
+//Expanded(
+//child: Padding(
+//padding: EdgeInsets.only(left: 6.0, right: 6.0),
+//child: Column(
+//children: <Widget>[
+//Align(
+//alignment: Alignment.bottomCenter,
+//child: Text(
+//this.user.getFullName,
+//style: TextStyle(fontSize: 18),
+//),
+//),
+//],
+//)),
+//),
+//Icon(
+//Icons.arrow_forward_ios,
+//size: 20.0,
+//color: Colors.black,
+//),
+//],
+//),
+//);

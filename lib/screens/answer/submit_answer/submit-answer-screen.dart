@@ -16,7 +16,6 @@ class SubmitAnswerScreen extends StatelessWidget {
   const SubmitAnswerScreen({Key key, this.arguments}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-//    String _filename;
     void viewSubmitAnswersPage() {
       BlocProvider.of<AnswerBloc>(context).add(AssignmentAnswerEvent(
           student: arguments.menuArguments.roleModules.user.id, description: "", attachment: "", assignmentId: arguments.assignment.id));
@@ -38,6 +37,10 @@ class SubmitAnswerScreen extends StatelessWidget {
       }
     }
 
+    void goBack() {
+      Navigator.pop(context);
+    }
+
     void _showSnackBar(String success, Color color) {
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text(success),
@@ -49,11 +52,12 @@ class SubmitAnswerScreen extends StatelessWidget {
       child: BlocListener<AnswerBloc, AnswerState>(
         listener: (context, state) {
           if (state is AnswerErrorState){
-            print(state.errorMessage);
-//          context.hideLoaderOverlay();
             showDialog(
                 context: context,
-                builder: (_) => ErrorDialog(errorMessage: state.errorMessage,),
+                builder: (_) => ErrorDialog(
+                  errorMessage: state.errorMessage,
+                  onButtonPressed: goBack,
+                ),
                 barrierDismissible: false
             );
           }
@@ -67,39 +71,14 @@ class SubmitAnswerScreen extends StatelessWidget {
           padding: EdgeInsets.all(20.0),
           child: BlocBuilder<AnswerBloc, AnswerState>(
           builder: (context, state) {
-            if(state is AnswerEmptyState){
-              return Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height *0.3,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: AnswerAttachButton(
-                        buttonText: S.of(context).chooseFile,
-                        onButtonPressed: openFileExplorer,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height *0.02,),
-                  Container(
-                    height: MediaQuery.of(context).size.height *0.4,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Addition and subtraction.pdf", style: ThemeText.menuDropDownText,),
-                      ],
-                    ),
-                  ),
-                  LoginButton(buttonText: S.of(context).submit, onButtonPressed: viewSubmitAnswersPage,)
-                ],
-              );
-            }
+            // if(state is AnswerEmptyState){
+            //   return ;
+            // }
 
             if (state is AnswerLoadingState){
-//                context.showLoaderOverlay();
-              return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
-//                  return CircularProgressIndicator();
+              return Center(child:
+              CircularProgressIndicator(),
+              );
             }
 
             if (state is AnswerSavedState) {
@@ -111,8 +90,31 @@ class SubmitAnswerScreen extends StatelessWidget {
               );
             }
 
-            return Center(
-              child: CircularProgressIndicator(),
+            return Column(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height *0.3,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: AnswerAttachButton(
+                      buttonText: S.of(context).chooseFile,
+                      onButtonPressed: openFileExplorer,
+                    ),
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height *0.02,),
+                Container(
+                  height: MediaQuery.of(context).size.height *0.4,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Addition and subtraction.pdf", style: ThemeText.menuDropDownText,),
+                    ],
+                  ),
+                ),
+                LoginButton(buttonText: S.of(context).submit, onButtonPressed: viewSubmitAnswersPage,)
+              ],
             );
           }
           ),

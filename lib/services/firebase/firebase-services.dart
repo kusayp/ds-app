@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dsapp/models/users/user-model.dart';
+import 'package:dsapp/services/push_notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 
 class FirebaseService {
 
-  Future<void> saveChat(int senderId, int receiverId, String message) async {
+  Future<void> saveChat(int senderId, int receiverId, String message, Map<String, dynamic> data) async {
     String chatId = getChatId(senderId, receiverId);
     var documentRef = FirebaseFirestore.instance
         .collection('messages')
@@ -14,16 +16,16 @@ class FirebaseService {
         .doc(Timestamp.now().millisecondsSinceEpoch.toString());
 
 
-
     return FirebaseFirestore.instance.runTransaction((transaction) async {
 
       transaction.set(documentRef, {
         'from': senderId,
         'to': receiverId,
         'message': message,
-        'timestamp': Timestamp.now().millisecondsSinceEpoch
+        'timestamp': FieldValue.serverTimestamp()
       });
-    }).then((value) {
+    }).then((value) async {
+      await PushNotificationService().sendAndRetrieveMessage(data);
       print("SaveChat successful");
       //Send push notification
     }).catchError((onError) {

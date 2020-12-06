@@ -19,16 +19,27 @@ class FeeInstallmentScreen extends StatelessWidget {
     void goToPaymentPage(){
       Navigator.pushNamed(context, FeePaymentPage.routeName,);
     }
+
+    void initPage() {
+      BlocProvider.of<InstallmentsBloc>(context)
+          .add(FetchingInstallmentsEvent(classId: arguments.classId, userId: arguments.userId, feesId: arguments.feesId));
+    }
+
+    void goBack() {
+      initPage();
+      Navigator.pop(context);
+    }
+
     return BlocListener<InstallmentsBloc, InstallmentsState>(
     listener: (context, state){
 
       if (state is InstallmentsErrorState) {
         print(state.errorMessage);
-//          context.hideLoaderOverlay();
         showDialog(
             context: context,
             builder: (_) => ErrorDialog(
               errorMessage: state.errorMessage,
+              onButtonPressed: goBack,
             ),
             barrierDismissible: false);
       }
@@ -58,9 +69,7 @@ class FeeInstallmentScreen extends StatelessWidget {
             }
 
             if (state is InstallmentsLoadingState){
-//                context.showLoaderOverlay();
-              return Center(child: Text(S.of(context).loading, style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center,));
-//                  return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator(),);
             }
 
             if(state is InstallmentsEmptyState){
@@ -75,13 +84,10 @@ class FeeInstallmentScreen extends StatelessWidget {
             }
 
             if(state is InstallmentsInitialState){
-              BlocProvider.of<InstallmentsBloc>(context)
-                  .add(FetchingInstallmentsEvent(classId: arguments.classId, userId: arguments.userId, feesId: arguments.feesId));
+              initPage();
             }
 
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return Container();
           }
         ),
       ),

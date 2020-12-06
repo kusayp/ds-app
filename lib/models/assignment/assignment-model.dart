@@ -10,7 +10,7 @@ class AssignmentModel extends Equatable{
   final SchoolClassModel schoolClass;
   final int dueDate;
   final UserModel teacher;
-  final List<dynamic> attachments;
+  final List<String> attachments;
   List<String> downloadUrls;
 
   AssignmentModel({this.id, this.title, this.description, this.subject, this.schoolClass, this.dueDate, this.teacher, this.attachments, this.downloadUrls});
@@ -20,6 +20,8 @@ class AssignmentModel extends Equatable{
   }
 
   static AssignmentModel fromJson(Map<String, dynamic> json){
+    var attachmentsFromJson = json['attachments'] as List;
+    List<String> downloadUrlsList = json['attachments'] != null ? new List<String>.from(attachmentsFromJson) : [];
     return AssignmentModel(
         id: json['id'],
         subject: json.containsKey("subject") ?  SubjectModel.fromJson(json['subject']) : null,
@@ -28,7 +30,7 @@ class AssignmentModel extends Equatable{
         teacher: json.containsKey("teacher") ? UserModel.fromJson(json['teacher']) : null,
         title: json['title'],
         description: json['description'],
-        attachments: json['attachments']
+        attachments: downloadUrlsList
     );
   }
 

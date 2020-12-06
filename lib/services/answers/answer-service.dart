@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/models/models.dart';
@@ -30,7 +31,7 @@ class AnswerService {
 
     if(response.statusCode != 200) {
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     return AnswerPageData.fromJson(response.body);
   }
@@ -49,6 +50,9 @@ class AnswerService {
     var endpoint = sprintf("%s%s/%s/%s/%s/%s", [baseUrl, "schools", schoolId, AssignmentService().url, assignmentId, url]);
 
     final response = await http.post(endpoint, headers: headers, body: jsonEncode(answerModel));
-    print(response.statusCode);
+
+    if(response.statusCode != 201){
+      throw new RestErrorHandling().handleError(response);
+    }
   }
 }

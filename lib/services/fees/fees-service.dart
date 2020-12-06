@@ -1,3 +1,4 @@
+import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/utils/shared-preference.dart';
@@ -27,7 +28,7 @@ class FeesService {
     print(response.body);
     if(response.statusCode != 200) {
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     return FeesPageData.fromJson(response.body);
   }
@@ -50,7 +51,7 @@ class FeesService {
     print(response.body);
     if(response.statusCode != 200) {
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     return InstallmentList.fromJson(response.body);
   }
@@ -73,7 +74,7 @@ class FeesService {
     print(response.body);
     if(response.statusCode != 200) {
       print(response.body);
-      throw new Exception("error getting quotes");
+      throw new RestErrorHandling().handleError(response);
     }
     return PaymentList.fromJson(response.body);
   }
