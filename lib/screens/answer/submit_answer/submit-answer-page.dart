@@ -12,7 +12,7 @@ class SubmitAnswerPage extends StatelessWidget {
   static const routeName = '/submit_assignment';
   @override
   Widget build(BuildContext context) {
-    final AssignmentRepository repository = AssignmentRepository(answerService: AnswerService());
+    final AssignmentRepository repository = AssignmentRepository(answerService: AnswerService(), assignmentService: AssignmentService());
     final AssignmentAnswerArguments arguments = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(

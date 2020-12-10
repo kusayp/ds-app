@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
+import 'package:file_picker/file_picker.dart';
 
 abstract class AnswerEvent extends Equatable {
   AnswerEvent();
@@ -16,11 +17,18 @@ class FetchingAnswerEvent extends AnswerEvent {
   List<Object> get props => [];
 }
 
+class AnswerFileEvent extends AnswerEvent {
+  final int assignmentId;
+  AnswerFileEvent({this.assignmentId});
+  @override
+  List<Object> get props => [];
+}
+
 class AssignmentAnswerEvent extends AnswerEvent {
   final int assignmentId;
   final int student;
   final String description;
-  final File file;
+  final PlatformFile file;
   final String attachment;
   AssignmentAnswerEvent({this.student, this.description, this.file, this.attachment, this.assignmentId});
   @override

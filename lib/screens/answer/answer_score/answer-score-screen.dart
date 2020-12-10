@@ -29,6 +29,36 @@ class AnswerScoreScreen extends StatelessWidget {
       Navigator.pop(context);
     }
 
+    List<Widget> buildAttachmentsWidget(List<String> downloadUrls) {
+      final children = <Widget>[];
+
+      for (int i = 0; i < downloadUrls.length; i++) {
+        children.add(
+            GestureDetector(
+              onTap: () {
+                BlocProvider.of<AssignmentDetailBloc>(context)
+                    .add(OpenFileEvent(downloadUrl: downloadUrls[i]));
+              },
+              child: Container(
+                height: 40.0,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black26),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0, bottom: 5.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(downloadUrls[i] ?? S.of(context).noAttachment, style: TextStyle(decoration: TextDecoration.underline, color: appTheme().primaryColor)),
+                  ),
+                ),
+              ),
+            )
+        );
+      }
+      return children;
+    }
+
     return SafeArea(
       child: BlocListener<AnswerBloc, AnswerState>(
         listener: (context, state) {
@@ -146,23 +176,9 @@ class AnswerScoreScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 60.0, bottom: 100.0),
-                    child: Container(
-                      height: 30.0,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black26),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                              answer.attachment ?? S.of(context).noAttachment),
-                        ),
-                      ),
-                    ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: buildAttachmentsWidget(answer.attachments),
                   ),
                   Divider(
                     thickness: 1.0,

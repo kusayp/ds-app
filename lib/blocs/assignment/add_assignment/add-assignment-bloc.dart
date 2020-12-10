@@ -21,7 +21,6 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
   @override
   Stream<AddAssignmentState> mapEventToState(AddAssignmentEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
-    List<String> attachments = List<String>();
     String signedUrl;
     List<String> uuid = [];
 

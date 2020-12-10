@@ -46,12 +46,6 @@ class AssignmentDetailScreen extends StatelessWidget {
       Navigator.maybePop(context);
     }
 
-    // Future<void> openFile(String downloadUrl) async {
-    //
-    //
-    //
-    // }
-
     List<Widget> buildAttachmentsWidget(List<String> downloadUrls) {
       final children = <Widget>[];
 
@@ -61,10 +55,9 @@ class AssignmentDetailScreen extends StatelessWidget {
               onTap: () {
                 BlocProvider.of<AssignmentDetailBloc>(context)
                         .add(OpenFileEvent(downloadUrl: downloadUrls[i]));
-                // openFile(downloadUrls[i]);
               },
               child: Container(
-                height: 40.0,
+                height: MediaQuery.of(context).size.height * 0.10,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black26),
@@ -84,6 +77,7 @@ class AssignmentDetailScreen extends StatelessWidget {
     }
 
     final isTeacher = role.roleModules.role == "ENSEINGNANT";
+
     return Scaffold(
       body: SafeArea(
         child: BlocListener<AssignmentDetailBloc, AssignmentDetailState>(
@@ -105,13 +99,6 @@ class AssignmentDetailScreen extends StatelessWidget {
             },
           child: BlocBuilder<AssignmentDetailBloc, AssignmentDetailState>(
           builder: (context, state){
-      // if(state is AssignmentDetailEmptyState){
-      //     BlocProvider.of<AssignmentDetailBloc>(context)
-      //         .add(FetchingSignedUrlEvent(assignment: assignment));
-      // }
-      if(state is AssignmentDetailLoadedState){
-
-      }
 
       if(state is AssignmentDetailLoadingState){
         return Center(

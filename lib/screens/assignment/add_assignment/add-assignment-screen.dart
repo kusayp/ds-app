@@ -155,169 +155,9 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
         },
         child: BlocBuilder<AddAssignmentBloc, AddAssignmentState>(
         builder: (context, state) {
-          if(state is AddAssignmentEmptyState){
-            return Padding(
-              padding: const EdgeInsets.only(top: 30, bottom: 20, right: 20, left: 20),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: CustomShortField(
-                            width: (MediaQuery.of(context).size.width - 90) / 2,
-                            labelText: S.of(context).title,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(5)),
-                              border: Border.all(
-                                  color: appTheme().primaryColor, width: 1.0),
-                            ),
-                            formField: TextFormField(
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(left: 10.0),
-                                  border: InputBorder.none),
-                              controller: _titleController,
-                              keyboardType: TextInputType.text,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 10.0,),
-                        Flexible(
-                          child: CustomShortField(
-                            width: (MediaQuery.of(context).size.width - 90) / 2.0,
-                            labelText: S.of(context).dueDate,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(5)),
-                              border: Border.all(
-                                  color: appTheme().primaryColor, width: 1.0),
-                            ),
-                            formField: TextFormField(
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(left: 10.0),
-                                  border: InputBorder.none),
-                              controller: _dateController,
-                              focusNode: AlwaysDisabledFocusNode(),
-                              keyboardType: TextInputType.datetime,
-                              onTap: () => _selectDate(context),
-                            ),
-                          ),
-                        ),
-//                  IconButton(icon: Icon(Icons.calendar_today, color: Colors.black, size: 10.0,), onPressed: () => _selectDate(context))
-                      ],
-                    ),
-                    SizedBox(height: 20.0,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              S.of(context).schoolClass,
-                              style: TextStyle(),
-                            ),
-                            Container(
-                              color: appTheme().backgroundColor,
-                              padding: EdgeInsets.all(20.0),
-                              child: DropdownButton(
-//                            isExpanded: true,
-                                  value: _value,
-                                  items: buildDropDownItems(classes : widget?.school?.teacherClasses),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _value = value;
-                                      classId = hasClass ? widget.school.teacherClasses[_value-1].id : null;
-                                    });
-                                  }),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              S.of(context).classSubject,
-                              style: TextStyle(),
-                            ),
-                            Container(
-                              color: appTheme().backgroundColor,
-                              padding: EdgeInsets.all(20.0),
-                              child: DropdownButton(
-                                  value: _value,
-                                  items: buildDropDownSubjectItems(subjects : widget.school.subjects),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _value = value;
-                                      subjectId = hasClass ? widget.school.subjects[_value-1].id : null;
-                                    });
-                                  }),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                    CustomField(
-                      width: MediaQuery.of(context).size.width - 60,
-                      labelText: S.of(context).description,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(
-                            color: appTheme().primaryColor, width: 1.0),
-                      ),
-                      formField: TextFormField(
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 10.0),
-                            border: InputBorder.none),
-                        controller: _descriptionController,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 1,
-                        // textInputAction: TextInputAction.newline,
-                      ),
-                    ),
-                    SizedBox(height: 10.0,),
-                    Align(
-                      alignment: Alignment.center,
-                      child: AttachButton(buttonText: S.of(context).attachFile, onButtonPressed: openFileExplorer,),
-                    ),
-                    SizedBox(height: 10.0,),
-                    Container(
-                      height: 70.0,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          _filename != null ? Container(
-                            height: 30.0,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black26),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(_filename),
-                              ),
-                            ),
-                          )
-                              : SizedBox(),
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: LoginButton(buttonText: S.of(context).createAssignment, onButtonPressed: saveAssignment,),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
 
           if (state is AssignmentSavedState) {
-            Future.delayed(Duration(milliseconds: 5), () => Navigator.pushNamedAndRemoveUntil(
+            Future.delayed(Duration(seconds: 3), () => Navigator.pushNamedAndRemoveUntil(
               context, AssignmentPage.routeName, ModalRoute.withName("/menu"),
               arguments: widget.arguments,
             ),
@@ -328,7 +168,163 @@ class _AddAssignmentScreenState extends State<AddAssignmentScreen> {
             return Center(child: CircularProgressIndicator());
           }
 
-          return Container();
+          return Padding(
+            padding: const EdgeInsets.only(top: 30, bottom: 20, right: 20, left: 20),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Flexible(
+                        child: CustomShortField(
+                          width: (MediaQuery.of(context).size.width - 90) / 2,
+                          labelText: S.of(context).title,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(5)),
+                            border: Border.all(
+                                color: appTheme().primaryColor, width: 1.0),
+                          ),
+                          formField: TextFormField(
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(left: 10.0),
+                                border: InputBorder.none),
+                            controller: _titleController,
+                            keyboardType: TextInputType.text,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10.0,),
+                      Flexible(
+                        child: CustomShortField(
+                          width: (MediaQuery.of(context).size.width - 90) / 2.0,
+                          labelText: S.of(context).dueDate,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(5)),
+                            border: Border.all(
+                                color: appTheme().primaryColor, width: 1.0),
+                          ),
+                          formField: TextFormField(
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(left: 10.0),
+                                border: InputBorder.none),
+                            controller: _dateController,
+                            focusNode: AlwaysDisabledFocusNode(),
+                            keyboardType: TextInputType.datetime,
+                            onTap: () => _selectDate(context),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.0,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            S.of(context).schoolClass,
+                            style: TextStyle(),
+                          ),
+                          Container(
+                            color: appTheme().backgroundColor,
+                            padding: EdgeInsets.all(20.0),
+                            child: DropdownButton(
+//                            isExpanded: true,
+                                value: _value,
+                                items: buildDropDownItems(classes : widget?.school?.teacherClasses),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _value = value;
+                                    classId = hasClass ? widget.school.teacherClasses[_value-1].id : null;
+                                  });
+                                }),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            S.of(context).classSubject,
+                            style: TextStyle(),
+                          ),
+                          Container(
+                            color: appTheme().backgroundColor,
+                            padding: EdgeInsets.all(20.0),
+                            child: DropdownButton(
+                                value: _value,
+                                items: buildDropDownSubjectItems(subjects : widget.school.subjects),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _value = value;
+                                    subjectId = hasClass ? widget.school.subjects[_value-1].id : null;
+                                  });
+                                }),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  CustomField(
+                    width: MediaQuery.of(context).size.width - 60,
+                    labelText: S.of(context).description,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(5)),
+                      border: Border.all(
+                          color: appTheme().primaryColor, width: 1.0),
+                    ),
+                    formField: TextFormField(
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 10.0),
+                          border: InputBorder.none),
+                      controller: _descriptionController,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 1,
+                      // textInputAction: TextInputAction.newline,
+                    ),
+                  ),
+                  SizedBox(height: 10.0,),
+                  Align(
+                    alignment: Alignment.center,
+                    child: AttachButton(buttonText: S.of(context).attachFile, onButtonPressed: openFileExplorer,),
+                  ),
+                  SizedBox(height: 10.0,),
+                  Container(
+                    height: 70.0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        _filename != null ? Container(
+                          height: 30.0,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black26),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(_filename),
+                            ),
+                          ),
+                        )
+                            : SizedBox(),
+                      ],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: LoginButton(buttonText: S.of(context).createAssignment, onButtonPressed: saveAssignment,),
+                  ),
+                ],
+              ),
+            ),
+          );
         },
         ),
       ),
