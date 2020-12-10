@@ -58,16 +58,14 @@ class AnswerCard extends StatelessWidget {
                   ? Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
                       child: Text(
-                        answer.student.firstName +
-                            " " +
-                            answer.student.lastName,
+                        answer.student.getFullName,
                         style: ThemeText.assignmentHeaderText,
                       ),
                     )
                   : SizedBox(),
-              answer.assignment.subject != null
+              answer.assignment.title != null
                   ? Text(
-                      answer.assignment.subject?.name,
+                      answer?.assignment?.title,
                       style: ThemeText.assignmentSubjectText,
                     )
                   : Text(''),

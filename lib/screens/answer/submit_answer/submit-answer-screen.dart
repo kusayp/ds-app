@@ -10,30 +10,45 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SubmitAnswerScreen extends StatelessWidget {
+class SubmitAnswerScreen extends StatefulWidget {
   final AssignmentAnswerArguments arguments;
 
   const SubmitAnswerScreen({Key key, this.arguments}) : super(key: key);
+
+  @override
+  _SubmitAnswerScreenState createState() => _SubmitAnswerScreenState();
+}
+
+class _SubmitAnswerScreenState extends State<SubmitAnswerScreen> {
+  String _filename;
+  PlatformFile _file;
+
   @override
   Widget build(BuildContext context) {
     void viewSubmitAnswersPage() {
       BlocProvider.of<AnswerBloc>(context).add(AssignmentAnswerEvent(
-          student: arguments.menuArguments.roleModules.user.id, description: "", attachment: "", assignmentId: arguments.assignment.id));
+          student: widget.arguments.menuArguments.roleModules.user.id, description: "", file: _file, assignmentId: widget.arguments.assignment.id));
     }
 
     void openFileExplorer() async {
       FilePickerResult result = await FilePicker.platform.pickFiles(
+        allowMultiple: true,
         type: FileType.custom,
-        allowedExtensions: ['pdf', 'doc'],
+        allowedExtensions: ['pdf', 'docx', 'doc'],
       );
 
       if(result != null) {
-        File file = File(result.files.single.path);
+        PlatformFile file = result.files.single;
+        List<String> fileNames = result.names;
+        List<String> filePaths = result.paths;
         print(file.path);
-//        setState(() {
-//          _filename = result.files.single.name;
-//          print(_filename);
-//        });
+        List<File> files = result.files.map((path) => File(path.path)).toList();
+//        List<String> file = result.files.map((e) => e.name).toList();
+        print(result.files.single.extension);
+        setState(() {
+          _filename = file.name;
+          _file = file;
+        });
       }
     }
 
@@ -71,9 +86,6 @@ class SubmitAnswerScreen extends StatelessWidget {
           padding: EdgeInsets.all(20.0),
           child: BlocBuilder<AnswerBloc, AnswerState>(
           builder: (context, state) {
-            // if(state is AnswerEmptyState){
-            //   return ;
-            // }
 
             if (state is AnswerLoadingState){
               return Center(child:
@@ -85,15 +97,17 @@ class SubmitAnswerScreen extends StatelessWidget {
               Future.delayed(Duration(milliseconds: 5), () => Navigator.pushNamedAndRemoveUntil(
                 context,
                 AnswerPage.routeName,  ModalRoute.withName(AssignmentDetailPage.routeName),
-                arguments: arguments.assignment.id,
+                arguments: widget.arguments.assignment.id,
               ),
               );
             }
 
             return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height *0.3,
+                  height: MediaQuery.of(context).size.height *0.20,
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: AnswerAttachButton(
@@ -102,14 +116,12 @@ class SubmitAnswerScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height *0.02,),
+                SizedBox(height: MediaQuery.of(context).size.height *0.05,),
                 Container(
-                  height: MediaQuery.of(context).size.height *0.4,
+                  height: MediaQuery.of(context).size.height *0.40,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Addition and subtraction.pdf", style: ThemeText.menuDropDownText,),
+                      _filename != null ? Text(_filename, style: ThemeText.menuDropDownText, softWrap: true,) : SizedBox(),
                     ],
                   ),
                 ),

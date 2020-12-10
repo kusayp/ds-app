@@ -1,22 +1,22 @@
 [
   {
-    "title": "Choose your item",
+    "title": "Timetable",
     "icon": "assets/images/menu/Timetable.svg",
-    "description": "Easily find your grocery items and you will get delivery in wide range Easily find your grocery items and you will get delivery in wide range"
+    "description": "This app is a school management system that helps yo track your timetable."
   },
   {
-    "title": "Choose your item",
-    "icon": "assets/images/menu/Timetable.svg",
-    "description": "Easily find your grocery items and you will get delivery in wide range Easily find your grocery items and you will get delivery in wide range"
+    "title": "Assignments",
+    "icon": "assets/images/menu/Assignment.svg",
+    "description": "Helps you manage yor everyday assignments"
   },
   {
-    "title": "Choose your item",
-    "icon": "assets/images/menu/Timetable.svg",
-    "description": "Easily find your grocery items and you will get delivery in wide range Easily find your grocery items and you will get delivery in wide range"
+    "title": "Chat Room",
+    "icon": "assets/images/menu/Chat-room.svg",
+    "description": "Helps yo communicate with teachers and friends"
   },
   {
-    "title": "Choose your item",
-    "icon": "assets/images/menu/Timetable.svg",
-    "description": "Easily find your grocery items and you will get delivery in wide range Easily find your grocery items and you will get delivery in wide range"
+    "title": "Payment",
+    "icon": "assets/images/menu/Online-store.svg",
+    "description": "Helps you pay school fees and other fees via mobile payment"
   }
 ]

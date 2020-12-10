@@ -25,7 +25,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
   @override
   void initState() {
     super.initState();
-//    loading = false;
   }
 
   void _showSnackBar(String message, Color color) {
@@ -39,23 +38,14 @@ class _ConversationScreenState extends State<ConversationScreen> {
     BlocProvider.of<ChatBloc>(context).add(FetchChatListEvent(widget.user.id));
   }
 
-//  Widget buildChatList(List<QueryDocumentSnapshot> conversations, FetchedChatListState state){
-//    return ListView.builder(
-//      padding: EdgeInsets.all(10.0),
-//      itemBuilder: (context, index) =>
-//          ChatCard(message: conversations[index],
-//            userId: state.userId,),
-//      itemCount: conversations.length,
-//      reverse: true,
-//      controller: listScrollController,
-//    );
-//  }
-
   Widget timeGroup(String date){
     return Container(
-      width: 70.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: appTheme().primaryColor,
+      ),
+      width: MediaQuery.of(context).size.width *0.20,
       padding: EdgeInsets.all(5.0),
-      color: appTheme().primaryColor,
       child: Text(date, style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
     );
   }
@@ -105,7 +95,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
                               groupSeparatorBuilder: (String groupByValue) => timeGroup(groupByValue),
                               itemBuilder: (context, dynamic element) => ChatCard(message: element,
                                 userId: state.userId,),
-//                              itemComparator: (item1, item2) => item1['name'].compareTo(item2['name']), // optional
                               useStickyGroupSeparators: true, // optional
                               floatingHeader: true, // optional
                               order: GroupedListOrder.ASC, // optional
