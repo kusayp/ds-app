@@ -10,10 +10,11 @@ class LogOut extends StatelessWidget {
   final LoginService service = LoginService();
   void logoutUser(BuildContext context) async {
     LocalStorage prefs = LocalStorage();
-    String userString = await prefs.getSharedPreference("user");
-    LoginResponse user = LoginResponse.fromJson(userString);
-    prefs?.setSharedPreference("user", null);
-    await service.updateUser(1, user, null);
+    // String userString = await prefs.getSharedPreference("user");
+    // LoginResponse user = LoginResponse.fromJson(userString);
+    await prefs?.setSharedPreference("user", null);
+    await prefs?.setSharedPreference("fcm token", null);
+    // await service.updateUser(1, user, null);
     Navigator.pushNamedAndRemoveUntil(
         context,
        "/users",
@@ -33,8 +34,8 @@ class LogOut extends StatelessWidget {
         print("No connection");
       }
     }
-    return Scaffold(
-      backgroundColor: appTheme().backgroundColor,
+    return Center(
+      child: CircularProgressIndicator(),
     );
   }
 }

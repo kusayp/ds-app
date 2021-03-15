@@ -6,7 +6,6 @@ import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
 import 'package:dsapp/screens/screens.dart';
-import 'package:dsapp/services/connection-status-singleton.dart';
 import 'package:dsapp/utils/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,12 +19,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  StreamSubscription _connectionChangeStream;
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _validate = false;
-  // bool isOffline = false;
   String code;
 
 
@@ -33,15 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     code = "+299";
-    // ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
-    // _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);
   }
-
-  // void connectionChanged(dynamic hasConnection) {
-  //   setState(() {
-  //     isOffline = !hasConnection;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
     Widget _buildDropdownItem(Country country) => Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: Container(
-//        width: 60.0,
         child: Row(
           children: <Widget>[
             CountryPickerUtils.getDefaultFlagImage(country),
-//          SizedBox(
-//            width: 8.0,
-//          ),
             Text("+${country.phoneCode}", style: ThemeText.loginInText,),
           ],
         ),
@@ -186,14 +171,6 @@ class _LoginScreenState extends State<LoginScreen> {
               barrierDismissible: false
           );
         }
-
-        // if (isOffline) {
-        //   showDialog(
-        //       context: context,
-        //       builder: (_) => NoConnectionDialog(onButtonPressed: goBackToLogin,),
-        //       barrierDismissible: false
-        //   );
-        // }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
@@ -201,10 +178,6 @@ class _LoginScreenState extends State<LoginScreen> {
             Future.delayed(Duration(milliseconds: 5) ,() => Navigator.pushNamedAndRemoveUntil(context, '/menu', ModalRoute.withName('/menu'), arguments: state.loginResponse));
 
           }
-
-          // if (state is LoginInitial){
-          //   return ;
-          // }
 
           if (state is LoginLoading) {
             return Center(

@@ -27,13 +27,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         _pushNotificationService.initialise();
 
-
         final LoginResponse response = await loginRepository.loginResponse(event.username, event.password);
         sharedPreferences.setSharedPreference("auth_token", response.token);
-        _pushNotificationService.getToken().then((value) async {
+        await _pushNotificationService.getToken().then((value) async {
           print('fcm token: $value');
-          loginRepository.updateUserWithFCMToken(1, response, value);
-          loginRepository.loginToFirebaseWithWithCustomToken(response.user, value);
+          await loginRepository.updateUserWithFCMToken(1, response, value);
+          await sharedPreferences.setSharedPreference("fcm token", response.token);
+          // loginRepository.loginToFirebaseWithWithCustomToken(response.user, value);
         });
         yield LoginSuccess(loginResponse: response);
       }
