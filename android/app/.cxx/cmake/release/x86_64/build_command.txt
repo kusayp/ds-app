@@ -1,0 +1,21 @@
+Executable : /home/godslove/Android/Sdk/cmake/3.10.2.4988404/bin/cmake
+arguments : 
+-H/home/godslove/AndroidStudioProjects/ds_app/android
+-DCMAKE_FIND_ROOT_PATH=/home/godslove/AndroidStudioProjects/ds_app/android/app/.cxx/cmake/release/prefab/x86_64/prefab
+-DCMAKE_BUILD_TYPE=Release
+-DCMAKE_TOOLCHAIN_FILE=/home/godslove/Android/Sdk/ndk/21.3.6528147/build/cmake/android.toolchain.cmake
+-DANDROID_ABI=x86_64
+-DANDROID_NDK=/home/godslove/Android/Sdk/ndk/21.3.6528147
+-DANDROID_PLATFORM=android-16
+-DCMAKE_ANDROID_ARCH_ABI=x86_64
+-DCMAKE_ANDROID_NDK=/home/godslove/Android/Sdk/ndk/21.3.6528147
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/home/godslove/AndroidStudioProjects/ds_app/build/app/intermediates/cmake/release/obj/x86_64
+-DCMAKE_MAKE_PROGRAM=/home/godslove/Android/Sdk/cmake/3.10.2.4988404/bin/ninja
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_SYSTEM_VERSION=16
+-B/home/godslove/AndroidStudioProjects/ds_app/android/app/.cxx/cmake/release/x86_64
+-GNinja
+jvmArgs : 
+
+Build command args:

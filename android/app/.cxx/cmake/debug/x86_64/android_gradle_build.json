@@ -1,0 +1,43 @@
+{
+  "stringTable": {
+    "0": "/home/godslove/AndroidStudioProjects/ds_app/android/app/.cxx/cmake/debug/x86_64",
+    "1": "--target=x86_64-none-linux-android21 --gcc-toolchain=/home/godslove/Android/Sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/godslove/Android/Sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dapi_util_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -O0 -fno-limit-debug-info -fPIC"
+  },
+  "buildFiles": [
+    "/home/godslove/Android/Sdk/ndk/21.3.6528147/build/cmake/android.toolchain.cmake",
+    "/home/godslove/AndroidStudioProjects/ds_app/android/CMakeLists.txt",
+    "/home/godslove/Android/Sdk/ndk/21.3.6528147/build/cmake/platforms.cmake"
+  ],
+  "cleanCommands": [
+    "/home/godslove/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/godslove/AndroidStudioProjects/ds_app/android/app/.cxx/cmake/debug/x86_64\" clean"
+  ],
+  "buildTargetsCommand": "/home/godslove/Android/Sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/home/godslove/AndroidStudioProjects/ds_app/android/app/.cxx/cmake/debug/x86_64\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "api_util-Debug-x86_64": {
+      "buildCommand": "/home/godslove/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/godslove/AndroidStudioProjects/ds_app/android/app/.cxx/cmake/debug/x86_64\" api_util",
+      "buildType": "debug",
+      "toolchain": "1071259",
+      "abi": "x86_64",
+      "artifactName": "api_util",
+      "files": [
+        {
+          "src": "/home/godslove/AndroidStudioProjects/ds_app/ios/Classes/api_util.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "/home/godslove/AndroidStudioProjects/ds_app/build/app/intermediates/cmake/debug/obj/x86_64/libapi_util.so",
+      "runtimeFiles": []
+    }
+  },
+  "toolchains": {
+    "1071259": {
+      "cppCompilerExecutable": "/home/godslove/Android/Sdk/ndk/21.3.6528147/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

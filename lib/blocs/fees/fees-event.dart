@@ -14,3 +14,24 @@ class FetchingFeesEvent extends FeesEvent {
   @override
   List<Object> get props => [];
 }
+
+class KkiaPaymentEvent extends FeesEvent {
+  // final KKiaPayModel model;
+  final int klass;
+  final int student;
+  // final int payUser;
+  final int fee;
+  final int amount;
+  final String transactionId;
+  KkiaPaymentEvent({
+    this.klass,
+    this.student,
+    // this.payUser,
+    this.fee,
+    this.amount,
+    this.transactionId,
+    // this.model,
+  });
+  @override
+  List<Object> get props => [];
+}

@@ -1,0 +1,2 @@
+ninja: Entering directory `/home/godslove/AndroidStudioProjects/ds_app/android/app/.cxx/cmake/debug/x86_64'
+ninja: no work to do.

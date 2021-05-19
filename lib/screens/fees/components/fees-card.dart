@@ -21,11 +21,12 @@ class FeesCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          FeeInstallmentPage.routeName,
-          arguments: InstallmentArgument(classId: classId, userId: userId, feesId: fees.id.toString(), name: fees.type.name)
-        );
+        Navigator.pushNamed(context, FeeInstallmentPage.routeName,
+            arguments: InstallmentArgument(
+                classId: classId,
+                userId: userId,
+                feesId: fees.id.toString(),
+                name: fees.type.name));
       },
       child: Card(
         color: Colors.redAccent,
@@ -50,13 +51,13 @@ class FeesCard extends StatelessWidget {
               SizedBox(
                 height: 8.0,
               ),
-              Text(
-                "Mathematics",
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black26),
-              ),
+              // Text(
+              //   "Mathematics",
+              //   style: TextStyle(
+              //       fontSize: 12,
+              //       fontWeight: FontWeight.w400,
+              //       color: Colors.black26),
+              // ),
               Divider(
                 color: Colors.white,
                 thickness: 1.2,
@@ -67,7 +68,14 @@ class FeesCard extends StatelessWidget {
                     child: Material(
                       color: Colors.white, // button color
                       child: InkWell(
-                        child: SizedBox(width: 15.0, height: 15.0, child: Icon(Icons.check, color: Colors.red, size: 14.0,)),
+                        child: SizedBox(
+                            width: 15.0,
+                            height: 15.0,
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.red,
+                              size: 14.0,
+                            )),
                         onTap: () {},
                       ),
                     ),
@@ -106,26 +114,42 @@ class PaymentAlertDialog1 extends StatelessWidget {
               color: Colors.green, // button color
               child: InkWell(
                 splashColor: Colors.red, // inkwell color
-                child: SizedBox(width: 56, height: 56, child: Icon(Icons.check, color: Colors.white, size: 50,)),
+                child: SizedBox(
+                    width: 56,
+                    height: 56,
+                    child: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                      size: 50,
+                    )),
                 onTap: () {},
               ),
             ),
           ),
         ),
         content: Text("Payment Successfully Received"),
-        actions: [FlatButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
+        actions: [
+          FlatButton(onPressed: () => Navigator.pop(context), child: Text("OK"))
+        ],
       ),
     );
   }
 }
 
 class PaymentAlertDialog extends StatelessWidget {
+  final String transactionId;
+  final String message;
+  final String note;
+  final VoidCallback onPressed;
+
+  const PaymentAlertDialog(
+      {Key key, this.transactionId, this.message, this.note, this.onPressed})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-          borderRadius:
-          BorderRadius.circular(5.0)), //this right here
+          borderRadius: BorderRadius.circular(5.0)), //this right here
       child: Container(
         height: 200,
         child: Padding(
@@ -140,21 +164,34 @@ class PaymentAlertDialog extends StatelessWidget {
                     color: Colors.green, // button color
                     child: InkWell(
                       splashColor: Colors.red, // inkwell color
-                      child: SizedBox(width: 56, height: 56, child: Icon(Icons.check, color: Colors.white, size: 50,)),
+                      child: SizedBox(
+                          width: 56,
+                          height: 56,
+                          child: Icon(
+                            Icons.check,
+                            color: Colors.white,
+                            size: 50,
+                          )),
                       onTap: () {},
                     ),
                   ),
                 ),
               ),
-              Text("Payment Successfully Received"),
+              Text("$message"),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text("$note"),
               SizedBox(
                 width: 320.0,
                 child: RaisedButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: onPressed,
                   child: Center(
                     child: Text(
                       "OK",
-                      style: TextStyle(color: Colors.white,),
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   color: appTheme().primaryColor,
@@ -168,3 +205,25 @@ class PaymentAlertDialog extends StatelessWidget {
   }
 }
 
+class SuccessScreen extends StatelessWidget {
+  final int amount;
+  final transactionId;
+
+  const SuccessScreen({this.amount, this.transactionId});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        // appBar: AppBar(
+        //   title: Text('PAYMENT SUCCESSFUL'),
+        // ),
+        body: Center(
+          child: Text(
+            "Votre paiement de $amount Fcfa a été recu avec succès et l'ID de la transaction est $transactionId",
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+}

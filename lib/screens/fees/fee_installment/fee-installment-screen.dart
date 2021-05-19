@@ -1,5 +1,6 @@
 import 'package:dsapp/blocs/blocs.dart';
 import 'package:dsapp/generated/l10n.dart';
+import 'package:dsapp/models/fees/fees.dart';
 import 'package:dsapp/models/fees/installments-arguments.dart';
 import 'package:dsapp/screens/fees/fee_payment/fee-payment-page.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
@@ -17,7 +18,7 @@ class FeeInstallmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void goToPaymentPage(){
-      Navigator.pushNamed(context, FeePaymentPage.routeName,);
+      Navigator.pushNamed(context, FeePaymentPage.routeName, arguments: KKiaPayArguments(student: int.parse(arguments.userId), fee: int.parse(arguments.feesId), schoolClass: int.parse(arguments.classId), payerUserId: int.parse(arguments.userId)));
     }
 
     void initPage() {

@@ -11,11 +11,14 @@ import '../../utils/shared-preference.dart';
 class OnBoardingBloc extends Bloc<OnBoardingEvent, OnBoardingState> {
   final OnBoardingRepository onBoardingRepository;
 
-  OnBoardingBloc({@required this.onBoardingRepository}) : assert(onBoardingRepository !=  null), super(OnBoardingEmpty());
+  OnBoardingBloc({@required this.onBoardingRepository})
+      : assert(onBoardingRepository != null),
+        super(OnBoardingEmpty());
 
   @override
   void onTransition(Transition<OnBoardingEvent, OnBoardingState> transition) {
-    print(transition);    super.onTransition(transition);
+    print(transition);
+    super.onTransition(transition);
   }
 
   @override
@@ -26,39 +29,36 @@ class OnBoardingBloc extends Bloc<OnBoardingEvent, OnBoardingState> {
       bool onBoardingViewed = await prefs.isOnBoardingViewed();
       String user = await prefs.getSharedPreference("user");
       try {
-        if (user != null){
+        if (user != null) {
           LoginResponse loginResponse = LoginResponse.fromJson(user);
-          print(loginResponse);
           var role = loginResponse.schools[0].role.name;
-          RoleModules roleModules = await MenuService().loadUserRoleModules(role);
+          RoleModules roleModules =
+              await MenuService().loadUserRoleModules(role);
           List<Module> modules = roleModules.modules;
           yield OnBoardingUserLoggedIn(modules: modules);
-        } else if(onBoardingViewed){
+        } else if (onBoardingViewed) {
           yield OnBoardingViewedState();
-        }
-        else{
-          final OnBoardingModelList onBoardingModelList = await onBoardingRepository.getOnBoardingData();
+        } else {
+          final OnBoardingModelList onBoardingModelList =
+              await onBoardingRepository.getOnBoardingData();
           yield OnBoardingLoaded(onBoardingModelList: onBoardingModelList);
         }
-      }
-      catch (_) {
+      } catch (_) {
         yield OnBoardingError();
       }
     }
-    if (event is OnBoardingViewedEvent){
+    if (event is OnBoardingViewedEvent) {
       yield OnBoardingViewedState();
     }
 
-    if (event is OnBoardingUserLoggedInEvent){
+    if (event is OnBoardingUserLoggedInEvent) {
       LocalStorage prefs = LocalStorage();
       String user = await prefs.getSharedPreference("user");
       LoginResponse loginResponse = LoginResponse.fromJson(user);
       var role = loginResponse.schools.single.role.name;
       RoleModules roleModules = await MenuService().loadUserRoleModules(role);
       List<Module> modules = roleModules.modules;
-    yield OnBoardingUserLoggedIn(modules: modules);
+      yield OnBoardingUserLoggedIn(modules: modules);
     }
   }
-
-
 }

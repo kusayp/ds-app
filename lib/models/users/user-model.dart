@@ -31,34 +31,37 @@ class UserModel extends Equatable {
   final bool classPrefect;
   bool isPresent = false;
   final customFBToken;
+  final String address1;
 
-  UserModel(
-      {this.id,
-      this.password,
-      this.token,
-      this.phone,
-      this.email,
-      this.picture,
-      this.school,
-      this.registrationNumber,
-      this.gender,
-      this.pseudo,
-      this.dateOfBirth,
-      this.middleName,
-      this.lastName,
-      this.firstName,
-      this.active,
-      this.studentClass,
-      this.defaultPassword,
-      this.dob,
-      this.deviceId,
-      this.fullName,
-      this.genderText,
-      this.role,
-      this.roles,
-      this.whatsAppPhone,
-      this.classPrefect,
-      this.customFBToken});
+  UserModel({
+    this.id,
+    this.password,
+    this.token,
+    this.phone,
+    this.email,
+    this.picture,
+    this.school,
+    this.registrationNumber,
+    this.gender,
+    this.pseudo,
+    this.dateOfBirth,
+    this.middleName,
+    this.lastName,
+    this.firstName,
+    this.active,
+    this.studentClass,
+    this.defaultPassword,
+    this.dob,
+    this.deviceId,
+    this.fullName,
+    this.genderText,
+    this.role,
+    this.roles,
+    this.whatsAppPhone,
+    this.classPrefect,
+    this.customFBToken,
+    this.address1,
+  });
 
   @override
   List<Object> get props => [
@@ -88,7 +91,8 @@ class UserModel extends Equatable {
         picture,
         classPrefect,
         isPresent,
-        customFBToken
+        customFBToken,
+        address1,
       ];
 
   static UserModel fromJson(Map<String, dynamic> json) {
@@ -110,7 +114,8 @@ class UserModel extends Equatable {
           : null,
       picture: json['picture'],
       classPrefect: json['classPrefect'],
-      customFBToken: json['customFBToken']
+      customFBToken: json['customFBToken'],
+      address1: json['address1'],
     );
   }
 
@@ -128,6 +133,7 @@ class UserModel extends Equatable {
         'studentClass': SchoolClassModel.toJson(userModel.studentClass),
         'picture': userModel.picture,
         'classPrefect': userModel.classPrefect,
+        'address1': userModel.address1,
       };
 
   set setRole(int role) {

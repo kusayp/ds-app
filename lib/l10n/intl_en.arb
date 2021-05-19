@@ -75,5 +75,11 @@
   "timetable": "Timetable",
   "loginWithEmail": "Login with Email",
   "loginWithRegNumber": "Login with Reg. Number",
-  "loginWithPhone": "Login with Phone"
+  "loginWithPhone": "Login with Phone",
+  "owner": "Name",
+  "p_number": "MoMo Number",
+  "p_amount": "Amount",
+  "p_reason": "Reason",
+  "p_pay": "PAY",
+  "name": "Name"
 }

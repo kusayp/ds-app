@@ -10,11 +10,9 @@ class UsersScreen extends StatefulWidget {
 class _UsersScreenState extends State<UsersScreen> {
   @override
   Widget build(BuildContext context) {
-//    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: appTheme().backgroundColor,
       body: Column(
-//        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             height: 400.0,
@@ -22,8 +20,6 @@ class _UsersScreenState extends State<UsersScreen> {
           Padding(
             padding: const EdgeInsets.only(top: 50.0, left: 50.0, right: 50.0),
             child: Container(
-//            height: size.height / 2,
-//              color: Colors.amber,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -55,7 +51,7 @@ class _UsersScreenState extends State<UsersScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0)),
                       color: appTheme().primaryColor,
-                      onPressed: () =>  _getUserTapped(1),
+                      onPressed: () => _getUserTapped(1),
                       child: Text(S.of(context).loginWithPhone,
                           style: TextStyle(fontSize: 14, color: Colors.white)),
                     ),
