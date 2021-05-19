@@ -46,24 +46,26 @@ class _MenuScreenState extends State<MenuScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        height: MediaQuery.of(context).size.height*0.05,
+                        height: MediaQuery.of(context).size.height * 0.05,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              widget.user.firstName +
-                                  ' ' +
-                                  widget.user.lastName,
+                              widget.user.getFullName,
                               style: TextStyle(fontSize: 20.0),
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(context, NotificationPage.routeName,
-                                    arguments: widget.schools[initialValue - 1].id.toString());
+                                Navigator.pushNamed(
+                                    context, NotificationPage.routeName,
+                                    arguments: widget
+                                        .schools[initialValue - 1].id
+                                        .toString());
                               },
                               child: SvgPicture.asset(
-                                  "assets/images/menu/Notification.svg",),
+                                "assets/images/menu/Notification.svg",
+                              ),
                             ),
                           ],
                         ),
@@ -80,7 +82,8 @@ class _MenuScreenState extends State<MenuScreen> {
                               BlocProvider.of<MenuBloc>(context).add(
                                   MenuDropDownSelected(
                                       school: widget.schools[initialValue - 1],
-                                      role: widget.schools[initialValue - 1].role.name,
+                                      role: widget
+                                          .schools[initialValue - 1].role.name,
                                       user: widget.user));
                             }),
                       ),

@@ -22,8 +22,18 @@ class FeesLoadedState extends FeesState {
 
 class FeesLoadingState extends FeesState {}
 
+class FeesPaidState extends FeesState {}
+
 class FeesErrorState extends FeesState {
   final String errorMessage;
+  final KKiaPayModel item;
 
-  FeesErrorState(this.errorMessage);
+  FeesErrorState(this.errorMessage, {this.item});
+}
+
+class SendPaymentToApiErrorState extends FeesState {
+  final String errorMessage;
+  final KKiaPayModel item;
+
+  SendPaymentToApiErrorState(this.errorMessage, this.item);
 }

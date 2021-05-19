@@ -5,7 +5,7 @@ import 'package:dsapp/utils/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class InstallmentCard extends StatelessWidget{
+class InstallmentCard extends StatelessWidget {
   final Installment installment;
 
   const InstallmentCard({Key key, this.installment}) : super(key: key);
@@ -16,20 +16,41 @@ class InstallmentCard extends StatelessWidget{
       elevation: 4,
       shape: Border(
           left: BorderSide(
-            color: Colors.amber,
-            width: 2,
-          )
-      ),
+        color: Colors.amber,
+        width: 2,
+      )),
       child: Padding(
-        padding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20,),
+        padding: const EdgeInsets.only(
+          top: 10,
+          bottom: 10,
+          left: 20,
+          right: 20,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(installment.type, style: TextStyle(fontSize: 16, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
-                Text(S.of(context).dueDate + Common.formatDate(installment.dueDate), style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
+                Flexible(
+                  child: Text(
+                    installment.type,
+                    style: TextStyle(
+                      fontSize: 16,
+                      letterSpacing: 1.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                Text(
+                  S.of(context).dueDate +
+                      Common.formatDate(installment.dueDate),
+                  style: TextStyle(
+                    fontSize: 12,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ],
             ),
             SizedBox(
@@ -38,8 +59,22 @@ class InstallmentCard extends StatelessWidget{
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(S.of(context).overdue, style: TextStyle(fontSize: 1, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
-                Text(installment.percentage.toString() + "% of Fee", style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
+                Text(
+                  S.of(context).overdue,
+                  style: TextStyle(
+                    fontSize: 1,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text(
+                  installment.percentage.toString() + "% of Fee",
+                  style: TextStyle(
+                    fontSize: 12,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ],
             ),
           ],
@@ -47,7 +82,6 @@ class InstallmentCard extends StatelessWidget{
       ),
     );
   }
-
 }
 
 class HistoryRow extends StatelessWidget {
@@ -67,9 +101,11 @@ class HistoryRow extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 10.0),
-          child: Divider(color: Colors.amber, ),
+          child: Divider(
+            color: Colors.amber,
+          ),
         ),
-    ],
+      ],
     );
   }
 }

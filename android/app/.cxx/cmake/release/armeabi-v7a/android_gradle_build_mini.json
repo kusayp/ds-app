@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/home/godslove/Android/Sdk/ndk/21.3.6528147/build/cmake/android.toolchain.cmake",
+    "/home/godslove/AndroidStudioProjects/ds_app/android/CMakeLists.txt",
+    "/home/godslove/Android/Sdk/ndk/21.3.6528147/build/cmake/platforms.cmake"
+  ],
+  "cleanCommands": [
+    "/home/godslove/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/godslove/AndroidStudioProjects/ds_app/android/app/.cxx/cmake/release/armeabi-v7a\" clean"
+  ],
+  "buildTargetsCommand": "/home/godslove/Android/Sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/home/godslove/AndroidStudioProjects/ds_app/android/app/.cxx/cmake/release/armeabi-v7a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "api_util-Release-armeabi-v7a": {
+      "artifactName": "api_util",
+      "buildCommand": "/home/godslove/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/godslove/AndroidStudioProjects/ds_app/android/app/.cxx/cmake/release/armeabi-v7a\" api_util",
+      "abi": "armeabi-v7a",
+      "output": "/home/godslove/AndroidStudioProjects/ds_app/build/app/intermediates/cmake/release/obj/armeabi-v7a/libapi_util.so",
+      "runtimeFiles": []
+    }
+  }
+}

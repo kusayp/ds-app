@@ -35,7 +35,7 @@ class ProfileScreen extends StatelessWidget {
 
     List<Widget> buildParentChildren(List<UserModel> wards) {
       final children = <Widget>[];
-      for (int i = 0; i < children.length; i++) {
+      for (int i = 0; i < wards.length; i++) {
         children.add(
             Text(sprintf('%s %s', [wards[i].firstName, wards[i].lastName])));
       }
@@ -63,31 +63,31 @@ class ProfileScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
-              child:
-//              userDetails.user.picture != null ? Align(
-//                alignment: Alignment.bottomCenter,
-//                child: CircleAvatar(
-//                  backgroundImage: NetworkImage(userDetails.user.picture),
-//                  radius: 70.0,
-//                ),
-//              )
-//      :
-
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: CircleAvatar(
-                  backgroundImage:
-                  AssetImage('assets/images/payment/download.jpeg'),
-                  radius: 70.0,
-                ),
-              ),
+              child: userDetails.user.picture != null
+                  ? Align(
+                      alignment: Alignment.bottomCenter,
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(userDetails.user.picture),
+                        radius: 70.0,
+                      ),
+                    )
+                  : Align(
+                      alignment: Alignment.bottomCenter,
+                      child: CircleAvatar(
+                        backgroundImage:
+                            AssetImage('assets/images/payment/download.jpeg'),
+                        radius: 70.0,
+                      ),
+                    ),
             ),
 //          SizedBox(height: 5.0,),
             Text(
-              sprintf('%s %s', [
-                userDetails.user.firstName.toUpperCase(),
-                userDetails.user.lastName.toUpperCase()
-              ]),
+              userDetails.user.getFullName,
+              // sprintf('%s %s', [
+              //   userDetails.user.firstName.toUpperCase(),
+              //   userDetails.user.lastName.toUpperCase()
+              // ],
+              // ),
               style: TextStyle(
                 fontSize: 24,
               ),
@@ -97,7 +97,7 @@ class ProfileScreen extends StatelessWidget {
                 ? Padding(
                     padding: const EdgeInsets.only(top: 10.0, bottom: 20.0),
                     child: Text(
-                      userDetails.school.studentClass.name,
+                      userDetails.school.studentClass.name ?? "",
                       style: TextStyle(fontSize: 14),
                       textAlign: TextAlign.center,
                     ),
@@ -109,95 +109,111 @@ class ProfileScreen extends StatelessWidget {
                 padding: EdgeInsets.all(10.0),
                 height: MediaQuery.of(context).size.height / 5,
                 color: Colors.black12,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(S.of(context).email),
-                        Text(userDetails.user.email),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: Row(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(S.of(context).phone),
-                          Text(userDetails.user.phone),
+                          Text(S.of(context).email),
+                          Text(userDetails.user.email ?? ""),
                         ],
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(S.of(context).address),
-                        Text("12th street, holme"),
-                      ],
-                    ),
-                    isTeacher
-                        ? Padding(
-                            padding:
-                                const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(S.of(context).classes),
-                                Column(
-                                  children: buildTeacherClasses(
-                                      userDetails.school.teacherClasses),
-                                ),
-                              ],
-                            ),
-                          )
-                        : SizedBox(),
-                    isStudent
-                        ? Padding(
-                            padding:
-                                const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(S.of(context).subject),
-                                Column(
-                                  children: buildStudentSubjects(
-                                      userDetails.school.subjects),
-                                ),
-                              ],
-                            ),
-                          )
-                        : SizedBox(),
-                    isParent
-                        ? Padding(
-                            padding:
-                                const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(S.of(context).children),
-                                Column(
-                                  children: buildParentChildren(
-                                      userDetails.school.children),
-                                ),
-                              ],
-                            ),
-                          )
-                        : SizedBox(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(S.of(context).contactSchool),
-                        Column(
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              userDetails.school.address1 ?? "",
-                              textAlign: TextAlign.center,
-                            ),
+                            Text(S.of(context).phone),
+                            Text(userDetails.user.phone ?? ""),
                           ],
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(S.of(context).address),
+                          Text(userDetails.user.address1 ?? ""),
+                        ],
+                      ),
+                      isTeacher
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10.0, bottom: 10.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(S.of(context).classes),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: buildTeacherClasses(
+                                        userDetails.school.teacherClasses),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : SizedBox(),
+                      isStudent
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10.0, bottom: 10.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(S.of(context).subject),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: buildStudentSubjects(
+                                        userDetails.school.subjects),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : SizedBox(),
+                      isParent
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10.0, bottom: 10.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(S.of(context).children),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: buildParentChildren(
+                                        userDetails.school.children),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : SizedBox(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(S.of(context).contactSchool),
+                          Column(
+                            children: [
+                              Text(
+                                userDetails.school.address1 ?? "",
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

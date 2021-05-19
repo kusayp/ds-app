@@ -804,6 +804,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Name`
+  String get owner {
+    return Intl.message(
+      'Name',
+      name: 'owner',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `MoMo Number`
+  String get p_number {
+    return Intl.message(
+      'MoMo Number',
+      name: 'p_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get p_amount {
+    return Intl.message(
+      'Amount',
+      name: 'p_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reason`
+  String get p_reason {
+    return Intl.message(
+      'Reason',
+      name: 'p_reason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PAY`
+  String get p_pay {
+    return Intl.message(
+      'PAY',
+      name: 'p_pay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get name {
+    return Intl.message(
+      'Name',
+      name: 'name',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

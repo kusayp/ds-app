@@ -34,8 +34,7 @@ class AssignmentScreen extends StatelessWidget {
                     errorMessage: state.errorMessage,
                     onButtonPressed: goBack,
                   ),
-              barrierDismissible: false
-          );
+              barrierDismissible: false);
         }
       },
       child: SafeArea(
@@ -48,7 +47,7 @@ class AssignmentScreen extends StatelessWidget {
                   Divider(
                     color: Colors.black,
                     thickness: 1.0,
-                    indent: MediaQuery.of(context).size.width * 0.17,
+                    indent: MediaQuery.of(context).size.width * 0.21,
                   ),
                   Text(
                     S.of(context).currentWeek,

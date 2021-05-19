@@ -175,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           if (state is LoginSuccess) {
-            Future.delayed(Duration(milliseconds: 5) ,() => Navigator.pushNamedAndRemoveUntil(context, '/menu', ModalRoute.withName('/menu'), arguments: state.loginResponse));
+            Future.delayed(Duration(milliseconds: 2) ,() => Navigator.pushNamedAndRemoveUntil(context, '/menu', ModalRoute.withName('/menu'), arguments: state.loginResponse));
 
           }
 

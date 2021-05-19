@@ -17,4 +17,8 @@ class FeesRepository {
   Future<PaymentList> getPaymentList(schoolId, classId, userId, feesId) async {
     return await feesService.getPayments(schoolId, classId, userId, feesId);
   }
+
+  Future<void> sendPaymentTransaction(int schoolId, KKiaPayModel item) async {
+    return await feesService.sendPaymentTransaction(schoolId, item);
+  }
 }

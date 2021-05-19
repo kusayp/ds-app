@@ -5,10 +5,10 @@ import 'package:dsapp/generated/l10n.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/screens/login/components/login-field-component.dart';
 import 'package:dsapp/screens/screens.dart';
-import 'package:dsapp/utils/style.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class SubmitAnswerScreen extends StatefulWidget {
   final AssignmentAnswerArguments arguments;
@@ -27,17 +27,20 @@ class _SubmitAnswerScreenState extends State<SubmitAnswerScreen> {
   Widget build(BuildContext context) {
     void viewSubmitAnswersPage() {
       BlocProvider.of<AnswerBloc>(context).add(AssignmentAnswerEvent(
-          student: widget.arguments.menuArguments.roleModules.user.id, description: "", file: _file, assignmentId: widget.arguments.assignment.id));
+          student: widget.arguments.menuArguments.roleModules.user.id,
+          description: "",
+          file: _file,
+          assignmentId: widget.arguments.assignment.id));
     }
 
     void openFileExplorer() async {
       FilePickerResult result = await FilePicker.platform.pickFiles(
         allowMultiple: true,
         type: FileType.custom,
-        allowedExtensions: ['pdf', 'docx', 'doc'],
+        allowedExtensions: ['pdf'],
       );
 
-      if(result != null) {
+      if (result != null) {
         PlatformFile file = result.files.single;
         List<String> fileNames = result.names;
         List<String> filePaths = result.paths;
@@ -66,39 +69,40 @@ class _SubmitAnswerScreenState extends State<SubmitAnswerScreen> {
     return SafeArea(
       child: BlocListener<AnswerBloc, AnswerState>(
         listener: (context, state) {
-          if (state is AnswerErrorState){
+          if (state is AnswerErrorState) {
             showDialog(
                 context: context,
                 builder: (_) => ErrorDialog(
-                  errorMessage: state.errorMessage,
-                  onButtonPressed: goBack,
-                ),
-                barrierDismissible: false
-            );
+                      errorMessage: state.errorMessage,
+                      onButtonPressed: goBack,
+                    ),
+                barrierDismissible: false);
           }
 
-          if (state is AnswerSavedState){
-            _showSnackBar(S.of(context).answerSuccessfullySubmitted, Colors.green);
+          if (state is AnswerSavedState) {
+            _showSnackBar(
+                S.of(context).answerSuccessfullySubmitted, Colors.green);
           }
-
         },
         child: Padding(
           padding: EdgeInsets.all(20.0),
-          child: BlocBuilder<AnswerBloc, AnswerState>(
-          builder: (context, state) {
-
-            if (state is AnswerLoadingState){
-              return Center(child:
-              CircularProgressIndicator(),
+          child:
+              BlocBuilder<AnswerBloc, AnswerState>(builder: (context, state) {
+            if (state is AnswerLoadingState) {
+              return Center(
+                child: CircularProgressIndicator(),
               );
             }
 
             if (state is AnswerSavedState) {
-              Future.delayed(Duration(milliseconds: 5), () => Navigator.pushNamedAndRemoveUntil(
-                context,
-                AnswerPage.routeName,  ModalRoute.withName(AssignmentDetailPage.routeName),
-                arguments: widget.arguments.assignment.id,
-              ),
+              Future.delayed(
+                Duration(milliseconds: 5),
+                () => Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AnswerPage.routeName,
+                  ModalRoute.withName(AssignmentDetailPage.routeName),
+                  arguments: widget.arguments.assignment.id,
+                ),
               );
             }
 
@@ -107,7 +111,7 @@ class _SubmitAnswerScreenState extends State<SubmitAnswerScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height *0.20,
+                  height: MediaQuery.of(context).size.height * 0.15,
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: AnswerAttachButton(
@@ -116,22 +120,39 @@ class _SubmitAnswerScreenState extends State<SubmitAnswerScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height *0.05,),
-                Container(
-                  height: MediaQuery.of(context).size.height *0.40,
-                  child: Column(
-                    children: [
-                      _filename != null ? Text(_filename, style: ThemeText.menuDropDownText, softWrap: true,) : SizedBox(),
-                    ],
-                  ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
                 ),
-                LoginButton(buttonText: S.of(context).submit, onButtonPressed: viewSubmitAnswersPage,)
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.45,
+                  child: _filename != null
+                      ? PDFView(
+                          filePath: _file.path,
+                          enableSwipe: true,
+                          swipeHorizontal: true,
+                          autoSpacing: false,
+                          pageFling: true,
+                          pageSnap: true,
+                          fitPolicy: FitPolicy.BOTH,
+                          preventLinkNavigation: false,
+                        )
+                      : SizedBox(),
+                ),
+                LoginButton(
+                  buttonText: S.of(context).submit,
+                  onButtonPressed: viewSubmitAnswersPage,
+                )
               ],
             );
-          }
-          ),
+          }),
         ),
       ),
     );
   }
 }
+
+// Text(
+// _filename,
+// style: ThemeText.menuDropDownText,
+// softWrap: true,
+// ),
