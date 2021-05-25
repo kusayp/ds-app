@@ -1,0 +1,29 @@
+{
+  "role": "PARENT",
+  "modules": [
+    {
+      "id": 8,
+      "menu": "Profil",
+      "url": "profile",
+      "icon": "assets/images/menu/Profile.svg",
+      "description": "Profil",
+      "events": [
+        {
+          "name": "ADD"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "menu": "Déconnexion",
+      "url": "logout",
+      "icon": "assets/images/menu/Logout.svg",
+      "description": "Déconnexion",
+      "events": [
+        {
+          "name": "ADD"
+        }
+      ]
+    }
+  ]
+}

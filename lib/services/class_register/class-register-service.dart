@@ -1,11 +1,10 @@
 import 'dart:convert';
 
 import 'package:dsapp/exceptions/api-exceptions.dart';
-import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/models/models.dart';
+import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/utils/shared-preference.dart';
 import 'package:http/http.dart' as http;
-import 'package:sprintf/sprintf.dart';
 
 class ClassRegisterService {
   final baseUrl = CommonConstants.baseUrl;
@@ -24,18 +23,22 @@ class ClassRegisterService {
       'Authorization': 'Bearer ' + user.token,
     };
 
-    String endpoint = sprintf('%s%s/%s/%s/%s/%s', [baseUrl, 'schools', schoolId, 'classes', classId, url]);
+    String endpoint = "${baseUrl}schools/$schoolId/classes/$classId/$url";
 
-    final response = await http.get(endpoint, headers: headers,);
+    final response = await http.get(
+      endpoint,
+      headers: headers,
+    );
     print(response.body);
-    if(response.statusCode != 200) {
+    if (response.statusCode != 200) {
       print(response.body);
       throw new RestErrorHandling().handleError(response);
     }
     return TimeTablePageData.fromJson(response.body);
   }
 
-  Future<TimeTablePageData> getListOfActorsInClass(schoolId, classId, scheduleId) async {
+  Future<TimeTablePageData> getListOfActorsInClass(
+      schoolId, classId, scheduleId) async {
     String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
@@ -45,11 +48,15 @@ class ClassRegisterService {
       'Authorization': 'Bearer ' + user.token,
     };
 
-    String endpoint = sprintf('%s%s/%s/%s/%s/%s?filter=subject|%s', [baseUrl, 'schools', schoolId, 'classes', classId, url, scheduleId]);
+    String endpoint =
+        "${baseUrl}schools/$schoolId/classes/$classId/$url?filter=subject|$scheduleId";
 
-    final response = await http.get(endpoint, headers: headers,);
+    final response = await http.get(
+      endpoint,
+      headers: headers,
+    );
     print(response.body);
-    if(response.statusCode != 200) {
+    if (response.statusCode != 200) {
       print(response.body);
       throw new RestErrorHandling().handleError(response);
     }
@@ -66,21 +73,26 @@ class ClassRegisterService {
       'Authorization': 'Bearer ' + user.token,
     };
 
-    String endpoint = sprintf('%s%s/%s/%s/%s/%s', [baseUrl, 'schools', schoolId, 'classes', classId, url]);
+    String endpoint = "${baseUrl}schools/$schoolId/classes/$classId/$url";
 
-    final response = await http.get(endpoint, headers: headers,);
+    final response = await http.get(
+      endpoint,
+      headers: headers,
+    );
     print(response.body);
-    if(response.statusCode != 200) {
+    if (response.statusCode != 200) {
       print(response.body);
       throw new RestErrorHandling().handleError(response);
     }
     return UserModelPageData.fromJson(response.body);
   }
 
-  Future<void> saveClassRegister(schoolId, classSchedule, userId, present) async {
+  Future<void> saveClassRegister(
+      schoolId, classSchedule, userId, present) async {
     String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
-    String endpoint = sprintf('%s%s/%s/%s', [baseUrl, 'schools', schoolId, 'class-registers']);
+
+    String endpoint = "${baseUrl}schools/$schoolId/class-registers";
 
     final Map<String, dynamic> data = {
       "actor": userId,
@@ -93,23 +105,29 @@ class ClassRegisterService {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + user.token,
         },
-        body: jsonEncode(data)
-    );
+        body: jsonEncode(data));
 
-    if(response.statusCode != 200) {
+    if (response.statusCode != 200) {
       print(response.statusCode);
       throw new RestErrorHandling().handleError(response);
     }
     print(response.body);
   }
 
-  Future<void> saveClassRegisterBatch(String schoolId, TimeTableModel classSchedule, List<ClassRegisterSave> classRegisters) async {
+  Future<void> saveClassRegisterBatch(
+      String schoolId,
+      TimeTableModel classSchedule,
+      List<ClassRegisterSave> classRegisters) async {
     String userString = await prefs.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
-    String endpoint = sprintf('%s/%s/%s/%s/%s', [mobileBaseUrl, schoolId, 'classes', classSchedule.schoolClass.id, batchUrl]);
+
+    String endpoint =
+        "$mobileBaseUrl/$schoolId/classes/${classSchedule.schoolClass.id}/$batchUrl";
 
     final Map<String, List<Map<String, dynamic>>> data = {
-      "registers": classRegisters.isNotEmpty ? classRegisters.map((e) => ClassRegisterSave.toJson(e)).toList() : null,
+      "registers": classRegisters.isNotEmpty
+          ? classRegisters.map((e) => ClassRegisterSave.toJson(e)).toList()
+          : null,
     };
     final response = await http.post(endpoint,
         headers: <String, String>{
@@ -117,10 +135,9 @@ class ClassRegisterService {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + user.token,
         },
-        body: jsonEncode(data)
-    );
+        body: jsonEncode(data));
 
-    if(response.statusCode != 200) {
+    if (response.statusCode != 200) {
       print(response.body);
       print("Success");
       throw new RestErrorHandling().handleError(response);

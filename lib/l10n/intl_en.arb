@@ -81,5 +81,18 @@
   "p_amount": "Amount",
   "p_reason": "Reason",
   "p_pay": "PAY",
-  "name": "Name"
+  "name": "Name",
+  "amountErrorString": "Please enter amount to pay",
+  "paymentSuccessfulText": "Payment successfully received",
+  "thankYouText": "Thank you",
+  "paymentUnsuccessfullyText": "Payment receipt not successfully",
+  "tryAgain": "Try again",
+  "mon": "Mon",
+  "thu": "Thu",
+  "tue": "Tue",
+  "wed": "Wed",
+  "fri": "Fri",
+  "sat": "Sat",
+  "sun": "Sun",
+  "overview": "Overview"
 }

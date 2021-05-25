@@ -5,9 +5,10 @@ import 'package:flutter/foundation.dart';
 class OnBoardingRepository {
   final OnBoardingService onBoardingService;
 
-  OnBoardingRepository({@required this.onBoardingService}) : assert(onBoardingService != null);
+  OnBoardingRepository({@required this.onBoardingService})
+      : assert(onBoardingService != null);
 
-  Future<OnBoardingModelList> getOnBoardingData() async {
-    return await onBoardingService.loadOnBoardingModel();
+  Future<OnBoardingModelList> getOnBoardingData(locale) async {
+    return await onBoardingService.loadOnBoardingModel(locale);
   }
 }

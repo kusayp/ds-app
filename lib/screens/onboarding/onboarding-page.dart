@@ -9,13 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OnBoardingPageScreen extends StatelessWidget {
-  final OnBoardingRepository onBoardingRepository = OnBoardingRepository(onBoardingService: OnBoardingService());
+  final OnBoardingRepository onBoardingRepository =
+      OnBoardingRepository(onBoardingService: OnBoardingService());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => OnBoardingBloc(onBoardingRepository: onBoardingRepository),
+        create: (context) =>
+            OnBoardingBloc(onBoardingRepository: onBoardingRepository),
         child: OnBoardingPage(),
       ),
     );
@@ -29,6 +31,7 @@ class OnBoardingPage extends StatefulWidget {
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
+  LocalStorage prefs = LocalStorage();
 
   @override
   void initState() {
@@ -37,15 +40,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   }
 
   _loadUserInfo() async {
-    LocalStorage prefs = LocalStorage();
     bool onBoardingViewed = await prefs.isOnBoardingViewed();
     String user = await prefs.getSharedPreference("user");
     if (user != null) {
       LoginResponse loginResponse = LoginResponse.fromJson(user);
       Navigator.pushNamedAndRemoveUntil(
-          context, '/menu', ModalRoute.withName('/menu'), arguments: loginResponse);
-    }
-    else if (onBoardingViewed) {
+          context, '/menu', ModalRoute.withName('/menu'),
+          arguments: loginResponse);
+    } else if (onBoardingViewed) {
       Navigator.pushNamedAndRemoveUntil(
           context, '/users', ModalRoute.withName('/users'));
     } else {
@@ -53,11 +55,17 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     }
   }
 
+  _setLocale() async {
+    Locale locale = Localizations.localeOf(context);
+    print(locale.languageCode);
+    await prefs.setSharedPreference("locale", locale.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
+    _setLocale();
     return BlocBuilder<OnBoardingBloc, OnBoardingState>(
       builder: (context, state) {
-
         if (state is OnBoardingLoaded) {
           return Scaffold(
             backgroundColor: appTheme().backgroundColor,
@@ -82,12 +90,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           );
         }
 
-        if(state is OnBoardingEmpty){
+        if (state is OnBoardingEmpty) {
           BlocProvider.of<OnBoardingBloc>(context).add(FetchOnBoarding());
         }
-        if(state is OnBoardingViewedState || state is OnBoardingUserLoggedIn){
-
-        }
+        if (state is OnBoardingViewedState ||
+            state is OnBoardingUserLoggedIn) {}
 
         return Center(
           child: CircularProgressIndicator(),

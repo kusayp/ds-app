@@ -30,8 +30,11 @@ class _UsersScreenState extends State<UsersScreen> {
                           borderRadius: BorderRadius.circular(8.0)),
                       color: appTheme().primaryColor,
                       onPressed: () => _getUserTapped(3),
-                      child: Text(S.of(context).loginWithEmail,
-                          style: TextStyle(fontSize: 14, color: Colors.white)),
+                      child: Text(
+                        S.of(context).loginWithEmail,
+                        style: TextStyle(fontSize: 14, color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -41,8 +44,11 @@ class _UsersScreenState extends State<UsersScreen> {
                           borderRadius: BorderRadius.circular(8.0)),
                       color: appTheme().primaryColor,
                       onPressed: () => _getUserTapped(2),
-                      child: Text(S.of(context).loginWithRegNumber,
-                          style: TextStyle(fontSize: 14, color: Colors.white)),
+                      child: Text(
+                        S.of(context).loginWithRegNumber,
+                        style: TextStyle(fontSize: 14, color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -52,8 +58,11 @@ class _UsersScreenState extends State<UsersScreen> {
                           borderRadius: BorderRadius.circular(8.0)),
                       color: appTheme().primaryColor,
                       onPressed: () => _getUserTapped(1),
-                      child: Text(S.of(context).loginWithPhone,
-                          style: TextStyle(fontSize: 14, color: Colors.white)),
+                      child: Text(
+                        S.of(context).loginWithPhone,
+                        style: TextStyle(fontSize: 14, color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ],

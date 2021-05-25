@@ -4,6 +4,7 @@
     {
       "id": 8,
       "menu": "Profile",
+      "url": "profile",
       "icon": "assets/images/menu/Profile.svg",
       "description": "Profile",
       "events": [
@@ -15,6 +16,7 @@
     {
       "id": 9,
       "menu": "Logout",
+      "url": "logout",
       "icon": "assets/images/menu/Logout.svg",
       "description": "Logout",
       "events": [

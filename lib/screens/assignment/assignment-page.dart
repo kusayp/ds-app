@@ -15,11 +15,11 @@ class AssignmentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final MenuArguments arguments = ModalRoute.of(context).settings.arguments;
 
-    var choices = ["Overview", S.of(context).addAssignment];
+    var choices = [S.of(context).overview, S.of(context).addAssignment];
 
     bool isTeacher = arguments.roleModules.role == "ENSEINGNANT";
     void handleClick(String value) {
-      switch (value){
+      switch (value) {
         case 'Add Assignment':
           Navigator.pushNamed(
             context,
@@ -28,31 +28,38 @@ class AssignmentPage extends StatelessWidget {
           );
       }
     }
-    final AssignmentRepository repository = AssignmentRepository(assignmentService: AssignmentService());
+
+    final AssignmentRepository repository =
+        AssignmentRepository(assignmentService: AssignmentService());
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: Text(
           S.of(context).assignment,
-          style: TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         actions: [
-          isTeacher ? PopupMenuButton<String>(
-            icon: Icon(Icons.more_vert, size: 20.0, color: Colors.black,),
-            onSelected: handleClick,
-              itemBuilder: (BuildContext context) {
-            return choices.map((String choice) {
-              return PopupMenuItem<String>(
-                child: Text(choice),
-                value: choice,
-              );
-            }
-            ).toList();
-          }
-          ) : Text("")
+          isTeacher
+              ? PopupMenuButton<String>(
+                  icon: Icon(
+                    Icons.more_vert,
+                    size: 20.0,
+                    color: Colors.black,
+                  ),
+                  onSelected: handleClick,
+                  itemBuilder: (BuildContext context) {
+                    return choices.map((String choice) {
+                      return PopupMenuItem<String>(
+                        child: Text(choice),
+                        value: choice,
+                      );
+                    }).toList();
+                  })
+              : Text("")
 //          Icon(Icons.more_vert, size: 20.0, )
         ],
       ),
@@ -60,7 +67,9 @@ class AssignmentPage extends StatelessWidget {
       backgroundColor: appTheme().backgroundColor,
       body: BlocProvider(
         create: (context) => AssignmentBloc(repository: repository),
-        child: AssignmentScreen(user: arguments,),
+        child: AssignmentScreen(
+          user: arguments,
+        ),
       ),
     );
   }

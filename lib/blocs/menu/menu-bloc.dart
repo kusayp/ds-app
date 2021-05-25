@@ -11,6 +11,7 @@ import '../blocs.dart';
 
 class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final MenuService menuService;
+  LocalStorage prefs = LocalStorage();
 
   MenuBloc({@required this.menuService})
       : assert(menuService != null),
@@ -18,9 +19,9 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
 
   @override
   Stream<MenuState> mapEventToState(MenuEvent event) async* {
+    String myLocale = await prefs.getSharedPreference("locale");
     if (event is MenuDropDownSelected) {
       yield MenuInitial();
-      LocalStorage prefs = LocalStorage();
       bool isStudentParent = event.role == "STUDENT";
       String user = await prefs.getSharedPreference("user");
       UserModel studentUser = UserModel();
@@ -42,13 +43,14 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         var modules = List<Module>();
 
         RoleModules roleModules =
-            await menuService.loadUserRoleModules(event.role);
+            await menuService.loadUserRoleModules("${event.role}-$myLocale");
 
         if (roleModules.role == "PARENT") {
           for (var i = 0; i < event.school.children.length; i++) {
             list.add(Module(
               id: event.school.children[i].id,
               menu: "parent_student",
+              url: "parent_student",
               icon: "assets/images/menu/Profile.svg",
               studentUser: event.school.children[i],
               description: event.school.children[i].firstName +
@@ -88,7 +90,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       yield MenuLoading();
       try {
         NotificationPageData notificationPageData =
-            await menuService.fetchNotificationsFilteredByUser(event.school);
+        await menuService.fetchNotificationsFilteredByUser(event.school);
         yield NotificationSuccess(notifications: notificationPageData.results);
       } catch (_) {}
     }

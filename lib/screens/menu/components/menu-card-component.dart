@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MenuCard extends StatelessWidget {
-  const MenuCard({Key key, this.menu, this.roleModules})
-      : super(key: key);
+  const MenuCard({Key key, this.menu, this.roleModules}) : super(key: key);
   final Module menu;
   final RoleModules roleModules;
 
@@ -18,7 +17,7 @@ class MenuCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10.0),
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/' + menu.menu.toLowerCase(),
+          Navigator.pushNamed(context, '/' + menu.url.toLowerCase(),
               arguments: MenuArguments(module: menu, roleModules: roleModules));
         },
         child: Card(
@@ -65,7 +64,7 @@ class NotificationDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.0),
       ),
       child: Container(
-        height: MediaQuery.of(context).size.height*0.9,
+        height: MediaQuery.of(context).size.height * 0.9,
         width: MediaQuery.of(context).size.width,
         child: Padding(
           padding: EdgeInsets.all(20.0),
@@ -77,19 +76,24 @@ class NotificationDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(S.of(context).notifications),
-                  IconButton(icon: Icon(Icons.close, color: Colors.black), onPressed: () => Navigator.of(context).pop(),)
+                  IconButton(
+                    icon: Icon(Icons.close, color: Colors.black),
+                    onPressed: () => Navigator.of(context).pop(),
+                  )
                 ],
               ),
               Expanded(
                 child: ListView.builder(
                   itemCount: notifications.length,
-                  itemBuilder: (BuildContext context, int index){
-                    if(notifications.isEmpty){
+                  itemBuilder: (BuildContext context, int index) {
+                    if (notifications.isEmpty) {
                       return Center(
                         child: Text(S.of(context).noNotificationsReceived),
                       );
-                    }else{
-                      return NotificationCard(notification: notifications[index],);
+                    } else {
+                      return NotificationCard(
+                        notification: notifications[index],
+                      );
                     }
                   },
                 ),
@@ -113,12 +117,16 @@ class NotificationCard extends StatelessWidget {
       elevation: 4,
       shape: Border(
           left: BorderSide(
-            color: Colors.amber,
-            width: 2,
-          )
-      ),
+        color: Colors.amber,
+        width: 2,
+      )),
       child: Padding(
-        padding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20,),
+        padding: const EdgeInsets.only(
+          top: 10,
+          bottom: 10,
+          left: 20,
+          right: 20,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -129,7 +137,15 @@ class NotificationCard extends StatelessWidget {
 //                Text("1 hour ago"),
 //              ],
 //            ),
-            Text(notification.message, softWrap: true, style: TextStyle(fontSize: 12, letterSpacing: 1.0, fontWeight: FontWeight.w700,),),
+            Text(
+              notification.message,
+              softWrap: true,
+              style: TextStyle(
+                fontSize: 12,
+                letterSpacing: 1.0,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ],
         ),
       ),

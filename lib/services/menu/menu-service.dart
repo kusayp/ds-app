@@ -4,7 +4,6 @@ import 'package:dsapp/models/models.dart';
 import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/utils/shared-preference.dart';
 import 'package:flutter/services.dart';
-import 'package:sprintf/sprintf.dart';
 import 'package:http/http.dart' as http;
 
 class MenuService {
@@ -25,7 +24,8 @@ class MenuService {
     return roleModules;
   }
 
-  Future<NotificationPageData> fetchNotificationsFilteredByUser(schoolId) async {
+  Future<NotificationPageData> fetchNotificationsFilteredByUser(
+      schoolId) async {
     String userString = await sharedPreferences.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
 
@@ -35,11 +35,15 @@ class MenuService {
       'Authorization': 'Bearer ' + user.token,
     };
 
-    String endpoint = sprintf('%s%s/%s/%s?filter=user|%s', [baseUrl, 'schools', schoolId, url, user.user.id]);
+    String endpoint =
+        "${baseUrl}schools/$schoolId/$url?filter=user|${user.user.id}";
 
-    final response = await http.get(endpoint, headers: headers,);
+    final response = await http.get(
+      endpoint,
+      headers: headers,
+    );
     print(response.body);
-    if(response.statusCode != 200) {
+    if (response.statusCode != 200) {
       print(response.body);
       throw new Exception("error getting quotes");
     }

@@ -4,7 +4,6 @@ import 'package:dsapp/screens/login/components/login-field-component.dart';
 import 'package:dsapp/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:sprintf/sprintf.dart';
 
 class ProfileScreen extends StatelessWidget {
   final RoleModules userDetails;
@@ -37,9 +36,16 @@ class ProfileScreen extends StatelessWidget {
       final children = <Widget>[];
       for (int i = 0; i < wards.length; i++) {
         children.add(
-            Text(sprintf('%s %s', [wards[i].firstName, wards[i].lastName])));
+          Text(
+            wards[i].getFullName,
+          ),
+        );
       }
       return children;
+    }
+
+    void closeButton() {
+      Navigator.pop(context);
     }
 
     onUpdatePressed() {
@@ -48,9 +54,11 @@ class ProfileScreen extends StatelessWidget {
           builder: (_) => isStudent
               ? UpdatePasswordDialog(
                   text: "Please enter your registration number",
+                  updatePassword: closeButton,
                 )
               : UpdatePasswordDialog(
                   text: "Please comfirm your email or phone number",
+                  updatePassword: closeButton,
                 ),
           barrierDismissible: false);
     }
@@ -80,14 +88,8 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
             ),
-//          SizedBox(height: 5.0,),
             Text(
               userDetails.user.getFullName,
-              // sprintf('%s %s', [
-              //   userDetails.user.firstName.toUpperCase(),
-              //   userDetails.user.lastName.toUpperCase()
-              // ],
-              // ),
               style: TextStyle(
                 fontSize: 24,
               ),

@@ -58,8 +58,8 @@ class _FeePaymentScreenState extends State<FeePaymentScreen> {
           showDialog(
             context: context,
             builder: (_) => PaymentAlertDialog(
-              message: "Payment successfully received",
-              note: "Thank you",
+              message: S.of(context).paymentSuccessfulText,
+              note: S.of(context).thankYouText,
               onPressed: popScreen,
             ),
             barrierDismissible: false,
@@ -75,8 +75,8 @@ class _FeePaymentScreenState extends State<FeePaymentScreen> {
           showDialog(
             context: context,
             builder: (_) => PaymentAlertDialog(
-              message: "Payment receipt not successfully",
-              note: "Try again",
+              message: S.of(context).paymentUnsuccessfullyText,
+              note: S.of(context).tryAgain,
               onPressed: () {
                 popScreen();
                 BlocProvider.of<FeesBloc>(context).add(
@@ -132,6 +132,8 @@ class _FeePaymentScreenState extends State<FeePaymentScreen> {
                         border: InputBorder.none),
                     controller: _amount,
                     keyboardType: TextInputType.text,
+                    validator: (amount) =>
+                        amount.isEmpty ? S.of(context).amountErrorString : null,
                   ),
                 ),
                 SizedBox(
@@ -142,18 +144,20 @@ class _FeePaymentScreenState extends State<FeePaymentScreen> {
                   child: LoginButton(
                     buttonText: S.of(context).p_pay,
                     onButtonPressed: () {
-                      _amount.clear();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => KKiaPay(
-                            callback: showPaymentDialog,
-                            amount: int.parse(_amount.value.text),
-                            sandbox: true,
-                            apikey: CommonConstants.apiKey,
+                      if (_amount.value.text.isNotEmpty) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => KKiaPay(
+                              callback: showPaymentDialog,
+                              amount: int.parse(_amount.text.toString()),
+                              sandbox: true,
+                              apikey: CommonConstants.apiKey,
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                        // _amount.clear();
+                      }
                     },
                   ),
                 ),

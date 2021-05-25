@@ -1,0 +1,65 @@
+{
+  "role": "STUDENT",
+  "modules": [
+    {
+      "id": 1,
+      "menu": "Timetable",
+      "url": "timetable",
+      "icon": "assets/images/menu/Timetable.svg",
+      "description": "fi",
+      "events": [
+        {
+          "name": "ADD"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "menu": "Assignment",
+      "url": "assignment",
+      "icon": "assets/images/menu/Assignment.svg",
+      "description": "fi",
+      "events": [
+        {
+          "name": "ADD"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "menu": "Exam",
+      "url": "exam",
+      "icon": "assets/images/menu/Exam.svg",
+      "description": "fi",
+      "events": [
+        {
+          "name": "ADD"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "menu": "Fees",
+      "url": "fees",
+      "icon": "assets/images/menu/Fees.svg",
+      "description": "fi",
+      "events": [
+        {
+          "name": "ADD"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "menu": "Attendance",
+      "url": "attendance",
+      "icon": "assets/images/menu/Attendance.svg",
+      "description": "fi",
+      "events": [
+        {
+          "name": "ADD"
+        }
+      ]
+    }
+  ]
+}

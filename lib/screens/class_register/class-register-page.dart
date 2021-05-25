@@ -14,15 +14,15 @@ class ClassRegisterPager extends StatelessWidget {
   const ClassRegisterPager({Key key, this.arguments}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-
     Widget cancelButton = FlatButton(
       child: Text(S.of(context).cancel),
-      onPressed:  () => Navigator.of(context).pop(),
+      onPressed: () => Navigator.of(context).pop(),
     );
     Widget continueButton = FlatButton(
       child: Text(S.of(context).continueText),
-      onPressed:  () {
-        BlocProvider.of<ClassRegisterBloc>(context).add(SaveClassRegisterEvent());
+      onPressed: () {
+        BlocProvider.of<ClassRegisterBloc>(context)
+            .add(SaveClassRegisterEvent());
         Navigator.of(context).pop();
       },
     );
@@ -38,39 +38,52 @@ class ClassRegisterPager extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         actions: [
-          FlatButton(onPressed: (){
-            showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                  title: Text(S.of(context).saveClassRegister),
-                  content: Text(S.of(context).doYouWantToContinue),
-                  actions: [
-                    cancelButton,
-                    continueButton,
-                  ],
-                ),
-                barrierDismissible: false
-            );
-          }, child: Text(S.of(context).save, style: TextStyle(backgroundColor: Color(0xffF65A75), color: Colors.white, fontWeight: FontWeight.bold),), ),
+          FlatButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                        title: Text(S.of(context).saveClassRegister),
+                        content: Text(S.of(context).doYouWantToContinue),
+                        actions: [
+                          cancelButton,
+                          continueButton,
+                        ],
+                      ),
+                  barrierDismissible: false);
+            },
+            child: Text(
+              S.of(context).save,
+              style: TextStyle(
+                  backgroundColor: Color(0xffF65A75),
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
         ],
       ),
       extendBodyBehindAppBar: true,
       backgroundColor: appTheme().backgroundColor,
-      body: ClassRegisterScreen(user: arguments.roleModules,),
+      body: ClassRegisterScreen(
+        user: arguments.roleModules,
+      ),
     );
   }
 }
 
 class ClassRegisterPage extends StatelessWidget {
-  static const routeName = '/class register';
+  static const routeName = '/class_register';
+
   @override
   Widget build(BuildContext context) {
-    final ClassRegisterRepository repository = ClassRegisterRepository(classRegisterService: ClassRegisterService());
+    final ClassRegisterRepository repository =
+        ClassRegisterRepository(classRegisterService: ClassRegisterService());
     final MenuArguments arguments = ModalRoute.of(context).settings.arguments;
     return BlocProvider<ClassRegisterBloc>(
-        create: (context) => ClassRegisterBloc(repository: repository),
-        child: ClassRegisterPager(arguments: arguments,),
+      create: (context) => ClassRegisterBloc(repository: repository),
+      child: ClassRegisterPager(
+        arguments: arguments,
+      ),
     );
   }
 }
-

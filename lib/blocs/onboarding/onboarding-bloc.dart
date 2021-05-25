@@ -21,11 +21,14 @@ class OnBoardingBloc extends Bloc<OnBoardingEvent, OnBoardingState> {
     super.onTransition(transition);
   }
 
+  LocalStorage prefs = LocalStorage();
+
   @override
   Stream<OnBoardingState> mapEventToState(OnBoardingEvent event) async* {
+    String myLocale = await prefs.getSharedPreference("locale");
+    print("$myLocale locale");
     if (event is FetchOnBoarding) {
       yield OnBoardingLoading();
-      LocalStorage prefs = LocalStorage();
       bool onBoardingViewed = await prefs.isOnBoardingViewed();
       String user = await prefs.getSharedPreference("user");
       try {
@@ -33,14 +36,14 @@ class OnBoardingBloc extends Bloc<OnBoardingEvent, OnBoardingState> {
           LoginResponse loginResponse = LoginResponse.fromJson(user);
           var role = loginResponse.schools[0].role.name;
           RoleModules roleModules =
-              await MenuService().loadUserRoleModules(role);
+              await MenuService().loadUserRoleModules("$role-$myLocale");
           List<Module> modules = roleModules.modules;
           yield OnBoardingUserLoggedIn(modules: modules);
         } else if (onBoardingViewed) {
           yield OnBoardingViewedState();
         } else {
           final OnBoardingModelList onBoardingModelList =
-              await onBoardingRepository.getOnBoardingData();
+              await onBoardingRepository.getOnBoardingData("$myLocale");
           yield OnBoardingLoaded(onBoardingModelList: onBoardingModelList);
         }
       } catch (_) {
@@ -56,7 +59,8 @@ class OnBoardingBloc extends Bloc<OnBoardingEvent, OnBoardingState> {
       String user = await prefs.getSharedPreference("user");
       LoginResponse loginResponse = LoginResponse.fromJson(user);
       var role = loginResponse.schools.single.role.name;
-      RoleModules roleModules = await MenuService().loadUserRoleModules(role);
+      RoleModules roleModules =
+          await MenuService().loadUserRoleModules("$role-$myLocale");
       List<Module> modules = roleModules.modules;
       yield OnBoardingUserLoggedIn(modules: modules);
     }

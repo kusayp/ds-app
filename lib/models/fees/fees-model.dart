@@ -6,16 +6,24 @@ class FeesModel extends Equatable{
   final FeeType type;
   final double amount;
   final SchoolClassModel schoolClass;
+  final String status;
 
-  FeesModel({this.id, this.type, this.amount, this.schoolClass});
+  FeesModel({
+    this.id,
+    this.type,
+    this.amount,
+    this.schoolClass,
+    this.status,
+  });
 
-  static FeesModel fromJson(Map<String, dynamic> json){
+  static FeesModel fromJson(Map<String, dynamic> json) {
     return FeesModel(
         id: json['id'],
         type: FeeType.fromJson(json['type']),
         amount: json['amount'],
-        schoolClass: json["schoolClass"] != null ? SchoolClassModel.fromJson(json['schoolClass']) : null
-    );
+        schoolClass: json["schoolClass"] != null
+            ? SchoolClassModel.fromJson(json['schoolClass'])
+            : null);
   }
 
   @override

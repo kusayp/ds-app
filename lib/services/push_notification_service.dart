@@ -1,5 +1,6 @@
-import 'dart:io';
 import 'dart:convert';
+import 'dart:io';
+
 import 'package:dsapp/locator.dart';
 import 'package:dsapp/main.dart';
 import 'package:dsapp/models/models.dart';
@@ -8,14 +9,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 
-
-
-
 class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging();
-  DBServices dbServices = DBServices();
+
+  // DBServices dbServices = DBServices();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-  final String serverToken = 'AAAAJxgM_dc:APA91bECZeEKMQPH-ghKOPRKAHGjCqLptZXdGIgP27vVspUPZQZYMzZ0flXBDDHDnd6Bo0zueKYLd3XfnRzb_iSx3IWnLX2GGJA3KJYNfhbxpgyIkpGiAKwt5eXc9Rt1vqOxn7ZcIBGU';
+  final String serverToken =
+      'AAAAJxgM_dc:APA91bECZeEKMQPH-ghKOPRKAHGjCqLptZXdGIgP27vVspUPZQZYMzZ0flXBDDHDnd6Bo0zueKYLd3XfnRzb_iSx3IWnLX2GGJA3KJYNfhbxpgyIkpGiAKwt5eXc9Rt1vqOxn7ZcIBGU';
 
   Future initialise() async {
     if (Platform.isIOS) {
@@ -42,7 +42,6 @@ class PushNotificationService {
         final data = jsonEncode(message['data']);
         print('onLaunch: $message');
         showNotification2(1234, title, body, data);
-
       },
       // Called when the app is in the background and it's opened
       // from the push notification.
@@ -59,27 +58,29 @@ class PushNotificationService {
   }
 
   Future initialiseLocalNotification() async {
-    var initializationSettingsAndroid = new AndroidInitializationSettings(
-        'app_icon');
+    var initializationSettingsAndroid =
+        new AndroidInitializationSettings('app_icon');
     var initializationSettingsIOS = new IOSInitializationSettings();
-    final InitializationSettings initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid,
-        iOS: initializationSettingsIOS);
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+            android: initializationSettingsAndroid,
+            iOS: initializationSettingsIOS);
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(
-        initializationSettings, onSelectNotification: onSelectNotification);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
   }
 
-  Future<void> _showNotification(int notificationId,
-      String notificationTitle,
-      String notificationContent,
-      String payload, {
-        String channelId = '1234',
-        String channelTitle = 'Android Channel',
-        String channelDescription = 'Default Android Channel for notifications',
-        Priority notificationPriority = Priority.high,
-        Importance notificationImportance = Importance.max,
-      }) async {
+  Future<void> _showNotification(
+    int notificationId,
+    String notificationTitle,
+    String notificationContent,
+    String payload, {
+    String channelId = '1234',
+    String channelTitle = 'Android Channel',
+    String channelDescription = 'Default Android Channel for notifications',
+    Priority notificationPriority = Priority.high,
+    Importance notificationImportance = Importance.max,
+  }) async {
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
       channelId,
       channelTitle,
@@ -89,7 +90,7 @@ class PushNotificationService {
       priority: notificationPriority,
     );
     var iOSPlatformChannelSpecifics =
-    new IOSNotificationDetails(presentSound: false);
+        new IOSNotificationDetails(presentSound: false);
     var platformChannelSpecifics = new NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
@@ -102,20 +103,20 @@ class PushNotificationService {
     );
   }
 
-  void showNotification2(int notificationId,
-      String notificationTitle,
-      String notificationContent,
-      String payload, {
-        String channelId = '1234',
-        String channelTitle = 'Android Channel',
-        String channelDescription = 'Default Android Channel for notifications',
-        Priority notificationPriority = Priority.high,
-        Importance notificationImportance = Importance.max,
-      }) async {
+  void showNotification2(
+    int notificationId,
+    String notificationTitle,
+    String notificationContent,
+    String payload, {
+    String channelId = '1234',
+    String channelTitle = 'Android Channel',
+    String channelDescription = 'Default Android Channel for notifications',
+    Priority notificationPriority = Priority.high,
+    Importance notificationImportance = Importance.max,
+  }) async {
     await _showNotification(
         notificationId, notificationTitle, notificationContent, payload);
   }
-
 
   Future onSelectNotification(String payload) async {
     print('Notification selected $payload');
@@ -142,8 +143,7 @@ class PushNotificationService {
   }
 
   Future<void> sendAndRetrieveMessage(Map<String, dynamic> data) async {
-
-    try{
+    try {
       await http.post(
         'https://fcm.googleapis.com/fcm/send',
         headers: <String, String>{
@@ -162,10 +162,7 @@ class PushNotificationService {
           },
         ),
       );
-    }
-    on SocketException catch (_) {
-
-    }
+    } on SocketException catch (_) {}
   }
 }
 

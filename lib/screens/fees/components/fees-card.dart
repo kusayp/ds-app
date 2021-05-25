@@ -84,7 +84,7 @@ class FeesCard extends StatelessWidget {
                     width: 10.0,
                   ),
                   Text(
-                    "Pending",
+                    fees.status ?? "",
                     style: TextStyle(fontSize: 10.0),
                   ),
                   Flexible(fit: FlexFit.tight, child: SizedBox()),

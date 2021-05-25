@@ -2,11 +2,10 @@ import 'dart:convert';
 
 import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/models/models.dart';
-import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/models/users/login-response.dart';
+import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/utils/shared-preference.dart';
 import 'package:http/http.dart' as http;
-import 'package:sprintf/sprintf.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginService {
@@ -23,25 +22,26 @@ class LoginService {
       "password": password
     };
     final response = await http.post(url,
-        headers: <String, String>{
-          'Content-Type': 'application/json'
-        },
-        body: jsonEncode(data)
-    );
+        headers: <String, String>{'Content-Type': 'application/json'},
+        body: jsonEncode(data));
 
-    if(response.statusCode != 200) {
+    if (response.statusCode != 200) {
       print("error getting quotes");
       print(response.body);
       throw new RestErrorHandling().handleError(response);
     }
-    await sharedPreferences.setSharedPreference("user", response.body);
+
     LoginResponse loginResponse = LoginResponse.fromJson(response.body);
+    await sharedPreferences.setSharedPreference("user", response.body);
+    await sharedPreferences.setSharedPreference(
+        LocalStorage.authToken, loginResponse.token);
 
     return loginResponse;
   }
 
-  Future<void> updateUser(schoolId, LoginResponse _response, String token) async {
-    String endpoint = sprintf('%s%s/%s', [baseUrl, usersUrl, _response.user.id]);
+  Future<void> updateUser(
+      schoolId, LoginResponse _response, String token) async {
+    String endpoint = "$baseUrl$usersUrl/${_response.user.id}";
 
     final Map<String, dynamic> data = {
       "deviceId": token,
@@ -51,31 +51,33 @@ class LoginService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + _response.token,
         },
-        body: jsonEncode(data)
-    );
+        body: jsonEncode(data));
 
-    if(response.statusCode != 200) {
+    if (response.statusCode != 200) {
       throw new RestErrorHandling().handleError(response);
     }
 
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       print("success");
     }
   }
 
-  Future<UserModel> getUserById(userId,) async {
+  Future<UserModel> getUserById(
+    userId,
+  ) async {
     String userString = await sharedPreferences.getSharedPreference("user");
     LoginResponse user = LoginResponse.fromJson(userString);
-    String endpoint = sprintf('%s%s/%s', [baseUrl, usersUrl, userId]);
-    final response = await http.get(endpoint,
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-      'Authorization': 'Bearer ' + user.token,
-        },
+    String endpoint = "$baseUrl$usersUrl/$userId";
+    final response = await http.get(
+      endpoint,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + user.token,
+      },
     );
 
-    if(response.statusCode != 200) {
+    if (response.statusCode != 200) {
       print("error getting quotes");
       print(response.body);
       throw new RestErrorHandling().handleError(response);
@@ -83,5 +85,4 @@ class LoginService {
     Map<String, dynamic> json = jsonDecode(response.body);
     return UserModel.fromJson(json);
   }
-
 }

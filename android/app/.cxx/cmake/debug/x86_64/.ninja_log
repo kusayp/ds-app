@@ -1,3 +1,5 @@
 # ninja log v5
 0	28	1620397560	CMakeFiles/api_util.dir/home/godslove/AndroidStudioProjects/ds_app/ios/Classes/api_util.cpp.o	cac2476c007cddd
 28	63	1620397560	/home/godslove/AndroidStudioProjects/ds_app/build/app/intermediates/cmake/debug/obj/x86_64/libapi_util.so	17c7e30d33be9e1f
+5	60	1621442181	CMakeFiles/api_util.dir/home/godslove/AndroidStudioProjects/ds_app/ios/Classes/api_util.cpp.o	cac2476c007cddd
+60	358	1621442181	/home/godslove/AndroidStudioProjects/ds_app/build/app/intermediates/cmake/debug/obj/x86_64/libapi_util.so	17c7e30d33be9e1f

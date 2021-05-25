@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
-import 'package:sprintf/sprintf.dart';
 
 class Violation {
   final String message;
@@ -14,14 +13,13 @@ class Violation {
       : message = json['message'],
         fieldName = json['fieldName'];
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'message': message,
         'fieldName': fieldName,
       };
 }
 
-class ApiException implements Exception{
+class ApiException implements Exception {
   String error;
   String message;
 
@@ -45,7 +43,6 @@ class ApiException implements Exception{
 }
 
 class RestErrorHandling {
-
   String handleError(Response response) {
     // your error handling here
 
@@ -87,18 +84,18 @@ class RestErrorHandling {
     if (json.containsKey("violations")) {
       try {
         var list = json['violations'] as List;
-        List<Violation> violations = json['result'] != null ? list.map((e) => Violation.fromJson(e)).toList() : [];
+        List<Violation> violations = json['result'] != null
+            ? list.map((e) => Violation.fromJson(e)).toList()
+            : [];
 
         if (violations.length > 0) {
-          return sprintf(
-              "%s %s", [violations[0].fieldName, violations[0].message]);
+          return "${violations[0].fieldName} ${violations[0].message}";
         }
-      }
-    on IOException catch (e) {
+      } on IOException catch (e) {
         print(e);
+      }
     }
-  }
-  return json["message"].toString();
+    return json["message"].toString();
   }
 
   String geConflictMessage(String text) {
@@ -107,7 +104,9 @@ class RestErrorHandling {
     if (json.containsKey("violations")) {
       try {
         var list = json['violations'] as List;
-        List<Violation> violations = json['result'] != null ? list.map((e) => Violation.fromJson(e)).toList() : [];
+        List<Violation> violations = json['result'] != null
+            ? list.map((e) => Violation.fromJson(e)).toList()
+            : [];
 
         if (violations.length > 0) {
           String message = violations[0].message;
@@ -118,19 +117,15 @@ class RestErrorHandling {
             if (splits1.length > 1) {
               String key = splits1[0].trim().substring(1);
               String value = splits1[1].split("\\)")[1].trim();
-              return sprintf("%s: %s n'est pas disponible", [key, value]);
+              return "$key: $value n'est pas disponible";
             }
           }
         }
-
       } on IOException catch (e) {
         print(e);
-    }
+      }
     }
 
     return "Information fournit n'est pas valide";
   }
 }
-
-
-

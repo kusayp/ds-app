@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // S.load(Locale(Intl.getCurrentLocale()));
     return MaterialApp(
       navigatorKey: navigatorKey,
       localizationsDelegates: [

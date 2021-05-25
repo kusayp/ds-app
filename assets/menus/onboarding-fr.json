@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Emploi du temps",
+    "icon": "assets/images/menu/Timetable.svg",
+    "description": "Cette application est un système de gestion scolaire qui vous aide à suivre votre emploi du temps."
+  },
+  {
+    "title": "Tàches",
+    "icon": "assets/images/menu/Assignment.svg",
+    "description": "Vous aide à gérer vos tâches quotidiennes."
+  },
+  {
+    "title": "Salle de discussion",
+    "icon": "assets/images/menu/Chat-room.svg",
+    "description": "Vous aide à communiquer avec les enseignants et les amis."
+  },
+  {
+    "title": "Paiement",
+    "icon": "assets/images/menu/Online-store.svg",
+    "description": "Vous aide à payer les frais de scolarité et autres frais via le paiement mobile."
+  }
+]

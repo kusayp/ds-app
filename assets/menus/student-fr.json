@@ -3,7 +3,8 @@
   "modules": [
     {
       "id": 1,
-      "menu": "Timetable",
+      "menu": "Emploi du temps",
+      "url": "timetable",
       "icon": "assets/images/menu/Timetable.svg",
       "description": "fi",
       "events": [
@@ -14,7 +15,8 @@
     },
     {
       "id": 2,
-      "menu": "Assignment",
+      "menu": "Tàches",
+      "url": "assignment",
       "icon": "assets/images/menu/Assignment.svg",
       "description": "fi",
       "events": [
@@ -25,7 +27,8 @@
     },
     {
       "id": 3,
-      "menu": "Exam",
+      "menu": "Examen",
+      "url": "exam",
       "icon": "assets/images/menu/Exam.svg",
       "description": "fi",
       "events": [
@@ -36,7 +39,8 @@
     },
     {
       "id": 4,
-      "menu": "Fees",
+      "menu": "Frais",
+      "url": "fees",
       "icon": "assets/images/menu/Fees.svg",
       "description": "fi",
       "events": [
@@ -47,7 +51,8 @@
     },
     {
       "id": 5,
-      "menu": "Attendance",
+      "menu": "Présence",
+      "url": "attendance",
       "icon": "assets/images/menu/Attendance.svg",
       "description": "fi",
       "events": [

@@ -38,16 +38,7 @@ class TimeTableScreen extends StatelessWidget {
       if (state.response.result.length == 0) {
         return EmptyWidget(
           emptyMessage: S.of(context).noDataFound,
-        )
-            // Center(
-            // child: Icon(
-            //   Icons.do_not_disturb,
-            //   size: 50.0,
-            //   color: Colors.black,
-            //   semanticLabel: "No Data Found",
-            // ),
-            // )
-            ;
+        );
       }
       return ListView.builder(
           itemCount: state.response.result.length,

@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -860,6 +861,136 @@ class S {
     return Intl.message(
       'Name',
       name: 'name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter amount to pay`
+  String get amountErrorString {
+    return Intl.message(
+      'Please enter amount to pay',
+      name: 'amountErrorString',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment successfully received`
+  String get paymentSuccessfulText {
+    return Intl.message(
+      'Payment successfully received',
+      name: 'paymentSuccessfulText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thank you`
+  String get thankYouText {
+    return Intl.message(
+      'Thank you',
+      name: 'thankYouText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment receipt not successfully`
+  String get paymentUnsuccessfullyText {
+    return Intl.message(
+      'Payment receipt not successfully',
+      name: 'paymentUnsuccessfullyText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try again`
+  String get tryAgain {
+    return Intl.message(
+      'Try again',
+      name: 'tryAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mon`
+  String get mon {
+    return Intl.message(
+      'Mon',
+      name: 'mon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thu`
+  String get thu {
+    return Intl.message(
+      'Thu',
+      name: 'thu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tue`
+  String get tue {
+    return Intl.message(
+      'Tue',
+      name: 'tue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wed`
+  String get wed {
+    return Intl.message(
+      'Wed',
+      name: 'wed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fri`
+  String get fri {
+    return Intl.message(
+      'Fri',
+      name: 'fri',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sat`
+  String get sat {
+    return Intl.message(
+      'Sat',
+      name: 'sat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sun`
+  String get sun {
+    return Intl.message(
+      'Sun',
+      name: 'sun',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overview`
+  String get overview {
+    return Intl.message(
+      'Overview',
+      name: 'overview',
       desc: '',
       args: [],
     );
