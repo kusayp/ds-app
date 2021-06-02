@@ -12,7 +12,6 @@ import 'package:http/http.dart' as http;
 class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging();
 
-  // DBServices dbServices = DBServices();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   final String serverToken =
       'AAAAJxgM_dc:APA91bECZeEKMQPH-ghKOPRKAHGjCqLptZXdGIgP27vVspUPZQZYMzZ0flXBDDHDnd6Bo0zueKYLd3XfnRzb_iSx3IWnLX2GGJA3KJYNfhbxpgyIkpGiAKwt5eXc9Rt1vqOxn7ZcIBGU';

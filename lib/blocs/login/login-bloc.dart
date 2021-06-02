@@ -14,8 +14,9 @@ import 'package:flutter/foundation.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginRepository loginRepository;
 
-  LoginBloc({@required this.loginRepository}) : assert(loginRepository != null), super(LoginInitial());
-
+  LoginBloc({@required this.loginRepository})
+      : assert(loginRepository != null),
+        super(LoginInitial());
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
@@ -27,20 +28,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         _pushNotificationService.initialise();
 
-        final LoginResponse response = await loginRepository.loginResponse(event.username, event.password);
-        sharedPreferences.setSharedPreference("auth_token", response.token);
+        final LoginResponse response =
+        await loginRepository.loginResponse(event.username, event.password);
+        await sharedPreferences.setSharedPreference(
+            LocalStorage.authToken, response.token);
         await _pushNotificationService.getToken().then((value) async {
-          print('fcm token: $value');
           await loginRepository.updateUserWithFCMToken(1, response, value);
-          await sharedPreferences.setSharedPreference("fcm token", response.token);
-          // loginRepository.loginToFirebaseWithWithCustomToken(response.user, value);
+          await sharedPreferences.setSharedPreference(
+              "fcm token", response.token);
         });
         yield LoginSuccess(loginResponse: response);
-      }
-      on SocketException catch(_) {
+      } on SocketException catch (_) {
         yield LoginNoConnection();
-      }
-      on ApiException catch (e) {
+      } on ApiException catch (e) {
         yield LoginFailure(error: e.getMessage());
       }
     }

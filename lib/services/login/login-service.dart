@@ -1,88 +1,51 @@
 import 'dart:convert';
 
-import 'package:dsapp/exceptions/exceptions.dart';
 import 'package:dsapp/models/models.dart';
 import 'package:dsapp/models/users/login-response.dart';
-import 'package:dsapp/utils/common-constants.dart';
+import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/shared-preference.dart';
-import 'package:http/http.dart' as http;
-//import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginService {
   LocalStorage sharedPreferences = LocalStorage();
-  final baseUrl = CommonConstants.baseUrl;
-  final loginUrl = 'mobile/authentication/login/';
-  final usersUrl = 'users';
+  final loginPath = '/api/v1/mobile/authentication/login';
+  final usersUrl = '/api/v1/users/';
 
   Future<LoginResponse> login(username, password) async {
-    final url = baseUrl + loginUrl;
-
     final Map<String, dynamic> data = {
       "username": username,
       "password": password
     };
-    final response = await http.post(url,
-        headers: <String, String>{'Content-Type': 'application/json'},
-        body: jsonEncode(data));
 
-    if (response.statusCode != 200) {
-      print("error getting quotes");
-      print(response.body);
-      throw new RestErrorHandling().handleError(response);
-    }
+    var response = await HttpRequest.postExtraParamsRequestNoAuth(
+        path: loginPath, data: jsonEncode(data));
 
-    LoginResponse loginResponse = LoginResponse.fromJson(response.body);
-    await sharedPreferences.setSharedPreference("user", response.body);
-    await sharedPreferences.setSharedPreference(
-        LocalStorage.authToken, loginResponse.token);
+    LoginResponse loginResponse = LoginResponse.fromJson(response);
+    await sharedPreferences.setSharedPreference(LocalStorage.user, response);
 
     return loginResponse;
   }
 
   Future<void> updateUser(
-      schoolId, LoginResponse _response, String token) async {
-    String endpoint = "$baseUrl$usersUrl/${_response.user.id}";
+      schoolId, LoginResponse _response, String fcmToken) async {
+    String endpoint = "$usersUrl${_response.user.id}";
 
     final Map<String, dynamic> data = {
-      "deviceId": token,
+      "deviceId": fcmToken,
     };
-    final response = await http.put(endpoint,
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + _response.token,
-        },
-        body: jsonEncode(data));
 
-    if (response.statusCode != 200) {
-      throw new RestErrorHandling().handleError(response);
-    }
-
-    if (response.statusCode == 200) {
-      print("success");
-    }
+    await HttpRequest.putExtraParamsRequest(
+      path: endpoint,
+      data: jsonEncode(data),
+    );
   }
 
-  Future<UserModel> getUserById(
-    userId,
-  ) async {
-    String userString = await sharedPreferences.getSharedPreference("user");
-    LoginResponse user = LoginResponse.fromJson(userString);
-    String endpoint = "$baseUrl$usersUrl/$userId";
-    final response = await http.get(
-      endpoint,
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ' + user.token,
-      },
-    );
+  Future<UserModel> getUserById(userId) async {
+    String endpoint = "$usersUrl$userId";
 
-    if (response.statusCode != 200) {
-      print("error getting quotes");
-      print(response.body);
-      throw new RestErrorHandling().handleError(response);
-    }
-    Map<String, dynamic> json = jsonDecode(response.body);
+    var response = await HttpRequest.getExtraParamsRequest(path: endpoint);
+
+    Map<String, dynamic> json = jsonDecode(response);
+
     return UserModel.fromJson(json);
   }
 }

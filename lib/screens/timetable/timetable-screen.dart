@@ -106,6 +106,7 @@ class TimeTableScreen extends StatelessWidget {
                   ],
                 );
               }
+
               if (state is TimeTableEmpty) {
                 initPage();
               }

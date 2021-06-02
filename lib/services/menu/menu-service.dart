@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:dsapp/models/models.dart';
+import 'package:dsapp/services/services.dart';
 import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/utils/shared-preference.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 
 class MenuService {
   LocalStorage sharedPreferences = LocalStorage();
@@ -25,28 +25,16 @@ class MenuService {
   }
 
   Future<NotificationPageData> fetchNotificationsFilteredByUser(
-      schoolId) async {
-    String userString = await sharedPreferences.getSharedPreference("user");
-    LoginResponse user = LoginResponse.fromJson(userString);
+      schoolId, userId) async {
+    String path = "/api/v1/schools/$schoolId/user-notifications";
 
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + user.token,
-    };
+    Map<String, String> queryParams = {"filter": "user|$userId"};
 
-    String endpoint =
-        "${baseUrl}schools/$schoolId/$url?filter=user|${user.user.id}";
-
-    final response = await http.get(
-      endpoint,
-      headers: headers,
+    var response = await HttpRequest.getExtraParamsRequest(
+      path: path,
+      queryParams: queryParams,
     );
-    print(response.body);
-    if (response.statusCode != 200) {
-      print(response.body);
-      throw new Exception("error getting quotes");
-    }
-    return NotificationPageData.fromJson(response.body);
+
+    return NotificationPageData.fromJson(response);
   }
 }

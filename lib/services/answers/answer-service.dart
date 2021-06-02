@@ -4,23 +4,29 @@ import 'package:dsapp/models/models.dart';
 import 'package:dsapp/services/services.dart';
 
 class AnswerService {
-  static const url = 'answers';
-
   Future<AnswerPageData> getAnswers(schoolId, int assignmentId) async {
-    var endpoint =
-        "$schoolId/${AssignmentService.url}/${assignmentId.toString()}/$url?sort='createdAt|asc'";
+    var path =
+        "/api/v1/schools/$schoolId/assignments/${assignmentId.toString()}/answers";
 
-    var response = await GetHttpRequest.getRequest(url: endpoint);
+    Map<String, String> queryParams = {
+      // "filter": "teacher|$teacherId",
+      "sort": "createdAt|asc"
+    };
+
+    var response = await HttpRequest.getExtraParamsRequest(
+      path: path,
+      queryParams: queryParams,
+    );
 
     return AnswerPageData.fromJson(response);
   }
 
   Future<void> saveAnswer(schoolId, int assignmentId, answerModel) async {
-    var endpoint =
-        "$schoolId/${AssignmentService.url}/${assignmentId.toString()}/$url";
+    var path =
+        "/api/v1/schools/$schoolId/assignments/${assignmentId.toString()}/answers";
 
-    var response = await GetHttpRequest.postRequest(
-      url: endpoint,
+    var response = await HttpRequest.postExtraParamsRequest(
+      path: path,
       data: jsonEncode(answerModel),
     );
   }

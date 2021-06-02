@@ -1,55 +1,66 @@
-import 'package:dsapp/exceptions/exceptions.dart';
-import 'package:dsapp/utils/common-constants.dart';
 import 'package:dsapp/models/models.dart';
-import 'package:dsapp/utils/shared-preference.dart';
-import 'package:http/http.dart' as http;
+import 'package:dsapp/services/services.dart';
 
 class ExamsService {
-  final baseUrl = CommonConstants.baseUrl;
-  final schoolUrl = CommonConstants.schoolUrl;
-  final examinationUrl = 'examinations';
-  final scoreUrl = 'scores';
-
   Future<ExamsPageData> getExams(schoolId) async {
+    String path = "/api/v1/schools/$schoolId/examinations";
 
-    LocalStorage prefs = LocalStorage();
-    String userString = await prefs.getSharedPreference("user");
-    LoginResponse user = LoginResponse.fromJson(userString);
+    Map<String, String> queryParams = {"sort": "startDate|asc"};
 
+    var response = await HttpRequest.getExtraParamsRequest(
+      path: path,
+      queryParams: queryParams,
+    );
 
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + user.token,
-    };
-
-    final response = await http.get(baseUrl+ schoolUrl + schoolId + '/'+examinationUrl, headers: headers,);
-    print(response.body);
-    if(response.statusCode != 200) {
-      print(response.body);
-      throw new RestErrorHandling().handleError(response);
-    }
-    return ExamsPageData.fromJson(response.body);
+    return ExamsPageData.fromJson(response);
   }
 
-  Future<ExamScorePageData> getExamScores(schoolId, examinationId, studentId) async {
-    LocalStorage prefs = LocalStorage();
-    String userString = await prefs.getSharedPreference("user");
-    LoginResponse user = LoginResponse.fromJson(userString);
+  Future<ExamsPageData> getClassExams(schoolId, classId) async {
+    String path = "/api/v1/schools/$schoolId/examinations";
 
+    Map<String, String> queryParams = {"sort": "startDate|asc"};
 
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + user.token,
+    var response = await HttpRequest.getExtraParamsRequest(
+      path: path,
+      queryParams: queryParams,
+    );
+
+    return ExamsPageData.fromJson(response);
+  }
+
+  Future<ExamScorePageData> getExamScores(
+      schoolId, examinationId, studentId) async {
+    String path =
+        "/api/v1/schools/$schoolId/examinations/$examinationId/scores";
+
+    Map<String, String> queryParams = {
+      "filter": "student|$studentId",
+      "sort": "date|asc"
     };
 
-    final response = await http.get(baseUrl+ schoolUrl + schoolId + '/'+examinationUrl + '/'+examinationId + '/'+ scoreUrl + "/?filter=student|$studentId", headers: headers,);
-    print(response.body);
-    if(response.statusCode != 200) {
-      print(response.body);
-      throw new RestErrorHandling().handleError(response);
-    }
-    return ExamScorePageData.fromJson(response.body);
+    var response = await HttpRequest.getExtraParamsRequest(
+      path: path,
+      queryParams: queryParams,
+    );
+
+    return ExamScorePageData.fromJson(response);
+  }
+
+  Future<ExamScorePageData> getStudentExamScores(
+      schoolId, examinationId, studentId) async {
+    String path =
+        "/api/v1/schools/$schoolId/examinations/$examinationId/scores";
+
+    Map<String, String> queryParams = {
+      "filter": "student|$studentId",
+      "sort": "date|asc"
+    };
+
+    var response = await HttpRequest.getExtraParamsRequest(
+      path: path,
+      queryParams: queryParams,
+    );
+
+    return ExamScorePageData.fromJson(response);
   }
 }

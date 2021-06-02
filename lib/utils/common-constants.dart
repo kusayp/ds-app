@@ -6,8 +6,9 @@ import 'package:ffi/ffi.dart';
 class CommonConstants {
   static final baseUrl =
       "http://dgsapi-env.g5yjwpkx2w.eu-west-1.elasticbeanstalk.com/api/v1/";
-  static final schoolUrl = "schools/";
-  static final mobileUrl = "mobile/";
+  static final baseUri = "dgsapi-env.g5yjwpkx2w.eu-west-1.elasticbeanstalk.com";
+  static final schoolUrl = "/api/v1/schools/";
+  static final mobileUrl = "/api/v1/mobile/";
   static var apiKey = "";
 
   static String getData() {

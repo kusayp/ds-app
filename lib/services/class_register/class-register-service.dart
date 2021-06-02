@@ -1,147 +1,83 @@
 import 'dart:convert';
 
-import 'package:dsapp/exceptions/api-exceptions.dart';
 import 'package:dsapp/models/models.dart';
-import 'package:dsapp/utils/common-constants.dart';
-import 'package:dsapp/utils/shared-preference.dart';
-import 'package:http/http.dart' as http;
+import 'package:dsapp/services/services.dart';
 
 class ClassRegisterService {
-  final baseUrl = CommonConstants.baseUrl;
-  final mobileBaseUrl = CommonConstants.baseUrl + 'mobile/schools';
-  final url = 'schedules';
-  final addUrl = 'class-register';
-  final batchUrl = 'registers/batch';
-  LocalStorage prefs = LocalStorage();
   Future<TimeTablePageData> getClassSchedule(schoolId, classId) async {
-    String userString = await prefs.getSharedPreference("user");
-    LoginResponse user = LoginResponse.fromJson(userString);
+    String path = "/api/v1/schools/$schoolId/classes/$classId/schedules";
 
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + user.token,
-    };
+    Map<String, String> queryParams = {"sort": "startTime|asc"};
 
-    String endpoint = "${baseUrl}schools/$schoolId/classes/$classId/$url";
-
-    final response = await http.get(
-      endpoint,
-      headers: headers,
+    var response = await HttpRequest.getExtraParamsRequest(
+      path: path,
+      queryParams: queryParams,
     );
-    print(response.body);
-    if (response.statusCode != 200) {
-      print(response.body);
-      throw new RestErrorHandling().handleError(response);
-    }
-    return TimeTablePageData.fromJson(response.body);
+
+    return TimeTablePageData.fromJson(response);
   }
 
   Future<TimeTablePageData> getListOfActorsInClass(
       schoolId, classId, scheduleId) async {
-    String userString = await prefs.getSharedPreference("user");
-    LoginResponse user = LoginResponse.fromJson(userString);
+    String path = "/api/v1/schools/$schoolId/classes/$classId/schedules";
 
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + user.token,
+    Map<String, String> queryParams = {
+      "filter": "subject|$scheduleId",
+      "sort": "due|asc"
     };
 
-    String endpoint =
-        "${baseUrl}schools/$schoolId/classes/$classId/$url?filter=subject|$scheduleId";
-
-    final response = await http.get(
-      endpoint,
-      headers: headers,
+    var response = await HttpRequest.getExtraParamsRequest(
+      path: path,
+      queryParams: queryParams,
     );
-    print(response.body);
-    if (response.statusCode != 200) {
-      print(response.body);
-      throw new RestErrorHandling().handleError(response);
-    }
-    return TimeTablePageData.fromJson(response.body);
+
+    return TimeTablePageData.fromJson(response);
   }
 
   Future<UserModelPageData> getActorsInClass(schoolId, classId, url) async {
-    String userString = await prefs.getSharedPreference("user");
-    LoginResponse user = LoginResponse.fromJson(userString);
+    String path = "/api/v1/schools/$schoolId/classes/$classId/$url";
 
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ' + user.token,
-    };
+    Map<String, String> queryParams = {"sort": "firstName|asc"};
 
-    String endpoint = "${baseUrl}schools/$schoolId/classes/$classId/$url";
-
-    final response = await http.get(
-      endpoint,
-      headers: headers,
+    var response = await HttpRequest.getExtraParamsRequest(
+      path: path,
+      queryParams: queryParams,
     );
-    print(response.body);
-    if (response.statusCode != 200) {
-      print(response.body);
-      throw new RestErrorHandling().handleError(response);
-    }
-    return UserModelPageData.fromJson(response.body);
+
+    return UserModelPageData.fromJson(response);
   }
 
   Future<void> saveClassRegister(
       schoolId, classSchedule, userId, present) async {
-    String userString = await prefs.getSharedPreference("user");
-    LoginResponse user = LoginResponse.fromJson(userString);
-
-    String endpoint = "${baseUrl}schools/$schoolId/class-registers";
+    String path = "/api/v1/schools/$schoolId/class-registers";
 
     final Map<String, dynamic> data = {
       "actor": userId,
       "classSchedule": classSchedule,
       "present": present
     };
-    final response = await http.post(endpoint,
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + user.token,
-        },
-        body: jsonEncode(data));
-
-    if (response.statusCode != 200) {
-      print(response.statusCode);
-      throw new RestErrorHandling().handleError(response);
-    }
-    print(response.body);
+    var response = await HttpRequest.postExtraParamsRequest(
+      path: path,
+      data: jsonEncode(data),
+    );
   }
 
   Future<void> saveClassRegisterBatch(
-      String schoolId,
-      TimeTableModel classSchedule,
-      List<ClassRegisterSave> classRegisters) async {
-    String userString = await prefs.getSharedPreference("user");
-    LoginResponse user = LoginResponse.fromJson(userString);
-
-    String endpoint =
-        "$mobileBaseUrl/$schoolId/classes/${classSchedule.schoolClass.id}/$batchUrl";
+    String schoolId,
+    TimeTableModel classSchedule,
+    List<ClassRegisterSave> classRegisters,
+  ) async {
+    String path =
+        "/api/v1/mobile/schools/$schoolId/classes/${classSchedule.schoolClass.id}/registers/batch";
 
     final Map<String, List<Map<String, dynamic>>> data = {
       "registers": classRegisters.isNotEmpty
           ? classRegisters.map((e) => ClassRegisterSave.toJson(e)).toList()
           : null,
     };
-    final response = await http.post(endpoint,
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + user.token,
-        },
-        body: jsonEncode(data));
-
-    if (response.statusCode != 200) {
-      print(response.body);
-      print("Success");
-      throw new RestErrorHandling().handleError(response);
-    }
-    print(response.body);
+    var response = await HttpRequest.postExtraParamsRequest(
+      path: path,
+      data: jsonEncode(data),
+    );
   }
 }

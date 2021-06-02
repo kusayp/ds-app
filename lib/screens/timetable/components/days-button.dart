@@ -13,12 +13,16 @@ class DaysButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size.width-40;
+    var size = MediaQuery
+        .of(context)
+        .size
+        .width - 40;
     final isSelected = state.selectedDay == day.day;
     return GestureDetector(
       onTap: () {
-        if (!isSelected){
-          BlocProvider.of<TimeTableBloc>(context).add(GetTimeTableFromDayEvent(day: day.day, teacherId: teacherId, classId: classId));
+        if (!isSelected) {
+          BlocProvider.of<TimeTableBloc>(context).add(GetTimeTableFromDayEvent(
+              day: day.day, teacherId: teacherId, classId: classId));
         }
       },
       child: Container(
@@ -27,16 +31,15 @@ class DaysButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(5.0),
           color: isSelected ? Color(0xffF9AE18) : Colors.transparent,
         ),
-        height: size/7,
-        width: size/7,
+        height: size / 7,
+        width: size / 7,
 //                        color: Colors.amber,
         child: Center(
           child: Text(
             day.daySlug,
             style: TextStyle(
-              fontSize: 15.0,
-              color: isSelected ? Colors.white : Color(day.color)
-            ),
+                fontSize: 15.0,
+                color: isSelected ? Colors.white : Color(day.color)),
             textAlign: TextAlign.center,
           ),
         ),

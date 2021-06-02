@@ -89,8 +89,9 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
     if (event is NotificationIconClicked) {
       yield MenuLoading();
       try {
-        NotificationPageData notificationPageData =
-        await menuService.fetchNotificationsFilteredByUser(event.school);
+        var userId = await prefs.getSharedPreference("userId");
+        NotificationPageData notificationPageData = await menuService
+            .fetchNotificationsFilteredByUser(event.school, userId);
         yield NotificationSuccess(notifications: notificationPageData.results);
       } catch (_) {}
     }

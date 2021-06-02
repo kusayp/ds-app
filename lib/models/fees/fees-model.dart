@@ -1,7 +1,7 @@
 import 'package:dsapp/models/models.dart';
 import 'package:equatable/equatable.dart';
 
-class FeesModel extends Equatable{
+class FeesModel extends Equatable {
   final int id;
   final FeeType type;
   final double amount;
@@ -35,7 +35,7 @@ class FeeType extends Equatable {
 
   FeeType({this.name});
 
-  static FeeType fromJson(Map<String, dynamic> json){
+  static FeeType fromJson(Map<String, dynamic> json) {
     return FeeType(
       name: json['name'],
     );

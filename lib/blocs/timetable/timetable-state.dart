@@ -9,13 +9,9 @@ abstract class TimeTableState extends Equatable {
   List<Object> get props => [];
 }
 
-class TimeTableEmpty extends TimeTableState {
+class TimeTableEmpty extends TimeTableState {}
 
-}
-
-class TimeTableLoading extends TimeTableState {
-
-}
+class TimeTableLoading extends TimeTableState {}
 
 class TimeTableLoaded extends TimeTableState {
   final TimeTablePageData response;
@@ -27,17 +23,27 @@ class TimeTableLoaded extends TimeTableState {
   List<Object> get props => [response, selectedDay];
 }
 
+class SelectedDay extends TimeTableState {
+  final String selectedDay;
+
+  SelectedDay({this.selectedDay});
+
+  @override
+  List<Object> get props => [selectedDay];
+}
+
 class TimeTableError extends TimeTableState {
   final String errorMessage;
 
   TimeTableError(this.errorMessage);
 }
 
-class DaySelectedState extends TimeTableState{
+class DaySelectedState extends TimeTableState {
   final String day;
+
   DaySelectedState({this.day = "Monday"});
 
-  void updateDaySelected(String day){
+  void updateDaySelected(String day) {
     day = day;
   }
 }
@@ -47,7 +53,7 @@ class DaySelected extends ChangeNotifier {
 
   DaySelected({this.day = "Monday"});
 
-  void updateDaySelected(String day){
+  void updateDaySelected(String day) {
     day = day;
     notifyListeners();
   }

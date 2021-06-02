@@ -43,7 +43,7 @@ class ApiException implements Exception {
 }
 
 class RestErrorHandling {
-  String handleError(Response response) {
+  static String handleError(Response response) {
     // your error handling here
 
     ApiException apiException = new ApiException(response.body);
@@ -53,7 +53,7 @@ class RestErrorHandling {
     throw apiException;
   }
 
-  String getErrorMessage(Response response) {
+  static String getErrorMessage(Response response) {
     String text = response.body;
     print("Error message, " + text);
     switch (response.statusCode) {
@@ -70,7 +70,7 @@ class RestErrorHandling {
     }
   }
 
-  String getDefaultMessage(String text) {
+  static String getDefaultMessage(String text) {
     Map<String, dynamic> json = jsonDecode(text);
     if (json.containsKey("message"))
       return json["message"].toString();
@@ -79,7 +79,7 @@ class RestErrorHandling {
     }
   }
 
-  String geBadRequestMessage(String text) {
+  static String geBadRequestMessage(String text) {
     Map<String, dynamic> json = jsonDecode(text);
     if (json.containsKey("violations")) {
       try {
@@ -98,7 +98,7 @@ class RestErrorHandling {
     return json["message"].toString();
   }
 
-  String geConflictMessage(String text) {
+  static String geConflictMessage(String text) {
     Map<String, dynamic> json = jsonDecode(text);
 
     if (json.containsKey("violations")) {

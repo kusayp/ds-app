@@ -17,17 +17,19 @@ class ClassRegisterBloc extends Bloc<ClassRegisterEvent, ClassRegisterState> {
   ClassRegisterBloc({this.repository}) : super(ClassRegisterEmptyState());
 
   @override
-  void onTransition(Transition<ClassRegisterEvent, ClassRegisterState> transition) {
-    print(transition);    super.onTransition(transition);
+  void onTransition(
+      Transition<ClassRegisterEvent, ClassRegisterState> transition) {
+    print(transition);
+    super.onTransition(transition);
   }
 
   @override
   Stream<ClassRegisterState> mapEventToState(ClassRegisterEvent event) async* {
     LocalStorage sharedPreferences = LocalStorage();
-    if(event is ClassRegisterFilterByScheduleEvent){
+    if (event is ClassRegisterFilterByScheduleEvent) {
       yield ClassRegisterLoadingState();
       List<UserModel> classUsers = [];
-      try{
+      try {
         final List<TimeTableModel> response = schedules;
         var subject = event.tableModel;
         UserModel teacher = subject.teacher;
@@ -35,85 +37,108 @@ class ClassRegisterBloc extends Bloc<ClassRegisterEvent, ClassRegisterState> {
         classUsers.insert(0, teacher);
         classUsers.insertAll(1, students);
 
-        yield ClassRegisterLoadedState(schedules : response, users: classUsers, selectedSchedules: subject, selectedSchoolClass: event.classId, timeStamp: DateTime.now().millisecondsSinceEpoch);
-      }
-      on ApiException catch(e){
+        yield ClassRegisterLoadedState(
+            schedules: response,
+            users: classUsers,
+            selectedSchedules: subject,
+            selectedSchoolClass: event.classId,
+            timeStamp: DateTime
+                .now()
+                .millisecondsSinceEpoch);
+      } on ApiException catch (e) {
         yield ClassRegisterErrorState(e.getMessage());
-      }
-      on SocketException catch(_){
+      } on SocketException catch (_) {
         yield ClassRegisterErrorState("No internet connection");
       }
     }
 
-    if(event is SchoolClassDropdownEventEvent){
+    if (event is SchoolClassDropdownEventEvent) {
       yield ClassRegisterLoadingState();
       List<UserModel> classUsers = [];
-      try{
+      try {
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
-        if (event.classId == null){
+        if (event.classId == null) {
           yield ClassRegisterErrorState("User does not belong to a class");
-        }else{
-        final TimeTablePageData response = await repository.getSchedules(schoolId, event.classId);
-        var subject = response.result[0];
-        final UserModelPageData studentsList = await repository.getClassActors(schoolId, event.classId, 'students');
-        UserModel teacher = subject.teacher;
-        teacher.role = 8;
-        classUsers.insert(0, teacher);
-        classUsers.insertAll(1, studentsList.result);
-        this.students = studentsList.result;
-        this.users = classUsers;
-        this.schedules = response.result;
-        this.selectedSchedule = subject;
-        yield ClassRegisterLoadedState(schedules : response.result, users: classUsers, selectedSchedules: subject, selectedSchoolClass: event.classId);
+        } else {
+          final TimeTablePageData response =
+          await repository.getSchedules(schoolId, event.classId);
+          var subject = response.result[0];
+          final UserModelPageData studentsList = await repository
+              .getClassActors(schoolId, event.classId, 'students');
+          UserModel teacher = subject.teacher;
+          teacher.role = 8;
+          classUsers.insert(0, teacher);
+          classUsers.insertAll(1, studentsList.result);
+          this.students = studentsList.result;
+          this.users = classUsers;
+          this.schedules = response.result;
+          this.selectedSchedule = subject;
+          yield ClassRegisterLoadedState(
+              schedules: response.result,
+              users: classUsers,
+              selectedSchedules: subject,
+              selectedSchoolClass: event.classId);
         }
-      }
-      on ApiException catch(_){
+      } on ApiException catch (_) {
         yield ClassRegisterErrorState(_.getMessage());
-      }
-      on SocketException catch(_){
+      } on SocketException catch (_) {
         yield ClassRegisterErrorState("No internet connection");
       }
     }
 
-    if(event is ToggleClassRegisterEvent){
-      for(var i = 0; i < users.length; i++){
-        if(users[i].id == event.userId){
+    if (event is ToggleClassRegisterEvent) {
+      for (var i = 0; i < users.length; i++) {
+        if (users[i].id == event.userId) {
           users[i].isPresent = event.isPresent;
           break;
         }
       }
-      yield ClassRegisterToggledState(users: users, schedules: schedules, selectedSchedules: selectedSchedule, timeStamp: DateTime.now().millisecondsSinceEpoch);
+      yield ClassRegisterToggledState(
+          users: users,
+          schedules: schedules,
+          selectedSchedules: selectedSchedule,
+          timeStamp: DateTime
+              .now()
+              .millisecondsSinceEpoch);
     }
 
-    if(event is SaveClassRegisterEvent){
+    if (event is SaveClassRegisterEvent) {
       yield ClassRegisterLoadingState();
-      try{
+      try {
         var schoolId = await sharedPreferences.getSharedPreference("schoolId");
         List<ClassRegisterSave> classRegisters = [];
         var user = users;
         var schedule = selectedSchedule;
-        for(var i = 0; i < user.length; i ++){
-          classRegisters.add(
-              ClassRegisterSave(
-                user: user[i].id,
-                role: user[i].role == 8 ? user[i].role : 6,
-                schedule: selectedSchedule.id,
-                present: user[i].isPresent,
-              )
-          );
+        for (var i = 0; i < user.length; i++) {
+          classRegisters.add(ClassRegisterSave(
+            user: user[i].id,
+            role: user[i].role == 8 ? user[i].role : 6,
+            schedule: selectedSchedule.id,
+            present: user[i].isPresent,
+          ));
 
 //          await repository.saveClassRegister(schoolId, schedule.id.toString(), user[i].id.toString(), user[i].isPresent);
         }
-        await repository.saveClassRegisterInBatch(schoolId, schedule, classRegisters);
+        await repository.saveClassRegisterInBatch(
+            schoolId, schedule, classRegisters);
         yield ClassRegisterSavedState();
-      }
-      on ApiException catch(e){
+      } on ApiException catch (e) {
         yield ClassRegisterErrorState(e.getMessage());
-      }
-      on SocketException catch(_){
+      } on SocketException catch (_) {
         yield ClassRegisterErrorState("No internet connection");
       }
     }
   }
 
+// Stream<ClassRegisterState> _mapWeatherRequestedToState(
+//   ClassRegisterFilterByScheduleEvent event,
+// ) async* {
+//   yield WeatherLoadInProgress();
+//   try {
+//     final Weather weather = await weatherRepository.getWeather(event.city);
+//     yield WeatherLoadSuccess(weather: weather);
+//   } catch (_) {
+//     yield WeatherLoadFailure();
+//   }
+// }
 }

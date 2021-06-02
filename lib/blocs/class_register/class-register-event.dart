@@ -44,6 +44,16 @@ class SaveClassRegisterEvent extends ClassRegisterEvent {
   final bool isPresent;
 
   SaveClassRegisterEvent({this.userId, this.isPresent});
+
   @override
   List<Object> get props => [];
 }
+
+// class ClassRegisterLoadedEvent extends ClassRegisterEvent {
+//   final int userId;
+//   final bool isPresent;
+//
+//   SaveClassRegisterEvent({this.userId, this.isPresent});
+//   @override
+//   List<Object> get props => [];
+// }
